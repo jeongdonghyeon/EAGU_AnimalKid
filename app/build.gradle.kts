@@ -1,9 +1,3 @@
-import java.io.FileInputStream
-import java.util.Properties
-
-val localProperties = Properties()
-localProperties.load(FileInputStream(rootProject.file("local.properties")))
-
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -21,7 +15,6 @@ android {
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField("String","kAPI_KEY", localProperties.getProperty("api_key"))
 
     }
 
@@ -60,10 +53,20 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     // room
-    implementation("androidx.room:room-runtime:2.5.2")
-    kapt("androidx.room:room-compiler:2.5.2")
-    implementation("androidx.room:room-ktx:2.5.2")
+    implementation(libs.androidx.room.runtime)
+    kapt(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
 
-    //kakaoLogin
-    implementation(com.kakao.sdk:v2-user:2.10.0)
+    implementation (libs.androidx.lifecycle.viewmodel.ktx)
+    implementation (libs.androidx.lifecycle.livedata.ktx)
+    implementation (libs.androidx.lifecycle.runtime.ktx)
+
+    implementation (libs.retrofit)
+    //noinspection UseTomlInstead
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    //koroutine
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.android)
+
 }

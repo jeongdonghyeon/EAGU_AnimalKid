@@ -7,10 +7,13 @@ import com.example.myapplication.data.model.entity.UserEntity
 fun UserEntity.toDTO(): UserDTO {
     return UserDTO(
         id = this.id,
+        userName = this.userName,
+        password = this.password,
         email = this.email,
         nickname = this.nickname,
         level = this.level,
-        exp = this.exp
+        exp = this.exp,
+        petName = this.petName
 
     )
 }
@@ -18,9 +21,12 @@ fun UserEntity.toDTO(): UserDTO {
 fun UserDTO.toEntity(): UserEntity{
     return UserEntity(
         id = this.id,
+        userName = this.userName,
+        password = this.password,
         email = this.email,
         nickname = this.nickname,
         level = this.level,
-        exp = this.exp
+        exp = this.exp,
+        petName = this.petName
     )
 }
