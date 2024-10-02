@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_home"
+        android:title="홈"
+        android:icon="@drawable/home_icon"/>
+    <item
+        android:id="@+id/nav_walk"
+        android:title="산책 기록"
+        android:icon="@drawable/walk_icon"/>
+    <item
+        android:id="@+id/nav_reward"
+        android:title="보상 기록"
+        android:icon="@drawable/reward_icon"/>
+    <item
+        android:id="@+id/nav_profile"
+        android:title="프로필 전환"
+        android:icon="@drawable/profile_icon"/>
+</menu>
