@@ -69,4 +69,12 @@ dependencies {
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)
 
+    // ViewModel
+    implementation(libs.androidx.lifecycle.viewmodel.ktx.v261)
+
+    // LiveData
+    implementation(libs.androidx.lifecycle.livedata.ktx.v261)
+
+    //BCrypt
+    implementation("org.mindrot:jbcrypt:0.4")
 }

@@ -2,6 +2,7 @@ package com.example.myapplication.data.repository
 
 import com.example.myapplication.data.local.UserDao
 import com.example.myapplication.data.model.DTO.UserDTO
+import com.example.myapplication.data.model.entity.UserEntity
 import com.example.myapplication.data.model.mapper.toEntity
 
 class UserRepository(private val userDao: UserDao) {
@@ -37,6 +38,10 @@ class UserRepository(private val userDao: UserDao) {
         val newPassword = userDTO.password;
         val email = userDTO.email;
         userDao.updatePassword(email,newPassword);
+    }
+
+    suspend fun getUserByUsername(username: String):UserEntity?{
+        return userDao.getUserByUsername(username)
     }
 
 }
