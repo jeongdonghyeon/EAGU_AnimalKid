@@ -76,5 +76,11 @@ dependencies {
     implementation(libs.androidx.lifecycle.livedata.ktx.v261)
 
     //BCrypt
-    implementation("org.mindrot:jbcrypt:0.4")
+    implementation(libs.jbcrypt)
+
+    implementation(libs.androidx.credentials)
+    // optional - needed for credentials support from play services, for devices running
+    // Android 13 and below.
+    implementation(libs.androidx.credentials.play.services.auth)
+
 }
