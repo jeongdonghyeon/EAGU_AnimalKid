@@ -13,7 +13,8 @@ fun UserEntity.toDTO(): UserDTO {
         nickname = this.nickname,
         level = this.level,
         exp = this.exp,
-        petName = this.petName
+        petName = this.petName,
+        groupId = this.groupId,
 
     )
 }
@@ -27,6 +28,7 @@ fun UserDTO.toEntity(): UserEntity{
         nickname = this.nickname,
         level = this.level,
         exp = this.exp,
-        petName = this.petName
+        petName = this.petName,
+        groupId = this.groupId
     )
 }

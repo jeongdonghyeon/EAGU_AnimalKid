@@ -28,7 +28,7 @@ interface UserDao {
 
     // UserRepository 에서 받아온 이메일과 새로운 비밀번호를 가지고 이메일 기반으로 유저의 비밀번호를 업데이트함
     @Query("UPDATE users SET password = :newPassword where email =:email")
-    suspend fun updatePassword(email: String, newPassword: String)
+    suspend fun updatePassword(email: String, newPassword: String?)
 
     @Query("SELECT * From users WHERE userName = :userName LIMIT 1")
     suspend fun  getUserByUsername(userName: String):UserEntity?

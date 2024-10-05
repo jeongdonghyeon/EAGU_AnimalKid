@@ -40,7 +40,7 @@ class UserRepository(private val userDao: UserDao) {
         userDao.findUsername(email);
     }//viewModel 에 받아온 newPassword 와 email 을 UserDao 에 전달
     suspend fun updatePassword(userDTO: UserDTO){
-        val newPassword = userDTO.password;
+        val newPassword =userDTO.password;
         val email = userDTO.email;
         userDao.updatePassword(email,newPassword);
     }
