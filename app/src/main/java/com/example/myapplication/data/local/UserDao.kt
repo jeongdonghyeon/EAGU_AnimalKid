@@ -5,12 +5,13 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.example.myapplication.data.model.entity.GroupEntity
 import com.example.myapplication.data.model.entity.UserEntity
 
 @Dao
 interface UserDao {
 
-    // UserRepository 에서 받아온 유저 엔티티를 데이터 스키마에 삽입
+    // UserRepository 에서 받아온 유저 엔티티를 데이터 베이스에 삽입
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertUser(user: UserEntity)
 
@@ -30,8 +31,29 @@ interface UserDao {
     @Query("UPDATE users SET password = :newPassword where email =:email")
     suspend fun updatePassword(email: String, newPassword: String?)
 
-    @Query("SELECT * From users WHERE userName = :userName LIMIT 1")
-    suspend fun  getUserByUsername(userName: String):UserEntity?
+    // 사용자의 email을 기반으로 level 를 가져옴
+    @Query("SELECT level From users WHERE email = :email ")
+    suspend fun getLevelByEmail(email: String)
+
+    // 사용자의 업데이트한 level을 데이터베이스에 적용시킴
+    @Query("UPDATE users SET level = :level WHERE email = :email")
+    suspend fun  setLevelByEmail(email: String, level: String)
+
+
+    // 사용자의 email을 기반으로 exp 를 가져옴
+    @Query("SELECT exp From users WHERE email = :email")
+    suspend fun  getExpByEmail(email: String)
+
+    // 사용자의 업데이트한 level을 데이터베이스에 적용시킴
+    @Query("UPDATE users SET exp = :exp WHERE email = :email")
+    suspend fun  setExpByEmail(email: String, exp: String)
+
+    // 유저 이메일로 유저 가져오기
+    @Query("SELECT * FROM users WHERE email = :email LIMIT 1")
+    suspend fun getUserByEmail(email: String):UserEntity?
+
+
+
 
 
 

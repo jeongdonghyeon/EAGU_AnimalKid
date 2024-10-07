@@ -1,7 +1,7 @@
 package com.example.myapplication.data.model.DTO
 
 data class UserDTO(
-    val id: Long = 0L,
+    val userId: Long = 0L,
     val userName: String,
     val password: String?,
     val email: String,
@@ -9,5 +9,5 @@ data class UserDTO(
     val level: Int = 0,
     val exp: Double = 0.0,
     val petName: String?,
-    val groupId: Long
+    val groupId: Long? = null
 )

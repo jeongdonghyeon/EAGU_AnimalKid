@@ -10,7 +10,7 @@ import androidx.room.PrimaryKey
         Index(value =["userName"],unique = true)])
 data class UserEntity(
     @PrimaryKey(autoGenerate = true)
-    val id: Long = 0L,
+    val userId: Long = 0L,
     @ColumnInfo(name ="userName")
     val userName : String,
     @ColumnInfo(name ="password")
@@ -26,5 +26,5 @@ data class UserEntity(
     @ColumnInfo(name = "petName")
     val petName : String? = null,
     @ColumnInfo(name = "groupId")
-    val groupId: Long
+    val groupId: Long? = null
 )

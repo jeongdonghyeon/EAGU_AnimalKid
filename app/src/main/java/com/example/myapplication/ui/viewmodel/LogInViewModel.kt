@@ -21,7 +21,7 @@ class LogInViewModel(private val userRepository: UserRepository): ViewModel(){
                 _loginStatus.value = RegistrationResult.Failure("아이디와 비밀번호를 입력해주세요")
             }
             try {
-                val user = userRepository.getUserByUsername(userDTO.userName)
+                val user = userRepository.getUserByEmail(userDTO)
                 if (user != null && BCrypt.checkpw(userDTO.userName,user.password) ) {
                     _loginStatus.value = RegistrationResult.Success
                 } else {
