@@ -1,6 +1,7 @@
 [versions]
 agp = "8.6.0"
 credentialsPlayServicesAuth = "1.5.0-alpha05"
+daggerCompiler = "2.51.1"
 jbcrypt = "0.4"
 kotlin = "1.9.0"
 coreKtx = "1.10.1"
@@ -31,6 +32,7 @@ androidx-lifecycle-viewmodel-ktx-v261 = { module = "androidx.lifecycle:lifecycle
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomKtx" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomKtx" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomKtx" }
+dagger-compiler = { module = "com.google.dagger:dagger-compiler", version.ref = "daggerCompiler" }
 jbcrypt = { module = "org.mindrot:jbcrypt", version.ref = "jbcrypt" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
