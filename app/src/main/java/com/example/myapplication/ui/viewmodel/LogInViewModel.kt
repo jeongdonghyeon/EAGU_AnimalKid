@@ -17,7 +17,7 @@ class LogInViewModel(private val userRepository: UserRepository): ViewModel(){
 
     fun loginWithEmail(userDTO: UserDTO){
         viewModelScope.launch {
-            if(userDTO.userName.isNullOrEmpty() || userDTO.password.isNullOrEmpty()){
+            if(userDTO.userName.isEmpty() || userDTO.password.isNullOrEmpty()){
                 _loginStatus.value = RegistrationResult.Failure("아이디와 비밀번호를 입력해주세요")
             }
             try {

@@ -5,14 +5,14 @@ import com.example.myapplication.data.model.entity.GroupEntity
 
 fun GroupEntity.toDTO(): GroupDTO{
     return GroupDTO(
-        id = this.id,
+        groupId = this.groupId,
         groupName = this.groupName
 
     )
 }
 fun GroupDTO.toEntity(): GroupEntity{
     return GroupEntity(
-        id = this.id,
+        groupId = this.groupId,
         groupName = this.groupName
 
     )
