@@ -30,8 +30,8 @@ class SignUpViewModel(private val userRepository: UserRepository): ViewModel(){
     }
 
     private fun isValidUser(userDTO:UserDTO): Boolean {
-        return (!userDTO.userName.isNullOrEmpty() && userDTO.userName.matches("^[a-zA-Z0-9]{5,20}$".toRegex())
-                && !userDTO.email.isNullOrEmpty() && userDTO.email.matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$".toRegex())
+        return (userDTO.userName.isNotEmpty() && userDTO.userName.matches("^[a-zA-Z0-9]{5,20}$".toRegex())
+                && userDTO.email.isNotEmpty() && userDTO.email.matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$".toRegex())
                 && !userDTO.password.isNullOrEmpty() && userDTO.password.length >= 8)
     }
 }
