@@ -12,6 +12,7 @@ import kotlinx.coroutines.launch
 
 class groupViewModel(private val userGroupRepository: UserGroupRepository) : ViewModel() {
 
+
     private val _invitationResult = MutableLiveData<String>()
     val invitationResult: LiveData<String> get() = _invitationResult
     fun acceptInvitation(userDTO: UserDTO,groupDTO: GroupDTO){
@@ -24,7 +25,8 @@ class groupViewModel(private val userGroupRepository: UserGroupRepository) : Vie
             }
         }
     }
-    fun declineInvitation(userDTO: UserDTO,groupDTO: GroupDTO){
+
+    fun declineInvitation(){
         viewModelScope.launch {
             try{
                 _invitationResult.postValue("그룹 초대를 거절했습니다.")
