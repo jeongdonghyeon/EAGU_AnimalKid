@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#00FF0000">
+
+    </Toolbar>
+
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/Vector" />
+
+    <TextView
+        android:layout_width="230dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="20dp"
+        android:text="아이 프로필 변경"
+        android:textColor="#00686E"
+        android:textFontWeight="400"
+        android:textSize="30sp" />
+
+    <ImageView
+        android:layout_width="133dp"
+        android:layout_height="118dp"
+        android:layout_marginStart="139dp"
+        android:layout_marginTop="141dp"
+        android:background="@drawable/petprofile" />
+
+    <Button
+        android:layout_width="190dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="110dp"
+        android:layout_marginTop="270dp"
+        android:background="#00FF0000"
+        android:text="프로필 사진 변경하기"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="381dp"
+        android:layout_height="320dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="314dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:text="아이의 정보"
+            android:textColor="#00686E"
+            android:textSize="20sp" />
+
+        <LinearLayout
+            android:layout_width="380dp"
+            android:layout_height="285dp"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="350dp"
+                android:layout_height="70dp"
+                android:background="@color/white"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="46dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="35dp"
+                    android:layout_marginTop="40dp"
+                    android:text="이름"
+                    android:textColor="@color/black"
+                    android:textFontWeight="700"
+                    android:textSize="23sp" />
+
+                <TextView
+                    android:layout_width="61dp"
+                    android:layout_height="27dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="40dp"
+                    android:text="라이언"
+                    android:textSize="22sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="350dp"
+                android:layout_height="70dp"
+                android:background="@color/white"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="46dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="35dp"
+                    android:layout_marginTop="40dp"
+                    android:text="견종"
+                    android:textColor="@color/black"
+                    android:textFontWeight="700"
+                    android:textSize="23sp" />
+
+                <TextView
+                    android:layout_width="120dp"
+                    android:layout_height="27dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="40dp"
+                    android:text="포메라니안"
+                    android:textSize="22sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="350dp"
+                android:layout_height="70dp"
+                android:background="@color/white"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="46dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="35dp"
+                    android:layout_marginTop="40dp"
+                    android:text="성별"
+                    android:textColor="@color/black"
+                    android:textFontWeight="700"
+                    android:textSize="23sp" />
+
+                <TextView
+                    android:layout_width="120dp"
+                    android:layout_height="27dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="40dp"
+                    android:text="남자"
+                    android:textSize="22sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="350dp"
+                android:layout_height="70dp"
+                android:background="@color/white"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="35dp"
+                    android:layout_marginTop="40dp"
+                    android:text="생년월일"
+                    android:textColor="@color/black"
+                    android:textFontWeight="700"
+                    android:textSize="23sp" />
+
+                <TextView
+                    android:layout_width="120dp"
+                    android:layout_height="27dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="40dp"
+                    android:text="2010.09.26"
+                    android:textSize="22sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="150dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="130dp"
+        android:layout_marginTop="650dp"
+        android:background="#63C3C8"
+        android:text="완료하기"
+        android:textColor="@color/white"
+        android:textSize="20sp" />
+
+    <Button
+        android:layout_width="150dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="156dp"
+        android:layout_marginTop="700dp"
+        android:background="#00FF0000"
+        android:gravity="center"
+        android:text="프로필 삭제하기"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
