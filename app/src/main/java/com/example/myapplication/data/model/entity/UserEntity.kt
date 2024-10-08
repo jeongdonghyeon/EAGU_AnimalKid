@@ -4,13 +4,14 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import java.util.UUID
 
 @Entity(tableName = "users",
     indices = [Index(value =["email"],unique = true),
         Index(value =["userName"],unique = true)])
 data class UserEntity(
-    @PrimaryKey(autoGenerate = true)
-    val userId: Long = 0L,
+    @PrimaryKey
+    val userId: String = UUID.randomUUID().toString(),
     @ColumnInfo(name ="userName")
     val userName : String,
     @ColumnInfo(name ="password")

@@ -59,13 +59,13 @@ dependencies {
     ksp(libs.dagger.compiler)
     implementation(libs.androidx.room.ktx)
 
-    implementation (libs.androidx.lifecycle.viewmodel.ktx)
-    implementation (libs.androidx.lifecycle.livedata.ktx)
-    implementation (libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
 
-    implementation (libs.retrofit)
+    implementation(libs.retrofit)
     //noinspection UseTomlInstead
-    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
     //koroutine
     implementation(libs.kotlinx.coroutines.core)
@@ -85,4 +85,13 @@ dependencies {
     // Android 13 and below.
     implementation(libs.androidx.credentials.play.services.auth)
 
+    /*
+    // Retrofit
+    implementation(libs.retrofit)
+    implementation(libs.squareup.converter.gson)
+
+    // gson
+    implementation(libs.gson)
+
+     */
 }

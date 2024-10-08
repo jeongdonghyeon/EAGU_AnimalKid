@@ -1,7 +1,9 @@
 package com.example.myapplication.data.model.DTO
 
+import java.util.UUID
+
 data class UserDTO(
-    val userId: Long = 0L,
+    val userId: String = UUID.randomUUID().toString(),
     val userName: String,
     val password: String?,
     val email: String,

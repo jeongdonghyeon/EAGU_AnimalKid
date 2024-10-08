@@ -30,6 +30,6 @@ interface UserGroupDao {
 
     // 유저의 그룹 업데이트 (그룹에 추가)
     @Query("UPDATE users SET groupId = :groupId WHERE userId = :userId")
-    suspend fun  updateUserGroup(userId: Long,groupId: Long)
+    suspend fun  updateUserGroup(userId: String, groupId: Long)
 
 }
