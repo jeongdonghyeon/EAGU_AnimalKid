@@ -58,4 +58,8 @@ class UserRepository(application : Application) {
         val username = userDTO.userName
         return userDao.getUserByUsername(username)
     }
+    suspend fun  getUserByUserId(userId : String?): UserEntity? {
+        return userDao.getUserByUserId(userId)
+    }
+
 }

@@ -17,14 +17,14 @@ object UserSessionManager {
         val sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         with(sharedPreferences.edit()) {
             putString(USER_ID_KEY, userId)
-            apply() // 비동기 저장
+            apply()
         }
     }
     fun clearUserSession(context: Context) {
         val sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         with(sharedPreferences.edit()) {
             remove(USER_ID_KEY) // 저장된 userId를 삭제
-            apply() // 변경 사항을 비동기적으로 적용
+            apply()
         }
     }
 }

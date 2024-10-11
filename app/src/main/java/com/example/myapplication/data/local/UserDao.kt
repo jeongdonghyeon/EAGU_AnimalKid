@@ -48,9 +48,19 @@ interface UserDao {
     @Query("UPDATE users SET exp = :exp WHERE email = :email")
     suspend fun  setExpByEmail(email: String, exp: String)
 
-    // 유저 id으로 유저 가져오기
+    // 유저 네임으로 유저 가져오기
+    @Query("SELECT * FROM users WHERE userName = :userName LIMIT 1")
+    suspend fun getUserByUsername(userName: String):UserEntity?
+
+    // 유저 id로 유저 가져오기
     @Query("SELECT * FROM users WHERE userId = :userId LIMIT 1")
-    suspend fun getUserByUsername(userId: String):UserEntity?
+    suspend fun getUserByUserId(userId: String?):UserEntity?
+
+
+
+
+
+
 
 
 
