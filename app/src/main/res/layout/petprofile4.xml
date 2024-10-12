@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="30dp"
-        android:background="@drawable/Vector" />
+        android:background="@drawable/vector" />
 
     <TextView
         android:layout_width="230dp"
@@ -33,7 +33,7 @@
         android:layout_height="118dp"
         android:layout_marginStart="139dp"
         android:layout_marginTop="141dp"
-        android:background="@drawable/petprofile" />
+        android:background="@drawable/pet_profile" />
 
     <Button
         android:layout_width="190dp"
