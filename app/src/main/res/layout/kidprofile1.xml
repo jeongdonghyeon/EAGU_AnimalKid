@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.fragment.profile">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#00FF0000"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="0dp">
+
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/vector" />
+
+            <TextView
+                android:layout_width="230dp"
+                android:layout_height="36dp"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="20dp"
+                android:text="아이 프로필 관리"
+                android:textColor="#00686E"
+                android:textSize="30sp" />
+        </Toolbar>
+    </FrameLayout>
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageButton
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="171dp"
+            android:layout_marginTop="439dp"
+            android:background="@drawable/plus_icon" />
+
+        <TextView
+            android:layout_width="190dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="99dp"
+            android:layout_marginTop="278dp"
+            android:gravity="center"
+            android:text="프로필이 없습니다."
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="220dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="99dp"
+            android:layout_marginTop="354dp"
+            android:gravity="center"
+            android:text="아이의 프로필을 추가하고 서비스를 이용해보세요!"
+            android:textColor="@color/black"
+            android:textFontWeight="400"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </FrameLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
