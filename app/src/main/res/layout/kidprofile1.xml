@@ -4,26 +4,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.fragment.profile">
-
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <Toolbar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#00FF0000"
             tools:layout_editor_absoluteX="0dp"
             tools:layout_editor_absoluteY="0dp">
-
-
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="30dp"
-                android:background="@drawable/vector" />
-
+                android:background="@drawable/lessthansign" />
             <TextView
                 android:layout_width="230dp"
                 android:layout_height="36dp"
@@ -34,19 +29,15 @@
                 android:textSize="30sp" />
         </Toolbar>
     </FrameLayout>
-
-
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <ImageButton
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_marginStart="171dp"
             android:layout_marginTop="439dp"
             android:background="@drawable/plus_icon" />
-
         <TextView
             android:layout_width="190dp"
             android:layout_height="30dp"
@@ -57,7 +48,6 @@
             android:textColor="@color/black"
             android:textSize="24sp"
             android:textStyle="bold" />
-
         <TextView
             android:layout_width="220dp"
             android:layout_height="70dp"
@@ -70,5 +60,4 @@
             android:textSize="20sp"
             android:textStyle="bold" />
     </FrameLayout>
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
