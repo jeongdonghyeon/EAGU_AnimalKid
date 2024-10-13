@@ -37,7 +37,7 @@ class AuthViewModel(private val userRepository: UserRepository): ViewModel() {
                         AuthStatus.Failure(AuthAction.LOGIN, "아이디 또는 비밀번호가 잘못되었습니다.")
                 }
             } catch (e: Exception) {
-                _authStatus.value = AuthStatus.Failure(AuthAction.LOGIN, "네트워크 오류.")
+                _authStatus.value = AuthStatus.Failure(AuthAction.LOGIN, "오류.")
             }
         }
     }
@@ -92,7 +92,7 @@ class AuthViewModel(private val userRepository: UserRepository): ViewModel() {
 
     private fun isValidUser(userDTO:UserDTO): Boolean {
         return (userDTO.userName.isNotEmpty() && userDTO.userName.matches("^[a-zA-Z0-9]{5,20}$".toRegex())
-                && userDTO.email.isNotEmpty() && userDTO.email.matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$".toRegex())
+                && userDTO.email!!.isNotEmpty() && userDTO.email.matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$".toRegex())
                 && !userDTO.password.isNullOrEmpty() && userDTO.password.length >= 8)
     }
     /* view 에서 구글로부터 username, email 받아와야함

@@ -1,86 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.fragment.profile">
 
-    <!-- TODO: Update blank fragment layout -->
-    <Toolbar
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#00FF0000"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp" >
+    <!-- 주석 처리 시작 -->
+    <!--
+        <Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#00FF0000"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="0dp" >
+        </Toolbar>
 
-    </Toolbar>
-
-
-    <ImageButton
-        android:background="@drawable/Vector"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="30dp"
+        <ImageButton
+            android:background="@drawable/Vector"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="30dp"
         />
 
-    <TextView
-        android:layout_width="230dp"
-        android:layout_height="36dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="50dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="아이 프로필 관리"
-        android:textColor="#00686E"
-        android:textSize="30sp"
-        android:textColor="@color/black"
+        <TextView
+            android:layout_width="230dp"
+            android:layout_height="36dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="50dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="아이 프로필 관리"
+            android:textColor="#00686E"
+            android:textSize="30sp"
+            android:textColor="@color/black"
         />
-    <TextView
-        android:id="@+id/frag_profile"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="profile" />
 
-    <ImageButton
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_width="match_parent"
-        android:layout_width="70dp"
-        android:layout_height="wrap_content"
-        android:layout_height="70dp"
-        android:layout_marginLeft="171dp"
-        android:layout_marginTop="439dp"
-        android:background="00FF0000"
-        android:background="@drawable/Plus_icon" />
+        <TextView
+            android:id="@+id/frag_profile"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="profile" />
 
-    <TextView
-        android:layout_width="190dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="99dp"
-        android:layout_marginTop="278dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:gravity="center"
-        android:text="프로필이 없습니다."
-        android:textColor="@color/black"
-        android:textSize="24sp"
-        android:textStyle="bold"/>
-    <TextView
-        android:layout_width="220dp"
-        android:layout_height="70dp"
-        android:layout_marginStart="99dp"
-        android:layout_marginTop="354dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:gravity="center"
-        android:textFontWeight="400"
-        android:text="아이의 프로필을 추가하고 서비스를 이용해보세요!"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        android:textStyle="bold"/>
+        <ImageButton
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="match_parent"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_height="70dp"
+            android:layout_marginLeft="171dp"
+            android:layout_marginTop="439dp"
+            android:background="00FF0000"
+            android:background="@drawable/Plus_icon" />
 
+        <TextView
+            android:layout_width="190dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="99dp"
+            android:layout_marginTop="278dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:gravity="center"
+            android:text="프로필이 없습니다."
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:layout_width="220dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="99dp"
+            android:layout_marginTop="354dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:gravity="center"
+            android:textFontWeight="400"
+            android:text="아이의 프로필을 추가하고 서비스를 이용해보세요!"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+    -->
+    <!-- 주석 처리 끝 -->
 
 </FrameLayout>

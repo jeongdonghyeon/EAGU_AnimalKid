@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#B6F0F3"
+    android:orientation="vertical"
+    tools:context=".ui.view.LoginActivity">
+
+    <!-- Puppy 이미지 뷰 -->
+
+    <!-- 앱 이름 텍스트 뷰 -->
+    <View
+        android:id="@+id/puppy"
+        android:layout_width="92dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="176dp"
+        android:layout_marginTop="156dp"
+        android:background="@drawable/puppy"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- 로그인 텍스트 섹션 -->
+    <TextView
+        android:layout_width="92dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="176dp"
+        android:layout_marginTop="248dp"
+        android:gravity="center"
+        android:text="@string/app_name"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/loginText"
+        android:layout_width="0dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="116dp"
+        android:layout_marginTop="328dp"
+        android:background="#B6F0F3"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        app:layout_constraintDimensionRatio="6:1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:layout_weight="1"
+            android:background="#FFFFFF" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/login_text"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:layout_weight="1"
+            android:background="#FFFFFF" />
+
+    </LinearLayout>
+    <EditText
+        android:id="@+id/emailEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="아이디를 입력하세요."
+        android:background="#f8f9fa"
+        android:inputType="text"
+        android:padding="10dp"
+        app:layout_constraintDimensionRatio="6:1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="84dp"
+        android:layout_marginTop="376dp" />
+    <EditText
+        android:id="@+id/passwordEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="비밀번호를 입력하세요."
+        android:background="#f8f9fa"
+        android:inputType="textPassword"
+        android:imeOptions="actionDone"
+        android:padding="10dp"
+        app:layout_constraintDimensionRatio="6:1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="84dp"
+        android:layout_marginTop="436dp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="68dp"
+        android:layout_marginTop="480dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/findIdButton"
+            android:layout_width="120dp"
+            android:layout_height="60dp"
+            android:layout_marginEnd="16dp"
+            android:background="#f8f9fa"
+            android:text="아이디 찾기"
+            app:layout_constraintDimensionRatio="16:9"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.4" />
+
+        <Button
+            android:id="@+id/changePasswordButton"
+            android:layout_width="140dp"
+            android:layout_height="60dp"
+            android:background="#B6F0F3"
+            android:text="비밀번호 변경"
+            app:layout_constraintDimensionRatio="16:9"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.4" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/registerButton"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:text="Animal kids 계정 만들기"
+        android:textSize="16sp"
+        android:textColor="#000000"
+        android:backgroundTint="#53DF86"
+        android:padding="10dp"
+        app:layout_constraintDimensionRatio="6:1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="84dp"
+        android:layout_marginTop="571dp" />
+
+    <!-- 구글 로그인 버튼 -->
+    <ImageButton
+        android:id="@+id/googleRegisterButton"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:contentDescription="구글 로그인 버튼"
+        android:src="@drawable/google_login_icon"
+        android:background="?attr/selectableItemBackground"
+        android:scaleType="centerCrop"
+        app:layout_constraintDimensionRatio="6:1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="84dp"
+        android:layout_marginTop="642dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>

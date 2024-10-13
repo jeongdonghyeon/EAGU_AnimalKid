@@ -1,3 +1,4 @@
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -6,12 +7,12 @@ plugins {
 
 android {
     namespace = "com.example.myapplication"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
-        applicationId = "EAGU_Projects_AnimalKids"
+        applicationId = "com.example.myapplication"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -41,7 +42,7 @@ android {
 }
 
 dependencies {
-    // AndroidX Library
+    // AndroidX Libraries
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -49,49 +50,37 @@ dependencies {
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.activity)
+
+    // Testing Libraries
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    // room
+    // Room
     implementation(libs.androidx.room.runtime)
-    implementation(libs.dagger.compiler)
-    ksp(libs.dagger.compiler)
     implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
 
-    implementation(libs.androidx.lifecycle.viewmodel.ktx)
-    implementation(libs.androidx.lifecycle.livedata.ktx)
+    // Dagger
+    ksp(libs.dagger.compiler)
+
+    // Lifecycle Libraries
+    implementation(libs.androidx.lifecycle.viewmodel.ktx.v261)
+    implementation(libs.androidx.lifecycle.livedata.ktx.v261)
     implementation(libs.androidx.lifecycle.runtime.ktx)
 
-    implementation(libs.retrofit)
-    //noinspection UseTomlInstead
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-
-    //koroutine
-    implementation(libs.kotlinx.coroutines.core)
-    implementation(libs.kotlinx.coroutines.android)
-
-    // ViewModel
-    implementation(libs.androidx.lifecycle.viewmodel.ktx.v261)
-
-    // LiveData
-    implementation(libs.androidx.lifecycle.livedata.ktx.v261)
-
-    //BCrypt
-    implementation(libs.jbcrypt)
-
-    implementation(libs.androidx.credentials)
-    // optional - needed for credentials support from play services, for devices running
-    // Android 13 and below.
-    implementation(libs.androidx.credentials.play.services.auth)
-
-    /*
     // Retrofit
     implementation(libs.retrofit)
     implementation(libs.squareup.converter.gson)
 
-    // gson
-    implementation(libs.gson)
+    // Coroutines
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.android)
 
-     */
+    // BCrypt
+    implementation(libs.jbcrypt)
+
+    // AndroidX Credentials API
+    implementation(libs.androidx.credentials)
+    implementation(libs.androidx.credentials.play.services.auth)
 }
