@@ -43,10 +43,12 @@ class BottomActivity : AppCompatActivity() {
                     supportFragmentManager.beginTransaction().replace(R.id.main_container, reward()).commit()
                     true
                 }
+                /*
                 R.id.frag_profile -> {
                     supportFragmentManager.beginTransaction().replace(R.id.main_container, profile()).commit()
                     true
                 }
+                 */
                 else -> false
             }
         }

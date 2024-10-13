@@ -7,16 +7,19 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.example.myapplication.data.model.DTO.UserDTO
+import com.example.myapplication.data.repository.UserRepository
 import com.example.myapplication.databinding.ActivityBottomBinding
 import com.example.myapplication.databinding.ActivityLoginBinding
 import com.example.myapplication.ui.viewmodel.AuthViewModel
+import com.example.myapplication.ui.viewmodel.Factory.AuthViewModelFactory
 import com.example.myapplication.ui.viewmodel.state.AuthStatus
 
 class LoginActivity : AppCompatActivity(){
 
     private lateinit var  binding: ActivityLoginBinding
-    private val authViewModel: AuthViewModel by viewModels()
+    private lateinit var authViewModel : AuthViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,6 +27,10 @@ class LoginActivity : AppCompatActivity(){
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val userRepository = UserRepository(application)
+        val factory = AuthViewModelFactory(userRepository)
+
+        authViewModel = ViewModelProvider(this,factory).get(AuthViewModel::class.java)
         binding.passwordEditText.setOnEditorActionListener {_, actionId, _ ->
             if(actionId == EditorInfo.IME_ACTION_DONE){
                 loginUser()

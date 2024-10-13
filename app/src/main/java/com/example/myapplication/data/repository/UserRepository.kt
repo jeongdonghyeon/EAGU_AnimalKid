@@ -14,14 +14,16 @@ class UserRepository(application : Application) {
         val userEntity = userDTO.toEntity();
         userDao.insertUser(userEntity);
     }
-
+    /*
     // viewModel 에 받아온 구글 유저 DTO를 유저 엔티티로 변환하고 UserDao 에 전달
     suspend fun registerGoogleUser(userDTO: UserDTO) {
         val userEntity = userDTO.toEntity()
         userDao.insertUser(userEntity)
     }
 
+     */
     //viewModel 에 빋아온 유저 DTO를 유저 엔티티로 변환하고 UserDao 에 전달
+    /*
     suspend fun unregisterUser(userDTO: UserDTO) {
         val userEntity = userDTO.toEntity();
         userDao.deleteUser(userEntity);
@@ -52,7 +54,7 @@ class UserRepository(application : Application) {
         val email = userDTO.email;
         userDao.updatePassword(email, newPassword);
     }
-
+     */
 
     suspend fun getUserByUsername(userDTO: UserDTO): UserEntity? {
         val username = userDTO.userName

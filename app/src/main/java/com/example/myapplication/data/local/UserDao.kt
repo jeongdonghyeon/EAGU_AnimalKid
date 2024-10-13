@@ -22,28 +22,28 @@ interface UserDao {
     //UserRepository 에서 받아온 이메일, 닉네임, 펫네임을 가지고 이메일을 기반으로 닉네임, 펫네임을 업데이트함
     @Query("UPDATE users SET nickname = :nickname, petName = :petName WHERE email = :email")
     suspend fun updateUserProfile(email: String, nickname: String?, petName: String?): Int
-
+/*
     // UserRepository 에서 받아온 email 을 기반으로 userName 을 받아옴
     @Query("SELECT userName FROM users where email = :email")
     suspend fun findUsername( email: String): UserEntity?
-
+*/
     // UserRepository 에서 받아온 이메일과 새로운 비밀번호를 가지고 이메일 기반으로 유저의 비밀번호를 업데이트함
     @Query("UPDATE users SET password = :newPassword where email =:email")
     suspend fun updatePassword(email: String, newPassword: String?)
-
+/*
     // 사용자의 email을 기반으로 level 를 가져옴
     @Query("SELECT level From users WHERE email = :email ")
     suspend fun getLevelByEmail(email: String)
-
+*/
     // 사용자의 업데이트한 level을 데이터베이스에 적용시킴
     @Query("UPDATE users SET level = :level WHERE email = :email")
     suspend fun  setLevelByEmail(email: String, level: String)
 
-
+/*
     // 사용자의 email을 기반으로 exp 를 가져옴
     @Query("SELECT exp From users WHERE email = :email")
     suspend fun  getExpByEmail(email: String)
-
+*/
     // 사용자의 업데이트한 level을 데이터베이스에 적용시킴
     @Query("UPDATE users SET exp = :exp WHERE email = :email")
     suspend fun  setExpByEmail(email: String, exp: String)
