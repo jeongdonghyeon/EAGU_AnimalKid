@@ -2,6 +2,7 @@ package com.example.myapplication.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 //import androidx.activity.enableEdgeToEdge
 //import androidx.core.view.ViewCompat
 //import androidx.core.view.WindowInsetsCompat
@@ -22,33 +23,35 @@ class BottomActivity : AppCompatActivity() {
 
         setBottomNavigationView()
 
+        window.statusBarColor = ContextCompat.getColor(this, R.color.SystemUIColor)
+        window.navigationBarColor = ContextCompat.getColor(this, R.color.SoftkeyColor)
+
         // 앱 초기화면 -> 홈화면으로 설정함
         if (savedInstanceState == null) {
-            binding.bottomNavigationView.selectedItemId = R.id.frag_home
+            binding.bottomNavigation.selectedItemId = R.id.homeFragment
         }
     }
 
     fun setBottomNavigationView() {
-        binding.bottomNavigationView.setOnItemSelectedListener { item ->
+        binding.bottomNavigation.setOnItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.frag_home -> {
-                    supportFragmentManager.beginTransaction().replace(R.id.main_container, home()).commit()
+                R.id.homeFragment -> {
+                    supportFragmentManager.beginTransaction().replace(R.id.fragmentContainerView, home()).commit()
                     true
                 }
-                R.id.frag_walk -> {
-                    supportFragmentManager.beginTransaction().replace(R.id.main_container, walk()).commit()
+                R.id.walkFragment -> {
+                    supportFragmentManager.beginTransaction().replace(R.id.fragmentContainerView, walk()).commit()
                     true
                 }
-                R.id.frag_reward -> {
-                    supportFragmentManager.beginTransaction().replace(R.id.main_container, reward()).commit()
+                R.id.rewardFragment -> {
+                    supportFragmentManager.beginTransaction().replace(R.id.fragmentContainerView, reward()).commit()
                     true
                 }
-                /*
-                R.id.frag_profile -> {
-                    supportFragmentManager.beginTransaction().replace(R.id.main_container, profile()).commit()
+
+                R.id.profileFragment -> {
+                    supportFragmentManager.beginTransaction().replace(R.id.fragmentContainerView, profile()).commit()
                     true
                 }
-                 */
                 else -> false
             }
         }
