@@ -3,15 +3,15 @@ package com.example.myapplication.ui
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.example.eagu_animalkid_test.profile
+import com.example.eagu_animalkid_test.reward
+import com.example.eagu_animalkid_test.walk
 //import androidx.activity.enableEdgeToEdge
 //import androidx.core.view.ViewCompat
 //import androidx.core.view.WindowInsetsCompat
 import com.example.myapplication.R
 import com.example.myapplication.databinding.ActivityBottomBinding
 import com.example.myapplication.ui.fragment.home
-import com.example.myapplication.ui.fragment.profile
-import com.example.myapplication.ui.fragment.reward
-import com.example.myapplication.ui.fragment.walk
 
 class BottomActivity : AppCompatActivity() {
     private val binding: ActivityBottomBinding by lazy {

@@ -11,23 +11,32 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appbar"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="100dp"
+            android:background="#F8FCFF">
 
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/materialToolbar"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_gravity="top"
-                android:background="#F8FCFF"
-                android:minHeight="?attr/actionBarSize"
-                android:theme="?attr/actionBarTheme"
-                app:title="산책 기록"
-                app:titleTextAppearance="@style/CustomToolbarTitleText" />
+            <ImageView
+                android:id="@+id/backBtn"
+                android:layout_width="15dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="40dp"
+                android:src="@drawable/backbutton"/>
 
-        </com.google.android.material.appbar.AppBarLayout>
+            <TextView
+                android:id="@+id/toolbarTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="산책 기록"
+                android:textColor="#00686E"
+                android:layout_gravity="left"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="20dp"
+                android:textAppearance="@style/CustomToolbarTitleText"/>
+
+        </androidx.appcompat.widget.Toolbar>
 
     </LinearLayout>
 

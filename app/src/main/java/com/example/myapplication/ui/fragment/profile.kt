@@ -1,11 +1,17 @@
-package com.example.myapplication.ui.fragment
+package com.example.eagu_animalkid_test
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageView
+import androidx.fragment.app.FragmentTransaction
 import com.example.myapplication.R
+import com.example.myapplication.ui.fragment.home
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -14,7 +20,7 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [profile.newInstance] factory method to
+ * Use the [ProfileFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
 class profile : Fragment() {
@@ -34,8 +40,23 @@ class profile : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false)
+        val view = inflater.inflate(R.layout.fragment_profile, container, false)
+
+        // 뒤로 가기 버튼 클릭 리스너 설정
+        val backBtn: ImageView = view.findViewById(R.id.backBtn)
+        backBtn.setOnClickListener {
+            // HomeFragment로 전환
+            val homeFragment = home()
+            val transaction: FragmentTransaction = parentFragmentManager.beginTransaction()
+            transaction.replace(R.id.fragmentContainerView, homeFragment)
+            transaction.commit()
+
+            // BottomNavigationView의 선택된 아이템을 'homeFragment'로 설정
+            val bottomNav: BottomNavigationView = activity?.findViewById(R.id.bottom_navigation)!!
+            bottomNav.selectedItemId = R.id.homeFragment
+        }
+
+        return view
     }
 
     companion object {
@@ -45,7 +66,7 @@ class profile : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment profile.
+         * @return A new instance of fragment ProfileFragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
