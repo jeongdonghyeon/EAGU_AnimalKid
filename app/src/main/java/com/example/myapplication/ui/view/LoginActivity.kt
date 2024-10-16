@@ -78,7 +78,7 @@ class LoginActivity : AppCompatActivity(){
         val password = binding.passwordEditText.text.toString()
 
         val userDTO = UserDTO(userName = username, password = password)
-        authViewModel.login(this,userDTO)
+        authViewModel.login(userDTO)
     }
 }
 

@@ -19,7 +19,7 @@ class AuthViewModel(private val userRepository: UserRepository): ViewModel() {
     private val _authStatus = MutableLiveData<AuthStatus>()
     val authStatus: LiveData<AuthStatus> get() = _authStatus
 
-    fun login(context: Context, userDTO: UserDTO) {
+    fun login(userDTO: UserDTO) {
         _authStatus.value = AuthStatus.Loading(AuthAction.LOGIN)
         viewModelScope.launch {
             // 유저가 입력한 아이디와 비밀번호가 비어있는지 확인함
@@ -55,19 +55,18 @@ class AuthViewModel(private val userRepository: UserRepository): ViewModel() {
 
     }
 
-    fun registerUser(context: Context, userDTO: UserDTO) {
+    fun registerUser(userDTO: UserDTO,) {
         if (!isValidUser(userDTO)) {
             _authStatus.value =
                 AuthStatus.Failure(AuthAction.REGISTER, "이메일 아이디 또는 비밀번호 중에 유효 하지 않는 것이 있습니다.")
             return
         }
+        _authStatus.value = AuthStatus.Loading(AuthAction.REGISTER)
+
         viewModelScope.launch {
             try {
-                val userId = UUID.randomUUID().toString()
-                UserSessionManager.saveUserId(context, userId)
-                val newUserDTO = userDTO.copy(userId = userId)
-                userRepository.registerUser(newUserDTO)
-
+                userRepository.registerUser(userDTO)
+                _authStatus.value = AuthStatus.Success(AuthAction.REGISTER)
             } catch (e: Exception) {
                 _authStatus.value = AuthStatus.Failure(AuthAction.REGISTER, "에러, 다시 입력해주세요.")
             }
