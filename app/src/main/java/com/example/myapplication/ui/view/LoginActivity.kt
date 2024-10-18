@@ -8,6 +8,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.example.myapplication.data.model.DTO.UserDTO
 import com.example.myapplication.data.repository.UserRepository
 import com.example.myapplication.databinding.ActivityBottomBinding
@@ -15,6 +16,7 @@ import com.example.myapplication.databinding.ActivityLoginBinding
 import com.example.myapplication.ui.viewmodel.AuthViewModel
 import com.example.myapplication.ui.viewmodel.Factory.AuthViewModelFactory
 import com.example.myapplication.ui.viewmodel.state.AuthStatus
+import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity(){
 
@@ -33,7 +35,9 @@ class LoginActivity : AppCompatActivity(){
         authViewModel = ViewModelProvider(this,factory).get(AuthViewModel::class.java)
         binding.passwordEditText.setOnEditorActionListener {_, actionId, _ ->
             if(actionId == EditorInfo.IME_ACTION_DONE){
-                loginUser()
+                lifecycleScope.launch {
+                    loginUser()
+                }
                 true
             }else{
                 false
@@ -73,12 +77,11 @@ class LoginActivity : AppCompatActivity(){
         }
     }
 
-    private fun loginUser(){
+    private suspend fun loginUser(){
         val username = binding.emailEditText.text.toString()
         val password = binding.passwordEditText.text.toString()
 
-        val userDTO = UserDTO(userName = username, password = password)
-        authViewModel.login(userDTO)
+        authViewModel.login(username,password)
     }
 }
 

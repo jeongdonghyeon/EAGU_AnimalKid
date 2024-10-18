@@ -86,6 +86,10 @@ dependencies {
     // AndroidX Credentials API
     implementation(libs.androidx.credentials)
     implementation(libs.androidx.credentials.play.services.auth)
-    implementation("androidx.navigation:navigation-fragment-ktx:2.5.3")
-    implementation("androidx.navigation:navigation-ui-ktx:2.5.3")
+    implementation(libs.androidx.navigation.fragment.ktx.v253)
+    implementation(libs.androidx.navigation.ui.ktx.v253)
+
+    //Java Mail
+    implementation (libs.mail.android.mail)
+    implementation (libs.android.activation)
 }

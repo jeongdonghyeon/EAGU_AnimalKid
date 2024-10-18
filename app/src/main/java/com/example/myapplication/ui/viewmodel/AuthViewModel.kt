@@ -16,21 +16,23 @@ import org.mindrot.jbcrypt.BCrypt
 import java.util.UUID
 
 class AuthViewModel(private val userRepository: UserRepository): ViewModel() {
+
     private val _authStatus = MutableLiveData<AuthStatus>()
     val authStatus: LiveData<AuthStatus> get() = _authStatus
+    private var generatedCode: String? = null
 
-    fun login(userDTO: UserDTO) {
+    suspend fun login(userName : String, password : String) {
         _authStatus.value = AuthStatus.Loading(AuthAction.LOGIN)
         viewModelScope.launch {
             // 유저가 입력한 아이디와 비밀번호가 비어있는지 확인함
-            if (userDTO.userName.isEmpty() || userDTO.password.isNullOrEmpty()) {
+            if (userName.isEmpty() || password.isEmpty()) {
                 _authStatus.value = AuthStatus.Failure(AuthAction.LOGIN, "아이디와 비밀번호를 다시 입력해주세요")
                 return@launch
             }
             //해당 유저가 있는지 있다면 입력한 비밀번호와 해당 유저의 비밀번호가 같은지 판별
             try {
-                val user = userRepository.getUserByUsername(userDTO)
-                if (user != null && BCrypt.checkpw(userDTO.password, user.password)) {
+                val user = userRepository.getUserByUsername(userName)
+                if (user != null && BCrypt.checkpw(password, user.password)) {
                     _authStatus.value = AuthStatus.Success(AuthAction.LOGIN)
                 } else {
                     _authStatus.value =
@@ -55,7 +57,7 @@ class AuthViewModel(private val userRepository: UserRepository): ViewModel() {
 
     }
 
-    fun registerUser(userDTO: UserDTO,) {
+    suspend fun registerUser(userDTO: UserDTO,) {
         if (!isValidUser(userDTO)) {
             _authStatus.value =
                 AuthStatus.Failure(AuthAction.REGISTER, "이메일 아이디 또는 비밀번호 중에 유효 하지 않는 것이 있습니다.")
@@ -70,6 +72,25 @@ class AuthViewModel(private val userRepository: UserRepository): ViewModel() {
             } catch (e: Exception) {
                 _authStatus.value = AuthStatus.Failure(AuthAction.REGISTER, "에러, 다시 입력해주세요.")
             }
+        }
+    }
+
+    suspend fun findUserName(email: String){
+        viewModelScope.launch{
+            val code = userRepository.senVerificationCode(email)
+            generatedCode = code
+            _authStatus.value  = AuthStatus.Success(AuthAction.SendEmail)
+        }
+    }
+    suspend fun changePassword(userDTO: UserDTO){
+        val userName = userDTO.userName
+        val email = userDTO.email
+    }
+    fun verifyCode(inputCode: String){
+        if(generatedCode == inputCode){
+            _authStatus.value = AuthStatus.Success(AuthAction.VerifyCode)
+        }else{
+            _authStatus.value = AuthStatus.Failure( AuthAction.VerifyCode,"인증 코드가 일치하지 않습니다.")
         }
     }
 
@@ -94,6 +115,8 @@ class AuthViewModel(private val userRepository: UserRepository): ViewModel() {
                 && userDTO.email!!.isNotEmpty() && userDTO.email.matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$".toRegex())
                 && !userDTO.password.isNullOrEmpty() && userDTO.password.length >= 8)
     }
+
+
     /* view 에서 구글로부터 username, email 받아와야함
 
     fun loginWithGoogle(account: GoogleLoginAccount?){

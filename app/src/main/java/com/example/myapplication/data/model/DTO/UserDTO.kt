@@ -6,7 +6,7 @@ data class  UserDTO(
     val userId: String = UUID.randomUUID().toString(),
     val userName: String,
     val password: String?,
-    val email: String? = null,
+    val email: String,
     val nickname: String? = null,
     val level: Int = 0,
     val exp: Double = 0.0,

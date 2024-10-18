@@ -1,7 +1,7 @@
 package com.example.myapplication.ui.viewmodel.state
 
 enum class  AuthAction {
-    LOGIN, LOGOUT, REGISTER, UNREGISTER,FINDUSERNAME
+    LOGIN, LOGOUT, REGISTER, UNREGISTER,SendEmail,VerifyCode
 }
 sealed class AuthStatus(val action: AuthAction){
     class Loading(action: AuthAction) : AuthStatus(action)
