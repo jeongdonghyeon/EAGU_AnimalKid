@@ -40,7 +40,7 @@ class UserRepository(application : Application) {
     }
 
     suspend fun isEmailExists(email: String): Boolean {
-        return userDao.isEmailExists(email) != null
+        return userDao.isEmailExists(email)
     }
     suspend fun isUserExist(userName : String, email: String) : Boolean {
         return userDao.getUserByIdAndEmail(userName,email) != null

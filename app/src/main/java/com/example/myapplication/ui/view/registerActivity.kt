@@ -22,7 +22,7 @@ class registerActivity : AppCompatActivity(){
 
 
 
-    private fun registerUser(){
+    private suspend fun registerUser(){
         val email = binding.emailEditText.text.toString()
         val username = binding.emailEditText.text.toString()
         val password1 = binding.passwordEditText.text.toString()
