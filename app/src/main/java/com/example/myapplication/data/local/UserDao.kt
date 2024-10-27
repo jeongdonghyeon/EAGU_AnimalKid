@@ -57,11 +57,10 @@ interface UserDao {
     suspend fun getUserByUserId(userId: String?):UserEntity?
 
     @Query("SELECT EXISTS(SELECT 1 FROM users WHERE email = :email LIMIT 1)")
-    suspend fun isEmailExists(email:String) :Boolean
+    suspend fun isEmailExists(email:String) : UserEntity?
 
-    @Query("SELECT EXISTS(SELECT 1 FROM users WHERE userName = :userName LIMIT 1)")
-    suspend fun  isUserNameExists(userName: String) : Boolean
-
+    @Query("SELECT * FROM users WHERE userName = :userName AND email = :email LIMIT 1")
+    suspend fun getUserByIdAndEmail(userName: String, email: String): UserEntity?
 
 
 

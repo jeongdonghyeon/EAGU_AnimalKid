@@ -10,9 +10,14 @@ class changePasswordActivity : AppCompatActivity(){
     private lateinit var authViewModel : AuthViewModel
 
 
-    private fun emailVerification(){
+    private suspend fun emailVerification(){
         val email = binding.emailEditText.text.toString()
         val username = binding.emailEditText.text.toString()
+        authViewModel.changePassword(email,username)
+    }
+    private suspend fun verifyCode(){
+        val inputCode = binding.emailEditText.text.toString()
+        authViewModel.verifyCode(inputCode)
     }
 
 }

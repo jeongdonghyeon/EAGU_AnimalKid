@@ -82,9 +82,19 @@ class AuthViewModel(private val userRepository: UserRepository): ViewModel() {
             _authStatus.value  = AuthStatus.Success(AuthAction.SendEmail)
         }
     }
-    suspend fun changePassword(userDTO: UserDTO){
-        val userName = userDTO.userName
-        val email = userDTO.email
+    suspend fun changePassword(email: String,userName: String){
+        viewModelScope.launch {
+            val username = userName
+            val email = email
+            val isUser = userRepository.isUserExist(username, email)
+            if(isUser){
+                val code = userRepository.senVerificationCode(email)
+                generatedCode = code
+                _authStatus.value  = AuthStatus.Success(AuthAction.SendEmail)
+            }else{
+                _authStatus.value = AuthStatus.Failure(AuthAction.SendEmail, "이메일 또는 아이디가 잘못되었습니다.")
+            }
+        }
     }
     fun verifyCode(inputCode: String){
         if(generatedCode == inputCode){

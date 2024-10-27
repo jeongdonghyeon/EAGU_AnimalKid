@@ -6,6 +6,8 @@ import com.example.myapplication.data.local.UserDao
 import com.example.myapplication.data.model.DTO.UserDTO
 import com.example.myapplication.data.model.entity.UserEntity
 import com.example.myapplication.data.model.mapper.toEntity
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.mail.Authenticator
 import java.util.Properties
 import javax.mail.Message
@@ -18,25 +20,30 @@ import javax.mail.internet.MimeMessage
 
 class UserRepository(application : Application) {
     private val userDao: UserDao = AppDatabase.getDatabase(application).userDao()
+
     // viewModel 에 받아온 유저 DTO를 유저 엔티티로 변환하고 UserDao 에 전달
     suspend fun registerUser(userDTO: UserDTO) {
         val userEntity = userDTO.toEntity();
         userDao.insertUser(userEntity);
     }
 
-    suspend fun  senVerificationCode(email: String): String?{
+    suspend fun senVerificationCode(email: String): String? {
         val exists = isEmailExists(email)
 
-        return if(exists){
+        return if (exists) {
             val verificationCode = generateVerificationCode()
-            sendEmail(email,verificationCode)
+            sendEmail(email, verificationCode)
             verificationCode
-        }else {
+        } else {
             null
         }
     }
-    suspend fun isEmailExists(email: String): Boolean{
-        return userDao.isEmailExists(email)
+
+    suspend fun isEmailExists(email: String): Boolean {
+        return userDao.isEmailExists(email) != null
+    }
+    suspend fun isUserExist(userName : String, email: String) : Boolean {
+        return userDao.getUserByIdAndEmail(userName,email) != null
     }
     private fun generateVerificationCode(): String{
         return (100000..999999).random().toString()
@@ -73,10 +80,6 @@ class UserRepository(application : Application) {
         }
     }
 
-    suspend fun isUserNameExists(userDTO: UserDTO): Boolean{
-        val username = userDTO.userName
-        return userDao.isUserNameExists(username)
-    }
     /*
     // viewModel 에 받아온 구글 유저 DTO를 유저 엔티티로 변환하고 UserDao 에 전달
     suspend fun registerGoogleUser(userDTO: UserDTO) {
