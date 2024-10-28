@@ -1,0 +1,631 @@
+Index: app/src/main/java/com/example/myapplication/ui/MainActivity.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.myapplication.ui\r\n\r\nimport android.os.Bundle\r\nimport android.widget.CalendarView\r\nimport android.widget.Toast\r\nimport androidx.appcompat.app.AppCompatActivity\r\nimport com.example.myapplication.R\r\n\r\nclass MainActivity : AppCompatActivity() {\r\n\r\n    lateinit var calendarView: CalendarView\r\n\r\n    override fun onCreate(savedInstanceState: Bundle?) {\r\n        super.onCreate(savedInstanceState)\r\n\r\n\r\n        setContentView(R.layout.calander)\r\n\r\n\r\n        calendarView = findViewById(R.id.calendarView)\r\n\r\n        // 날짜 변경 리스너 설정\r\n        calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->\r\n            val date = \"$dayOfMonth/${month + 1}/$year\"\r\n            Toast.makeText(applicationContext, \"Selected date: $date\", Toast.LENGTH_SHORT).show()\r\n        }\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/myapplication/ui/MainActivity.kt b/app/src/main/java/com/example/myapplication/ui/MainActivity.kt
+--- a/app/src/main/java/com/example/myapplication/ui/MainActivity.kt	(revision 8ed22319407aefb5c7cf58a49153bf04d4041563)
++++ b/app/src/main/java/com/example/myapplication/ui/MainActivity.kt	(date 1728909278133)
+@@ -4,7 +4,14 @@
+ import android.widget.CalendarView
+ import android.widget.Toast
+ import androidx.appcompat.app.AppCompatActivity
++import androidx.room.Room
+ import com.example.myapplication.R
++import com.example.myapplication.data.local.AppDatabase
++import com.example.myapplication.data.repository.CalendarRepository
++import com.example.myapplication.ui.viewmodel.CalendarViewModel
++
++//!
++import androidx.activity.viewModels
+ 
+ class MainActivity : AppCompatActivity() {
+ 
+@@ -25,4 +32,7 @@
+             Toast.makeText(applicationContext, "Selected date: $date", Toast.LENGTH_SHORT).show()
+         }
+     }
++
++    //!
++
+ }
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_2024-10-08__9_06__Changes_.xml
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Update_at_2024-10-08__9_06__Changes_.xml b/.idea/shelf/Uncommitted_changes_before_Update_at_2024-10-08__9_06__Changes_.xml
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Update_at_2024-10-08__9_06__Changes_.xml	(revision 8ed22319407aefb5c7cf58a49153bf04d4041563)
++++ /dev/null	(revision 8ed22319407aefb5c7cf58a49153bf04d4041563)
+@@ -1,4 +0,0 @@
+-<changelist name="Uncommitted_changes_before_Update_at_2024-10-08_오후_9_06_[Changes]" date="1728389167244" recycled="true" deleted="true">
+-  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2024-10-08_오후_9_06_[Changes]/shelved.patch" />
+-  <option name="DESCRIPTION" value="Uncommitted changes before Update at 2024-10-08 오후 9:06 [Changes]" />
+-</changelist>
+\ No newline at end of file
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_2024-10-08_오후_9_06_[Changes]/shelved.patch
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Update_at_2024-10-08_오후_9_06_[Changes]/shelved.patch b/.idea/shelf/Uncommitted_changes_before_Update_at_2024-10-08_오후_9_06_[Changes]/shelved.patch
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Update_at_2024-10-08_오후_9_06_[Changes]/shelved.patch	(revision 8ed22319407aefb5c7cf58a49153bf04d4041563)
++++ /dev/null	(revision 8ed22319407aefb5c7cf58a49153bf04d4041563)
+@@ -1,542 +0,0 @@
+-Index: app/src/main/java/com/example/myapplication/data/local/UserDao.kt
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+>package com.example.myapplication.data.local\r\n\r\nimport androidx.room.Dao\r\nimport androidx.room.Delete\r\nimport androidx.room.Insert\r\nimport androidx.room.OnConflictStrategy\r\nimport androidx.room.Query\r\nimport com.example.myapplication.data.model.entity.GroupEntity\r\nimport com.example.myapplication.data.model.entity.UserEntity\r\n\r\n@Dao\r\ninterface UserDao {\r\n\r\n    // UserRepository 에서 받아온 유저 엔티티를 데이터 베이스에 삽입\r\n    @Insert(onConflict = OnConflictStrategy.REPLACE)\r\n    suspend fun insertUser(user: UserEntity)\r\n\r\n    // 데이터 스키마에서 UserRepository 에게 받아온 유저 엔티티와 동일한 행을 삭제\r\n    @Delete\r\n    suspend fun deleteUser(user: UserEntity)\r\n\r\n    //UserRepository 에서 받아온 이메일, 닉네임, 펫네임을 가지고 이메일을 기반으로 닉네임, 펫네임을 업데이트함\r\n    @Query(\"UPDATE users SET nickname = :nickname, petName = :petName WHERE email = :email\")\r\n    suspend fun updateUserProfile(email: String, nickname: String?, petName: String?): Int\r\n\r\n    // UserRepository 에서 받아온 email 을 기반으로 userName 을 받아옴\r\n    @Query(\"SELECT userName FROM users where email = :email\")\r\n    suspend fun findUsername( email: String): UserEntity?\r\n\r\n    // UserRepository 에서 받아온 이메일과 새로운 비밀번호를 가지고 이메일 기반으로 유저의 비밀번호를 업데이트함\r\n    @Query(\"UPDATE users SET password = :newPassword where email =:email\")\r\n    suspend fun updatePassword(email: String, newPassword: String?)\r\n\r\n    // 사용자의 email을 기반으로 level 를 가져옴\r\n    @Query(\"SELECT level From users WHERE email = :email \")\r\n    suspend fun getLevelByEmail(email: String)\r\n\r\n    // 사용자의 업데이트한 level을 데이터베이스에 적용시킴\r\n    @Query(\"UPDATE users SET level = :level WHERE email = :email\")\r\n    suspend fun  setLevelByEmail(email: String, level: String)\r\n\r\n\r\n    // 사용자의 email을 기반으로 exp 를 가져옴\r\n    @Query(\"SELECT exp From users WHERE email = :email\")\r\n    suspend fun  getExpByEmail(email: String)\r\n\r\n    // 사용자의 업데이트한 level을 데이터베이스에 적용시킴\r\n    @Query(\"UPDATE users SET exp = :exp WHERE email = :email\")\r\n    suspend fun  setExpByEmail(email: String, exp: String)\r\n\r\n    // 유저 이메일로 유저 가져오기\r\n    @Query(\"SELECT * FROM users WHERE email = :email LIMIT 1\")\r\n    suspend fun getUserByEmail(email: String):UserEntity?\r\n\r\n\r\n\r\n\r\n\r\n\r\n}
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/app/src/main/java/com/example/myapplication/data/local/UserDao.kt b/app/src/main/java/com/example/myapplication/data/local/UserDao.kt
+---- a/app/src/main/java/com/example/myapplication/data/local/UserDao.kt	(revision 8e460976c7fc6615e0178154873b878f91bcdc6f)
+-+++ b/app/src/main/java/com/example/myapplication/data/local/UserDao.kt	(date 1728385323468)
+-@@ -48,9 +48,9 @@
+-     @Query("UPDATE users SET exp = :exp WHERE email = :email")
+-     suspend fun  setExpByEmail(email: String, exp: String)
+- 
+--    // 유저 이메일로 유저 가져오기
+--    @Query("SELECT * FROM users WHERE email = :email LIMIT 1")
+--    suspend fun getUserByEmail(email: String):UserEntity?
+-+    // 유저 id으로 유저 가져오기
+-+    @Query("SELECT * FROM users WHERE userId = :userId LIMIT 1")
+-+    suspend fun getUserByUsername(userId: String):UserEntity?
+- 
+- 
+- 
+-Index: app/src/main/java/com/example/myapplication/data/repository/UserGroupRepository.kt
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+>package com.example.myapplication.data.repository\r\n\r\nimport com.example.myapplication.data.local.UserGroupDao\r\nimport com.example.myapplication.data.model.entity.GroupEntity\r\nimport com.example.myapplication.data.model.entity.UsersInGroup\r\n\r\nclass UserGroupRepository(private val userGroupDao: UserGroupDao){\r\n\r\n    suspend fun isUserInGroup(userId : Long, groupId : Long): Boolean {\r\n        return userGroupDao.isUserInGroup(userId,groupId) > 0\r\n    }\r\n\r\n    suspend fun addUserTOGroup(userId: Long, groupId: Long){\r\n        userGroupDao.updateUserGroup(userId,groupId)\r\n    }\r\n    suspend fun deleteGroup(groupEntity: GroupEntity){\r\n        userGroupDao.deleteGroup(groupEntity)\r\n    }\r\n    suspend fun insertGroup(groupEntity: GroupEntity){\r\n        userGroupDao.insertGroup(groupEntity)\r\n    }\r\n    suspend fun getGroupWithUsers(groupId: Long): UsersInGroup? {\r\n        return userGroupDao.getGroupWithUsers(groupId)\r\n    }\r\n}
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/app/src/main/java/com/example/myapplication/data/repository/UserGroupRepository.kt b/app/src/main/java/com/example/myapplication/data/repository/UserGroupRepository.kt
+---- a/app/src/main/java/com/example/myapplication/data/repository/UserGroupRepository.kt	(revision 8e460976c7fc6615e0178154873b878f91bcdc6f)
+-+++ b/app/src/main/java/com/example/myapplication/data/repository/UserGroupRepository.kt	(date 1728386411036)
+-@@ -1,16 +1,18 @@
+- package com.example.myapplication.data.repository
+- 
+-+import android.app.Application
+-+import com.example.myapplication.data.local.AppDatabase
+- import com.example.myapplication.data.local.UserGroupDao
+- import com.example.myapplication.data.model.entity.GroupEntity
+- import com.example.myapplication.data.model.entity.UsersInGroup
+- 
+--class UserGroupRepository(private val userGroupDao: UserGroupDao){
+--
+-+class UserGroupRepository(application: Application){
+-+    private val userGroupDao = AppDatabase.getDatabase(application).groupDao()
+-     suspend fun isUserInGroup(userId : Long, groupId : Long): Boolean {
+-         return userGroupDao.isUserInGroup(userId,groupId) > 0
+-     }
+- 
+--    suspend fun addUserTOGroup(userId: Long, groupId: Long){
+-+    suspend fun addUserTOGroup(userId: String, groupId: Long){
+-         userGroupDao.updateUserGroup(userId,groupId)
+-     }
+-     suspend fun deleteGroup(groupEntity: GroupEntity){
+-Index: app/src/main/java/com/example/myapplication/ui/viewmodel/LogInViewModel.kt
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/app/src/main/java/com/example/myapplication/ui/viewmodel/LogInViewModel.kt b/app/src/main/java/com/example/myapplication/ui/viewmodel/AuthViewModel.kt
+-rename from app/src/main/java/com/example/myapplication/ui/viewmodel/LogInViewModel.kt
+-rename to app/src/main/java/com/example/myapplication/ui/viewmodel/AuthViewModel.kt
+---- a/app/src/main/java/com/example/myapplication/ui/viewmodel/LogInViewModel.kt	(revision 8e460976c7fc6615e0178154873b878f91bcdc6f)
+-+++ b/app/src/main/java/com/example/myapplication/ui/viewmodel/AuthViewModel.kt	(date 1728388691095)
+-@@ -1,37 +1,79 @@
+- package com.example.myapplication.ui.viewmodel
+- 
+-+import android.content.Context
+- import androidx.lifecycle.LiveData
+- import androidx.lifecycle.MutableLiveData
+- import androidx.lifecycle.ViewModel
+- import androidx.lifecycle.viewModelScope
+- import com.example.myapplication.data.model.DTO.UserDTO
+- import com.example.myapplication.data.repository.UserRepository
+--import com.example.myapplication.ui.viewmodel.state.RegistrationResult
+-+import com.example.myapplication.ui.viewmodel.Session.UserSessionManager
+-+import com.example.myapplication.ui.viewmodel.state.AuthAction
+-+import com.example.myapplication.ui.viewmodel.state.AuthStatus
+- 
+- import kotlinx.coroutines.launch
+- import org.mindrot.jbcrypt.BCrypt
+-+import java.util.UUID
+- 
+--class LogInViewModel(private val userRepository: UserRepository): ViewModel(){
+--    private val _loginStatus = MutableLiveData<RegistrationResult>()
+--    val loginStatus: LiveData<RegistrationResult> get() = _loginStatus
+-+class AuthViewModel(private val userRepository: UserRepository): ViewModel(){
+-+    private val _authStatus = MutableLiveData<AuthStatus>()
+-+    val authStatus: LiveData<AuthStatus> get() = _authStatus
+- 
+--    fun loginWithEmail(userDTO: UserDTO){
+-+    fun login(context: Context, userDTO: UserDTO){
+-+        _authStatus.value = AuthStatus.Loading(AuthAction.LOGIN)
+-         viewModelScope.launch {
+-+            // 유저가 입력한 아이디와 비밀번호가 비어있는지 확인함
+-             if(userDTO.userName.isEmpty() || userDTO.password.isNullOrEmpty()){
+--                _loginStatus.value = RegistrationResult.Failure("아이디와 비밀번호를 입력해주세요")
+-+                _authStatus.value = AuthStatus.Failure(AuthAction.LOGIN,"아이디와 비밀번호를 다시 입력해주세요")
+-+                return@launch
+-             }
+-+            //해당 유저가 있는지 있다면 입력한 비밀번호와 해당 유저의 비밀번호가 같은지 판별
+-             try {
+--                val user = userRepository.getUserByEmail(userDTO)
+--                if (user != null && BCrypt.checkpw(userDTO.userName,user.password) ) {
+--                    _loginStatus.value = RegistrationResult.Success
+-+                val user = userRepository.getUserByUsername(userDTO)
+-+                if (user != null && BCrypt.checkpw(userDTO.password,user.password) ) {
+-+                    _authStatus.value = AuthStatus.Success(AuthAction.LOGIN)
+-                 } else {
+--                    _loginStatus.value = RegistrationResult.Failure("아이디 또는 비밀번호가 잘못되었습니다.")
+-+                    _authStatus.value = AuthStatus.Failure(AuthAction.LOGIN, "아이디 또는 비밀번호가 잘못되었습니다.")
+-                 }
+-             } catch(e: Exception){
+--                _loginStatus.value = RegistrationResult.Failure("에러, 다시 입력해주세요.")
+-+                _authStatus.value = AuthStatus.Failure(AuthAction.LOGIN,"네트워크 오류.")
+-+            }
+-+        }
+-+    }
+-+    fun logout(context: Context){
+-+        viewModelScope.launch {
+-+            _authStatus.value = AuthStatus.Loading(AuthAction.LOGOUT)
+-+            try {
+-+                UserSessionManager.clearUserSession(context)
+-+                _authStatus.value = AuthStatus.Success(AuthAction.LOGOUT)
+-+            } catch(e : Exception){
+-+                _authStatus.value = AuthStatus.Failure(AuthAction.LOGOUT,"로그아웃 실패")
+-             }
+-         }
+-+
+-     }
+-+    fun registerUser(context: Context,userDTO: UserDTO){
+-+        if(!isValidUser(userDTO)){
+-+            _authStatus.value = AuthStatus.Failure(AuthAction.LOGOUT,"이메일 아이디 또는 비밀번호 중에 유효 하지 않는 것이 있습니다.")
+-+            return
+-+        }
+-+        viewModelScope.launch {
+-+            try {
+-+                val userId = UUID.randomUUID().toString()
+-+                UserSessionManager.saveUserId(context,userId)
+-+                val newUserDTO = userDTO.copy(userId = userId)
+-+                userRepository.registerUser(newUserDTO)
+-+
+-+            } catch (e: Exception){
+-+                _authStatus.value = AuthStatus.Failure(AuthAction.LOGOUT,"에러, 다시 입력해주세요.")
+-+            }
+-+        }
+-+    }
+-+    private fun isValidUser(userDTO:UserDTO): Boolean {
+-+        return (userDTO.userName.isNotEmpty() && userDTO.userName.matches("^[a-zA-Z0-9]{5,20}$".toRegex())
+-+                && userDTO.email.isNotEmpty() && userDTO.email.matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$".toRegex())
+-+                && !userDTO.password.isNullOrEmpty() && userDTO.password.length >= 8)
+-+    }
+-     /* view 에서 구글로부터 username, email 받아와야함
+- 
+-     fun loginWithGoogle(account: GoogleLoginAccount?){
+-Index: app/src/main/java/com/example/myapplication/data/model/entity/UserEntity.kt
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+>package com.example.myapplication.data.model.entity\r\n\r\nimport androidx.room.ColumnInfo\r\nimport androidx.room.Entity\r\nimport androidx.room.Index\r\nimport androidx.room.PrimaryKey\r\n\r\n@Entity(tableName = \"users\",\r\n    indices = [Index(value =[\"email\"],unique = true),\r\n        Index(value =[\"userName\"],unique = true)])\r\ndata class UserEntity(\r\n    @PrimaryKey(autoGenerate = true)\r\n    val userId: Long = 0L,\r\n    @ColumnInfo(name =\"userName\")\r\n    val userName : String,\r\n    @ColumnInfo(name =\"password\")\r\n    val password : String? = null,\r\n    @ColumnInfo(name =\"email\")\r\n    val email: String,\r\n    @ColumnInfo(name =\"nickname\")\r\n    val nickname : String? = null,\r\n    @ColumnInfo(name =\"level\")\r\n    val level : Int = 0,\r\n    @ColumnInfo(name =\"exp\")\r\n    val exp: Double = 0.0,\r\n    @ColumnInfo(name = \"petName\")\r\n    val petName : String? = null,\r\n    @ColumnInfo(name = \"groupId\")\r\n    val groupId: Long? = null\r\n)
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/app/src/main/java/com/example/myapplication/data/model/entity/UserEntity.kt b/app/src/main/java/com/example/myapplication/data/model/entity/UserEntity.kt
+---- a/app/src/main/java/com/example/myapplication/data/model/entity/UserEntity.kt	(revision 8e460976c7fc6615e0178154873b878f91bcdc6f)
+-+++ b/app/src/main/java/com/example/myapplication/data/model/entity/UserEntity.kt	(date 1728380375889)
+-@@ -4,13 +4,14 @@
+- import androidx.room.Entity
+- import androidx.room.Index
+- import androidx.room.PrimaryKey
+-+import java.util.UUID
+- 
+- @Entity(tableName = "users",
+-     indices = [Index(value =["email"],unique = true),
+-         Index(value =["userName"],unique = true)])
+- data class UserEntity(
+--    @PrimaryKey(autoGenerate = true)
+--    val userId: Long = 0L,
+-+    @PrimaryKey
+-+    val userId: String = UUID.randomUUID().toString(),
+-     @ColumnInfo(name ="userName")
+-     val userName : String,
+-     @ColumnInfo(name ="password")
+-Index: app/src/main/java/com/example/myapplication/ui/viewmodel/state/RegistrationResult.kt
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/app/src/main/java/com/example/myapplication/ui/viewmodel/state/RegistrationResult.kt b/app/src/main/java/com/example/myapplication/ui/viewmodel/state/AuthStatus.kt
+-rename from app/src/main/java/com/example/myapplication/ui/viewmodel/state/RegistrationResult.kt
+-rename to app/src/main/java/com/example/myapplication/ui/viewmodel/state/AuthStatus.kt
+---- a/app/src/main/java/com/example/myapplication/ui/viewmodel/state/RegistrationResult.kt	(revision 8e460976c7fc6615e0178154873b878f91bcdc6f)
+-+++ b/app/src/main/java/com/example/myapplication/ui/viewmodel/state/AuthStatus.kt	(date 1728387742862)
+-@@ -1,6 +1,10 @@
+- package com.example.myapplication.ui.viewmodel.state
+- 
+--sealed class RegistrationResult {
+--    object Success : RegistrationResult()
+--    data class Failure(val errorMessage: String) : RegistrationResult()
+-+enum class  AuthAction {
+-+    LOGIN, LOGOUT, REGISTER
+-+}
+-+sealed class AuthStatus(val action: AuthAction){
+-+    class Loading(action: AuthAction) : AuthStatus(action)
+-+    class Success(action: AuthAction) : AuthStatus(action)
+-+    class Failure(action: AuthAction, val message: String) : AuthStatus(action)
+- }
+-\ No newline at end of file
+-Index: app/src/main/java/com/example/myapplication/data/local/UserGroupDao.kt
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+>package com.example.myapplication.data.local\r\n\r\nimport android.adservices.adid.AdId\r\nimport androidx.room.Dao\r\nimport androidx.room.Delete\r\nimport androidx.room.Insert\r\nimport androidx.room.OnConflictStrategy\r\nimport androidx.room.Query\r\nimport androidx.room.Transaction\r\nimport com.example.myapplication.data.model.entity.GroupEntity\r\nimport com.example.myapplication.data.model.entity.UserEntity\r\nimport com.example.myapplication.data.model.entity.UsersInGroup\r\n\r\n@Dao\r\ninterface UserGroupDao {\r\n    // 그룹 ID로 그룹 가져오기\r\n    @Transaction\r\n    @Query(\"SELECT * FROM groups WHERE groupId = :groupId\")\r\n    suspend fun getGroupWithUsers(groupId: Long): UsersInGroup?\r\n    // 그룹 생성\r\n    @Insert(onConflict = OnConflictStrategy.REPLACE)\r\n    suspend fun insertGroup(group: GroupEntity)\r\n    // 그룹 삭제\r\n    @Delete\r\n    suspend fun deleteGroup(group: GroupEntity)\r\n\r\n    // 유저가 그룹에 속해 있는지 확인\r\n    @Query(\"SELECT COUNT(*) FROM users WHERE userId = :userId AND groupId = :groupId\")\r\n    suspend fun isUserInGroup(userId: Long, groupId: Long): Int\r\n\r\n    // 유저의 그룹 업데이트 (그룹에 추가)\r\n    @Query(\"UPDATE users SET groupId = :groupId WHERE userId = :userId\")\r\n    suspend fun  updateUserGroup(userId: Long,groupId: Long)\r\n\r\n}
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/app/src/main/java/com/example/myapplication/data/local/UserGroupDao.kt b/app/src/main/java/com/example/myapplication/data/local/UserGroupDao.kt
+---- a/app/src/main/java/com/example/myapplication/data/local/UserGroupDao.kt	(revision 8e460976c7fc6615e0178154873b878f91bcdc6f)
+-+++ b/app/src/main/java/com/example/myapplication/data/local/UserGroupDao.kt	(date 1728386418899)
+-@@ -30,6 +30,6 @@
+- 
+-     // 유저의 그룹 업데이트 (그룹에 추가)
+-     @Query("UPDATE users SET groupId = :groupId WHERE userId = :userId")
+--    suspend fun  updateUserGroup(userId: Long,groupId: Long)
+-+    suspend fun  updateUserGroup(userId: String, groupId: Long)
+- 
+- }
+-\ No newline at end of file
+-Index: app/src/main/java/com/example/myapplication/ui/viewmodel/SignUpViewModel.kt
+-===================================================================
+-diff --git a/app/src/main/java/com/example/myapplication/ui/viewmodel/SignUpViewModel.kt b/app/src/main/java/com/example/myapplication/ui/viewmodel/SignUpViewModel.kt
+-deleted file mode 100644
+---- a/app/src/main/java/com/example/myapplication/ui/viewmodel/SignUpViewModel.kt	(revision 8e460976c7fc6615e0178154873b878f91bcdc6f)
+-+++ /dev/null	(revision 8e460976c7fc6615e0178154873b878f91bcdc6f)
+-@@ -1,37 +0,0 @@
+--package com.example.myapplication.ui.viewmodel
+--
+--import androidx.lifecycle.LiveData
+--import androidx.lifecycle.MutableLiveData
+--import androidx.lifecycle.ViewModel
+--import androidx.lifecycle.viewModelScope
+--import com.example.myapplication.data.model.DTO.UserDTO
+--import com.example.myapplication.data.repository.UserRepository
+--import com.example.myapplication.ui.viewmodel.state.RegistrationResult
+--import kotlinx.coroutines.launch
+--
+--class SignUpViewModel(private val userRepository: UserRepository): ViewModel(){
+--
+--    private val _registrationStatus = MutableLiveData<RegistrationResult>()
+--    val registrationStatus: LiveData<RegistrationResult> get() = _registrationStatus
+--
+--    fun registerUser(userDTO: UserDTO){
+--        if(!isValidUser(userDTO)){
+--            _registrationStatus.value = RegistrationResult.Failure("이메일, 아이디 또는 비밀번호 중에 유효 하지 않는 것이 있습니다.")
+--            return
+--        }
+--        viewModelScope.launch {
+--            try {
+--                userRepository.registerUser(userDTO)
+--                _registrationStatus.value = RegistrationResult.Success
+--            } catch (e: Exception){
+--                _registrationStatus.value = RegistrationResult.Failure("에러, 다시 입력해주세요.")
+--            }
+--        }
+--    }
+--
+--    private fun isValidUser(userDTO:UserDTO): Boolean {
+--        return (userDTO.userName.isNotEmpty() && userDTO.userName.matches("^[a-zA-Z0-9]{5,20}$".toRegex())
+--                && userDTO.email.isNotEmpty() && userDTO.email.matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$".toRegex())
+--                && !userDTO.password.isNullOrEmpty() && userDTO.password.length >= 8)
+--    }
+--}
+-\ No newline at end of file
+-Index: app/src/main/java/com/example/myapplication/ui/viewmodel/Session/userSessionManager.kt
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/app/src/main/java/com/example/myapplication/ui/viewmodel/Session/userSessionManager.kt b/app/src/main/java/com/example/myapplication/ui/viewmodel/Session/userSessionManager.kt
+-new file mode 100644
+---- /dev/null	(date 1728385930130)
+-+++ b/app/src/main/java/com/example/myapplication/ui/viewmodel/Session/userSessionManager.kt	(date 1728385930130)
+-@@ -0,0 +1,30 @@
+-+package com.example.myapplication.ui.viewmodel.Session
+-+
+-+import android.content.Context
+-+
+-+object UserSessionManager {
+-+    private const val PREFS_NAME = "user_prefs"
+-+    private const val USER_ID_KEY = "userId"
+-+
+-+    // UUID를 SharedPreferences에서 가져오는 함수
+-+    fun getUserId(context: Context): String? {
+-+        val sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+-+        return sharedPreferences.getString(USER_ID_KEY, null) // 없으면 null 반환
+-+    }
+-+
+-+    // UUID를 SharedPreferences에 저장하는 함수
+-+    fun saveUserId(context: Context, userId: String) {
+-+        val sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+-+        with(sharedPreferences.edit()) {
+-+            putString(USER_ID_KEY, userId)
+-+            apply() // 비동기 저장
+-+        }
+-+    }
+-+    fun clearUserSession(context: Context) {
+-+        val sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+-+        with(sharedPreferences.edit()) {
+-+            remove(USER_ID_KEY) // 저장된 userId를 삭제
+-+            apply() // 변경 사항을 비동기적으로 적용
+-+        }
+-+    }
+-+}
+-Index: app/src/main/java/com/example/myapplication/data/model/DTO/UserDTO.kt
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+>package com.example.myapplication.data.model.DTO\r\n\r\ndata class UserDTO(\r\n    val userId: Long = 0L,\r\n    val userName: String,\r\n    val password: String?,\r\n    val email: String,\r\n    val nickname: String?,\r\n    val level: Int = 0,\r\n    val exp: Double = 0.0,\r\n    val petName: String?,\r\n    val groupId: Long? = null\r\n)
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/app/src/main/java/com/example/myapplication/data/model/DTO/UserDTO.kt b/app/src/main/java/com/example/myapplication/data/model/DTO/UserDTO.kt
+---- a/app/src/main/java/com/example/myapplication/data/model/DTO/UserDTO.kt	(revision 8e460976c7fc6615e0178154873b878f91bcdc6f)
+-+++ b/app/src/main/java/com/example/myapplication/data/model/DTO/UserDTO.kt	(date 1728380397290)
+-@@ -1,7 +1,9 @@
+- package com.example.myapplication.data.model.DTO
+- 
+-+import java.util.UUID
+-+
+- data class UserDTO(
+--    val userId: Long = 0L,
+-+    val userId: String = UUID.randomUUID().toString(),
+-     val userName: String,
+-     val password: String?,
+-     val email: String,
+-Index: gradle.properties
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+># Project-wide Gradle settings.\r\n# IDE (e.g. Android Studio) users:\r\n# Gradle settings configured through the IDE *will override*\r\n# any settings specified in this file.\r\n# For more details on how to configure your build environment visit\r\n# http://www.gradle.org/docs/current/userguide/build_environment.html\r\n# Specifies the JVM arguments used for the daemon process.\r\n# The setting is particularly useful for tweaking memory settings.\r\norg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8\r\n# When configured, Gradle will run in incubating parallel mode.\r\n# This option should only be used with decoupled projects. For more details, visit\r\n# https://developer.android.com/r/tools/gradle-multi-project-decoupled-projects\r\n# org.gradle.parallel=true\r\n# AndroidX package structure to make it clearer which packages are bundled with the\r\n# Android operating system, and which are packaged with your app's APK\r\n# https://developer.android.com/topic/libraries/support-library/androidx-rn\r\nandroid.useAndroidX=true\r\n# Kotlin code style for this project: \"official\" or \"obsolete\":\r\nkotlin.code.style=official\r\n# Enables namespacing of each library's R class so that its R class includes only the\r\n# resources declared in the library itself and none from the library's dependencies,\r\n# thereby reducing the size of the R class for that library\r\nandroid.nonTransitiveRClass=true
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>ISO-8859-1
+-===================================================================
+-diff --git a/gradle.properties b/gradle.properties
+---- a/gradle.properties	(revision 8e460976c7fc6615e0178154873b878f91bcdc6f)
+-+++ b/gradle.properties	(date 1728375433362)
+-@@ -1,3 +1,4 @@
+-+
+- # Project-wide Gradle settings.
+- # IDE (e.g. Android Studio) users:
+- # Gradle settings configured through the IDE *will override*
+-Index: gradle/libs.versions.toml
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+>[versions]\r\nagp = \"8.6.1\"\r\ncredentialsPlayServicesAuth = \"1.5.0-alpha05\"\r\ndaggerCompiler = \"2.51.1\"\r\njbcrypt = \"0.4\"\r\nkotlin = \"1.9.0\"\r\ncoreKtx = \"1.13.1\"\r\njunit = \"4.13.2\"\r\njunitVersion = \"1.2.1\"\r\nespressoCore = \"3.6.1\"\r\nappcompat = \"1.7.0\"\r\nkotlinxCoroutinesCore = \"1.7.3\"\r\nlifecycleLivedataKtx = \"2.8.6\"\r\nlifecycleRuntimeKtx = \"2.8.6\"\r\nlifecycleViewmodelKtx = \"2.8.6\"\r\nmaterial = \"1.12.0\"\r\nconstraintlayout = \"2.1.4\"\r\nnavigationFragmentKtx = \"2.8.2\"\r\nnavigationUiKtx = \"2.8.2\"\r\nretrofit = \"2.9.0\"\r\nroomKtx = \"2.6.1\"\r\nactivity = \"1.9.2\"\r\n\r\n[libraries]\r\nandroidx-core-ktx = { group = \"androidx.core\", name = \"core-ktx\", version.ref = \"coreKtx\" }\r\nandroidx-credentials = { module = \"androidx.credentials:credentials\", version.ref = \"credentialsPlayServicesAuth\" }\r\nandroidx-credentials-play-services-auth = { module = \"androidx.credentials:credentials-play-services-auth\", version.ref = \"credentialsPlayServicesAuth\" }\r\nandroidx-lifecycle-livedata-ktx = { module = \"androidx.lifecycle:lifecycle-livedata-ktx\", version.ref = \"lifecycleRuntimeKtx\" }\r\nandroidx-lifecycle-livedata-ktx-v261 = { module = \"androidx.lifecycle:lifecycle-livedata-ktx\", version.ref = \"lifecycleLivedataKtx\" }\r\nandroidx-lifecycle-runtime-ktx = { module = \"androidx.lifecycle:lifecycle-runtime-ktx\", version.ref = \"lifecycleRuntimeKtx\" }\r\nandroidx-lifecycle-viewmodel-ktx = { module = \"androidx.lifecycle:lifecycle-viewmodel-ktx\", version.ref = \"lifecycleRuntimeKtx\" }\r\nandroidx-lifecycle-viewmodel-ktx-v261 = { module = \"androidx.lifecycle:lifecycle-viewmodel-ktx\", version.ref = \"lifecycleViewmodelKtx\" }\r\nandroidx-room-compiler = { module = \"androidx.room:room-compiler\", version.ref = \"roomKtx\" }\r\nandroidx-room-ktx = { module = \"androidx.room:room-ktx\", version.ref = \"roomKtx\" }\r\nandroidx-room-runtime = { module = \"androidx.room:room-runtime\", version.ref = \"roomKtx\" }\r\ndagger-compiler = { module = \"com.google.dagger:dagger-compiler\", version.ref = \"daggerCompiler\" }\r\njbcrypt = { module = \"org.mindrot:jbcrypt\", version.ref = \"jbcrypt\" }\r\njunit = { group = \"junit\", name = \"junit\", version.ref = \"junit\" }\r\nandroidx-junit = { group = \"androidx.test.ext\", name = \"junit\", version.ref = \"junitVersion\" }\r\nandroidx-espresso-core = { group = \"androidx.test.espresso\", name = \"espresso-core\", version.ref = \"espressoCore\" }\r\nandroidx-appcompat = { group = \"androidx.appcompat\", name = \"appcompat\", version.ref = \"appcompat\" }\r\nkotlinx-coroutines-android = { module = \"org.jetbrains.kotlinx:kotlinx-coroutines-android\", version.ref = \"kotlinxCoroutinesCore\" }\r\nkotlinx-coroutines-core = { module = \"org.jetbrains.kotlinx:kotlinx-coroutines-core\", version.ref = \"kotlinxCoroutinesCore\" }\r\nmaterial = { group = \"com.google.android.material\", name = \"material\", version.ref = \"material\" }\r\nandroidx-constraintlayout = { group = \"androidx.constraintlayout\", name = \"constraintlayout\", version.ref = \"constraintlayout\" }\r\nandroidx-navigation-fragment-ktx = { group = \"androidx.navigation\", name = \"navigation-fragment-ktx\", version.ref = \"navigationFragmentKtx\" }\r\nandroidx-navigation-ui-ktx = { group = \"androidx.navigation\", name = \"navigation-ui-ktx\", version.ref = \"navigationUiKtx\" }\r\nretrofit = { module = \"com.squareup.retrofit2:retrofit\", version.ref = \"retrofit\" }\r\nandroidx-activity = { group = \"androidx.activity\", name = \"activity\", version.ref = \"activity\" }\r\n\r\n[plugins]\r\nandroid-application = { id = \"com.android.application\", version.ref = \"agp\" }\r\njetbrains-kotlin-android = { id = \"org.jetbrains.kotlin.android\", version.ref = \"kotlin\" }\r\n\r\n
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/gradle/libs.versions.toml b/gradle/libs.versions.toml
+---- a/gradle/libs.versions.toml	(revision 8e460976c7fc6615e0178154873b878f91bcdc6f)
+-+++ b/gradle/libs.versions.toml	(date 1728373581167)
+-@@ -2,6 +2,7 @@
+- agp = "8.6.1"
+- credentialsPlayServicesAuth = "1.5.0-alpha05"
+- daggerCompiler = "2.51.1"
+-+gson = "2.10.1"
+- jbcrypt = "0.4"
+- kotlin = "1.9.0"
+- coreKtx = "1.13.1"
+-@@ -34,6 +35,7 @@
+- androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomKtx" }
+- androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomKtx" }
+- dagger-compiler = { module = "com.google.dagger:dagger-compiler", version.ref = "daggerCompiler" }
+-+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+- jbcrypt = { module = "org.mindrot:jbcrypt", version.ref = "jbcrypt" }
+- junit = { group = "junit", name = "junit", version.ref = "junit" }
+- androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+-@@ -47,6 +49,7 @@
+- androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigationUiKtx" }
+- retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+- androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
+-+squareup-converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
+- 
+- [plugins]
+- android-application = { id = "com.android.application", version.ref = "agp" }
+-Index: app/build.gradle.kts
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+>plugins {\r\n    alias(libs.plugins.android.application)\r\n    alias(libs.plugins.jetbrains.kotlin.android)\r\n    id(\"com.google.devtools.ksp\") version \"2.0.20-1.0.24\"\r\n}\r\n\r\nandroid {\r\n    namespace = \"com.example.myapplication\"\r\n    compileSdk = 34\r\n\r\n    defaultConfig {\r\n        applicationId = \"EAGU_Projects_AnimalKids\"\r\n        minSdk = 24\r\n        targetSdk = 34\r\n        versionCode = 1\r\n        versionName = \"1.0\"\r\n        testInstrumentationRunner = \"androidx.test.runner.AndroidJUnitRunner\"\r\n\r\n    }\r\n\r\n    buildTypes {\r\n        release {\r\n            isMinifyEnabled = false\r\n            proguardFiles(\r\n                getDefaultProguardFile(\"proguard-android-optimize.txt\"),\r\n                \"proguard-rules.pro\"\r\n            )\r\n        }\r\n    }\r\n    compileOptions {\r\n        sourceCompatibility = JavaVersion.VERSION_1_8\r\n        targetCompatibility = JavaVersion.VERSION_1_8\r\n    }\r\n    kotlinOptions {\r\n        jvmTarget = \"1.8\"\r\n    }\r\n    buildFeatures {\r\n        viewBinding = true\r\n        buildConfig = true\r\n    }\r\n}\r\n\r\ndependencies {\r\n    // AndroidX Library\r\n    implementation(libs.androidx.core.ktx)\r\n    implementation(libs.androidx.appcompat)\r\n    implementation(libs.material)\r\n    implementation(libs.androidx.constraintlayout)\r\n    implementation(libs.androidx.navigation.fragment.ktx)\r\n    implementation(libs.androidx.navigation.ui.ktx)\r\n    implementation(libs.androidx.activity)\r\n    testImplementation(libs.junit)\r\n    androidTestImplementation(libs.androidx.junit)\r\n    androidTestImplementation(libs.androidx.espresso.core)\r\n\r\n    // room\r\n    implementation(libs.androidx.room.runtime)\r\n    implementation(libs.dagger.compiler)\r\n    ksp(libs.dagger.compiler)\r\n    implementation(libs.androidx.room.ktx)\r\n\r\n    implementation (libs.androidx.lifecycle.viewmodel.ktx)\r\n    implementation (libs.androidx.lifecycle.livedata.ktx)\r\n    implementation (libs.androidx.lifecycle.runtime.ktx)\r\n\r\n    implementation (libs.retrofit)\r\n    //noinspection UseTomlInstead\r\n    implementation (\"com.squareup.retrofit2:converter-gson:2.9.0\")\r\n\r\n    //koroutine\r\n    implementation(libs.kotlinx.coroutines.core)\r\n    implementation(libs.kotlinx.coroutines.android)\r\n\r\n    // ViewModel\r\n    implementation(libs.androidx.lifecycle.viewmodel.ktx.v261)\r\n\r\n    // LiveData\r\n    implementation(libs.androidx.lifecycle.livedata.ktx.v261)\r\n\r\n    //BCrypt\r\n    implementation(libs.jbcrypt)\r\n\r\n    implementation(libs.androidx.credentials)\r\n    // optional - needed for credentials support from play services, for devices running\r\n    // Android 13 and below.\r\n    implementation(libs.androidx.credentials.play.services.auth)\r\n\r\n}
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/app/build.gradle.kts b/app/build.gradle.kts
+---- a/app/build.gradle.kts	(revision 8e460976c7fc6615e0178154873b878f91bcdc6f)
+-+++ b/app/build.gradle.kts	(date 1728375120390)
+-@@ -59,13 +59,13 @@
+-     ksp(libs.dagger.compiler)
+-     implementation(libs.androidx.room.ktx)
+- 
+--    implementation (libs.androidx.lifecycle.viewmodel.ktx)
+--    implementation (libs.androidx.lifecycle.livedata.ktx)
+--    implementation (libs.androidx.lifecycle.runtime.ktx)
+-+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+-+    implementation(libs.androidx.lifecycle.livedata.ktx)
+-+    implementation(libs.androidx.lifecycle.runtime.ktx)
+- 
+--    implementation (libs.retrofit)
+-+    implementation(libs.retrofit)
+-     //noinspection UseTomlInstead
+--    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+-+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+- 
+-     //koroutine
+-     implementation(libs.kotlinx.coroutines.core)
+-@@ -85,4 +85,13 @@
+-     // Android 13 and below.
+-     implementation(libs.androidx.credentials.play.services.auth)
+- 
+-+    /*
+-+    // Retrofit
+-+    implementation(libs.retrofit)
+-+    implementation(libs.squareup.converter.gson)
+-+
+-+    // gson
+-+    implementation(libs.gson)
+-+
+-+     */
+- }
+-\ No newline at end of file
+-Index: app/src/main/java/com/example/myapplication/data/repository/UserRepository.kt
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+>package com.example.myapplication.data.repository\r\n\r\nimport com.example.myapplication.data.local.UserDao\r\nimport com.example.myapplication.data.model.DTO.UserDTO\r\nimport com.example.myapplication.data.model.entity.UserEntity\r\nimport com.example.myapplication.data.model.mapper.toEntity\r\n\r\nclass UserRepository(private val userDao: UserDao) {\r\n    // viewModel 에 받아온 유저 DTO를 유저 엔티티로 변환하고 UserDao 에 전달\r\n    suspend fun registerUser(userDTO: UserDTO) {\r\n        val userEntity = userDTO.toEntity();\r\n        userDao.insertUser(userEntity);\r\n    }\r\n\r\n    // viewModel 에 받아온 구글 유저 DTO를 유저 엔티티로 변환하고 UserDao 에 전달\r\n    suspend fun registerGoogleUser(userDTO: UserDTO) {\r\n        val userEntity = userDTO.toEntity()\r\n        userDao.insertUser(userEntity)\r\n    }\r\n\r\n    //viewModel 에 빋아온 유저 DTO를 유저 엔티티로 변환하고 UserDao 에 전달\r\n    suspend fun unregisterUser(userDTO: UserDTO) {\r\n        val userEntity = userDTO.toEntity();\r\n        userDao.deleteUser(userEntity);\r\n    }\r\n\r\n    //viewModel 에 받아온 유저 DTO 중 email, nickname, petName 만 엔티티로 변환하고 UserDao 에 전달\r\n    //만약 nickname 과 petName 둘다 null 인경우 viewModel 에 false 를 전달하고 아니라면 true 를 전달한다.\r\n    suspend fun saveProfile(userDTO: UserDTO): Boolean {\r\n        val email = userDTO.email;\r\n        val nickname = userDTO.nickname;\r\n        val petName = userDTO.petName;\r\n        if (nickname.isNullOrEmpty() || petName.isNullOrEmpty()) {\r\n            return false;\r\n        }\r\n        userDao.updateUserProfile(email, nickname, petName);\r\n\r\n        return true;\r\n    }\r\n\r\n    //viewModel 에 받아온 email 을 UserDao 에 전달\r\n    suspend fun findUserName(userDTO: UserDTO) {\r\n        val email = userDTO.email;\r\n        userDao.findUsername(email);\r\n    }//viewModel 에 받아온 newPassword 와 email 을 UserDao 에 전달\r\n\r\n    suspend fun updatePassword(userDTO: UserDTO) {\r\n        val newPassword = userDTO.password;\r\n        val email = userDTO.email;\r\n        userDao.updatePassword(email, newPassword);\r\n    }\r\n\r\n    suspend fun getUserByEmail(userDTO: UserDTO): UserEntity? {\r\n        val email = userDTO.email\r\n        return userDao.getUserByEmail(email)\r\n    }\r\n}
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/app/src/main/java/com/example/myapplication/data/repository/UserRepository.kt b/app/src/main/java/com/example/myapplication/data/repository/UserRepository.kt
+---- a/app/src/main/java/com/example/myapplication/data/repository/UserRepository.kt	(revision 8e460976c7fc6615e0178154873b878f91bcdc6f)
+-+++ b/app/src/main/java/com/example/myapplication/data/repository/UserRepository.kt	(date 1728385293949)
+-@@ -1,11 +1,14 @@
+- package com.example.myapplication.data.repository
+- 
+-+import android.app.Application
+-+import com.example.myapplication.data.local.AppDatabase
+- import com.example.myapplication.data.local.UserDao
+- import com.example.myapplication.data.model.DTO.UserDTO
+- import com.example.myapplication.data.model.entity.UserEntity
+- import com.example.myapplication.data.model.mapper.toEntity
+- 
+--class UserRepository(private val userDao: UserDao) {
+-+class UserRepository(application : Application) {
+-+    private val userDao: UserDao = AppDatabase.getDatabase(application).userDao()
+-     // viewModel 에 받아온 유저 DTO를 유저 엔티티로 변환하고 UserDao 에 전달
+-     suspend fun registerUser(userDTO: UserDTO) {
+-         val userEntity = userDTO.toEntity();
+-@@ -27,12 +30,12 @@
+-     //viewModel 에 받아온 유저 DTO 중 email, nickname, petName 만 엔티티로 변환하고 UserDao 에 전달
+-     //만약 nickname 과 petName 둘다 null 인경우 viewModel 에 false 를 전달하고 아니라면 true 를 전달한다.
+-     suspend fun saveProfile(userDTO: UserDTO): Boolean {
+-+        if (userDTO.nickname.isNullOrEmpty() || userDTO.petName.isNullOrEmpty()) {
+-+            return false;
+-+        }
+-         val email = userDTO.email;
+-         val nickname = userDTO.nickname;
+-         val petName = userDTO.petName;
+--        if (nickname.isNullOrEmpty() || petName.isNullOrEmpty()) {
+--            return false;
+--        }
+-         userDao.updateUserProfile(email, nickname, petName);
+- 
+-         return true;
+-@@ -50,8 +53,9 @@
+-         userDao.updatePassword(email, newPassword);
+-     }
+- 
+--    suspend fun getUserByEmail(userDTO: UserDTO): UserEntity? {
+--        val email = userDTO.email
+--        return userDao.getUserByEmail(email)
+-+
+-+    suspend fun getUserByUsername(userDTO: UserDTO): UserEntity? {
+-+        val username = userDTO.userName
+-+        return userDao.getUserByUsername(username)
+-     }
+- }
+-\ No newline at end of file
+-Index: .gitignore
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+>*.iml\r\n.gradle\r\n/local.properties\r\n/.idea/caches\r\n/.idea/libraries\r\n/.idea/modules.xml\r\n/.idea/workspace.xml\r\n/.idea/navEditor.xml\r\n/.idea/assetWizardSettings.xml\r\n.DS_Store\r\n/build\r\n/captures\r\n.externalNativeBuild\r\n.cxx\r\nlocal.properties\r\n
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/.gitignore b/.gitignore
+---- a/.gitignore	(revision 8e460976c7fc6615e0178154873b878f91bcdc6f)
+-+++ b/.gitignore	(date 1728375688322)
+-@@ -13,3 +13,4 @@
+- .externalNativeBuild
+- .cxx
+- local.properties
+-+shared_prefs/
+-\ No newline at end of file
+-Index: app/src/main/java/com/example/myapplication/data/local/AppDatabase.kt
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/app/src/main/java/com/example/myapplication/data/local/AppDatabase.kt b/app/src/main/java/com/example/myapplication/data/local/AppDatabase.kt
+-new file mode 100644
+---- /dev/null	(date 1728370230115)
+-+++ b/app/src/main/java/com/example/myapplication/data/local/AppDatabase.kt	(date 1728370230115)
+-@@ -0,0 +1,31 @@
+-+package com.example.myapplication.data.local
+-+
+-+import android.content.Context
+-+import androidx.room.Database
+-+import androidx.room.Room
+-+import androidx.room.RoomDatabase
+-+import com.example.myapplication.data.model.DTO.GroupDTO
+-+import com.example.myapplication.data.model.DTO.UserDTO
+-+import com.example.myapplication.data.model.entity.GroupEntity
+-+import com.example.myapplication.data.model.entity.UserEntity
+-+
+-+@Database(entities = [UserEntity::class,GroupEntity::class], version = 1)
+-+abstract class AppDatabase : RoomDatabase() {
+-+    abstract fun userDao(): UserDao
+-+    abstract fun groupDao(): UserGroupDao
+-+    companion object {
+-+        @Volatile
+-+        private var INSTANCE: AppDatabase? = null
+-+        fun getDatabase(context: Context): AppDatabase {
+-+            return INSTANCE ?: synchronized(this) {
+-+                val instance = Room.databaseBuilder(
+-+                    context.applicationContext,
+-+                    AppDatabase::class.java,
+-+                    "user_database"
+-+                ).build()
+-+                INSTANCE = instance
+-+                instance
+-+            }
+-+        }
+-+    }
+-+}
+-\ No newline at end of file
+-diff --git a/app/src/main/java/com/example/myapplication/shared_prefs/user_prefs.xml b/app/src/main/java/com/example/myapplication/shared_prefs/user_prefs.xml
+-new file mode 100644
+Index: app/src/main/java/com/example/myapplication/ui/viewmodel/CalendarViewModel.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/myapplication/ui/viewmodel/CalendarViewModel.kt b/app/src/main/java/com/example/myapplication/ui/viewmodel/CalendarViewModel.kt
+new file mode 100644
+--- /dev/null	(date 1728907885333)
++++ b/app/src/main/java/com/example/myapplication/ui/viewmodel/CalendarViewModel.kt	(date 1728907885333)
+@@ -0,0 +1,26 @@
++package com.example.myapplication.ui.viewmodel
++
++import androidx.lifecycle.ViewModel
++import androidx.lifecycle.viewModelScope
++import com.example.myapplication.data.model.entity.CalendarEntity
++import com.example.myapplication.data.repository.CalendarRepository
++import kotlinx.coroutines.launch
++
++ class CalendarViewModel(private val repository: CalendarRepository) : ViewModel(){
++
++        fun insert(event: CalendarEntity.CalendarEvent)=viewModelScope.launch {
++            repository.insert(event)
++        }
++
++        fun getAllEvents() = viewModelScope.launch {
++            repository.getAll()
++        }
++
++        fun update(event: CalendarEntity.CalendarEvent)=viewModelScope.launch {
++            repository.update(event)
++        }
++
++        fun delete(event: CalendarEntity.CalendarEvent)=viewModelScope.launch {
++            repository.delete(event)
++        }
++    }
+\ No newline at end of file
