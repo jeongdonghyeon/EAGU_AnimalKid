@@ -16,7 +16,7 @@ android {
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-
+        buildConfigField("String", "GOOGLE_CLIENT_ID", "\"${project.properties["GOOGLE_CLIENT_ID"]}\"")
     }
 
     buildTypes {
@@ -96,4 +96,8 @@ dependencies {
     //Java Mail
     implementation (libs.mail.android.mail)
     implementation (libs.android.activation)
+
+    //google
+    implementation(libs.play.services.auth)
+
 }

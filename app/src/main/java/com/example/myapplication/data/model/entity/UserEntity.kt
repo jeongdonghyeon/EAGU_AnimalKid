@@ -13,7 +13,7 @@ data class UserEntity(
     @PrimaryKey
     val userId: String = UUID.randomUUID().toString(),
     @ColumnInfo(name ="userName")
-    val userName : String,
+    val userName : String? = null,
     @ColumnInfo(name ="password")
     val password : String? = null,
     @ColumnInfo(name ="email")
