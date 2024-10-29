@@ -14,7 +14,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.myapplication.data.model.DTO.UserDTO
 import com.example.myapplication.data.repository.UserRepository
-import com.example.myapplication.databinding.ActivityBottomBinding
 import com.example.myapplication.databinding.ActivityLoginBinding
 import com.example.myapplication.ui.viewmodel.AuthViewModel
 import com.example.myapplication.ui.viewmodel.Factory.AuthViewModelFactory

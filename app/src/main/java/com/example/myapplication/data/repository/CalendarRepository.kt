@@ -7,11 +7,20 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 
-class CalendarRepository(private val eventDao: EventDao,
-                         private val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()){
+class CalendarRepository(
+    private val eventDao: EventDao,
+    private val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
+) {
 
-    fun syncEventsWithFireStore() {
+    init {
+        observeFireStoreEvents()
+    }
+
+
+    private fun observeFireStoreEvents() {
         firestore.collection("events")
             .addSnapshotListener { snapshots, e ->
                 if (e != null) {
@@ -19,54 +28,72 @@ class CalendarRepository(private val eventDao: EventDao,
                     return@addSnapshotListener
                 }
 
-                snapshots?.let {
-                    for (doc in it.documents) {
-                        val event = doc.toObject(CalendarEntity.CalendarEvent::class.java)
-                        event?.let { eventData ->
-                            CoroutineScope(Dispatchers.IO).launch {
-                                eventDao.insertEvent(eventData)
-                            }
+                snapshots?.documents?.mapNotNull { it.toObject(CalendarEntity.CalendarEvent::class.java) }
+                    ?.forEach { event ->
+                        CoroutineScope(Dispatchers.IO).launch {
+                            eventDao.insertEvent(event)
                         }
                     }
-                }
             }
     }
+
+    private suspend fun addEventToFireStore(event: CalendarEntity.CalendarEvent) = try {
+        firestore.collection("events").add(event).await()
+        Log.d("Firestore", "이벤트가 성공적으로 추가했습니다.")
+    } catch (e: Exception) {
+        Log.w("Firestore", "추가가 실패되었습니다.", e)
+    }
+
+
+    private suspend fun updateEventInFireStore(event: CalendarEntity.CalendarEvent) = try {
+        firestore.collection("events").document(event.id.toString()).set(event.toMap()).await()
+        Log.d("Firestore", "이벤트가 성공적으로 업데이트했습니다.")
+    } catch (e: Exception) {
+        Log.w("Firestore", "업데이트가 실패되었습니다.", e)
+    }
+
+
+    private suspend fun deleteEventFromFireStore(event: CalendarEntity.CalendarEvent) = try {
+        firestore.collection("events").document(event.id.toString()).delete().await()
+        Log.d("Firestore", "이벤트가 성공적으로 삭제했습니다.")
+    } catch (e: Exception) {
+        Log.w("Firestore", "삭제가 실패되었습니다.", e)
+    }
+
+
     suspend fun insert(event: CalendarEntity.CalendarEvent) {
-        eventDao.insertEvent(event)
-        firestore.collection("events").add(event).addOnSuccessListener {
-            Log.d("Firestore","이벤트가 성공적으로 추가했습니다.")
-        }.addOnFailureListener { e ->
-            Log.w("Firestore", "추가가 실패되었습니다.", e)
+        withContext(Dispatchers.IO) {
+            eventDao.insertEvent(event)
+            addEventToFireStore(event)
         }
     }
 
-    suspend fun getAll(date: String): List<CalendarEntity.CalendarEvent>{
-        return eventDao.getAllEvents(date)
+
+    suspend fun getAll(date: String): List<CalendarEntity.CalendarEvent> = withContext(Dispatchers.IO) {
+        eventDao.getAllEvents(date)
     }
 
-    suspend fun update(event: CalendarEntity.CalendarEvent){
-        eventDao.updateEvent(event)
-        firestore.collection("events").document(event.id.toString()).update(
-            mapOf(
-                "title" to event.title,
-                "description" to event.description,
-                "date" to event.date,
-                "time" to event.time
-            )
-        ).addOnSuccessListener {
-            Log.d("Firestore","이벤트가 성공적으로 업데이트했습니다.")
-        }.addOnFailureListener { e ->
-                Log.w("Firestore", "업데이트가 실패되었습니다", e)
+
+    suspend fun update(event: CalendarEntity.CalendarEvent) {
+        withContext(Dispatchers.IO) {
+            eventDao.updateEvent(event)
+            updateEventInFireStore(event)
         }
     }
 
-    suspend fun delete(event: CalendarEntity.CalendarEvent){
-        eventDao.deleteEvent(event)
-        firestore.collection("events").document(event.id.toString()).delete()
-            .addOnSuccessListener {
-                Log.d("Firestore", "이벤트가 성공적으로 삭제했습니다.")
-            }.addOnFailureListener { e ->
-                Log.w("Firestore", "삭제가 실패되었습니다.", e)
-            }
+
+    suspend fun delete(event: CalendarEntity.CalendarEvent) {
+        withContext(Dispatchers.IO) {
+            eventDao.deleteEvent(event)
+            deleteEventFromFireStore(event)
+        }
     }
+
+
+    private fun CalendarEntity.CalendarEvent.toMap() = mapOf(
+        "title" to title,
+        "description" to description,
+        "date" to date,
+        "time" to time
+    )
 }
