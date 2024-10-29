@@ -1,38 +1,29 @@
-package com.example.myapplication.ui
+package com.example.myapplication
 
 import android.os.Bundle
-import android.widget.CalendarView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.room.Room
-import com.example.myapplication.R
-import com.example.myapplication.data.local.AppDatabase
-import com.example.myapplication.data.repository.CalendarRepository
-import com.example.myapplication.ui.viewmodel.CalendarViewModel
-
-//!
-import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
+import com.example.myapplication.databinding.ActivityMainBinding
+import com.example.myapplication.ui.fragment.home
 
 class MainActivity : AppCompatActivity() {
-
-    lateinit var calendarView: CalendarView
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
+        window.statusBarColor = ContextCompat.getColor(this, R.color.SystemUIColor)
+        window.navigationBarColor = ContextCompat.getColor(this, R.color.SoftkeyColor)
 
-        setContentView(R.layout.calander)
+        val bottomNav = BottomNav()
+        bottomNav.setupBottomNav(this, binding, supportFragmentManager)
 
-
-        calendarView = findViewById(R.id.calendarView)
-
-        // 날짜 변경 리스너 설정
-        calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
-            val date = "$dayOfMonth/${month + 1}/$year"
-            Toast.makeText(applicationContext, "Selected date: $date", Toast.LENGTH_SHORT).show()
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainerView, home())
+                .commit()
         }
     }
-
-    //!
-
 }
