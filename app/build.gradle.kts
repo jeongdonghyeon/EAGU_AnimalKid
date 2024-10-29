@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.myapplication"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
@@ -58,11 +58,6 @@ dependencies {
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.activity)
 
-    // Testing Libraries
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-
     // Room
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
@@ -94,10 +89,21 @@ dependencies {
     implementation(libs.androidx.navigation.ui.ktx.v253)
 
     //Java Mail
-    implementation (libs.mail.android.mail)
-    implementation (libs.android.activation)
+    implementation(libs.mail.android.mail)
+    implementation(libs.android.activation)
 
     //google
     implementation(libs.play.services.auth)
+
+    //firebase
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.firestore.ktx)
+    implementation(libs.firebase.analytics.ktx)
+
+    // test
+    testImplementation(libs.junit)
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.androidx.core.testing) // LiveData 테스트를 위해 필요
+    testImplementation(libs.kotlinx.coroutines.test)// Coroutine 테스트를 위해 필요
 
 }

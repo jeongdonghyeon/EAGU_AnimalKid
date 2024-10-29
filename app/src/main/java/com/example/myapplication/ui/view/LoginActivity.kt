@@ -14,7 +14,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.myapplication.data.model.DTO.UserDTO
 import com.example.myapplication.data.repository.UserRepository
-import com.example.myapplication.databinding.ActivityMainBinding
 import com.example.myapplication.databinding.ActivityLoginBinding
 import com.example.myapplication.ui.viewmodel.AuthViewModel
 import com.example.myapplication.ui.viewmodel.Factory.AuthViewModelFactory
@@ -49,7 +48,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun setupViewModel() {
         val userRepository = UserRepository(application)
-        val factory = AuthViewModelFactory(userRepository, application)
+        val factory = AuthViewModelFactory(userRepository,application)
         authViewModel = ViewModelProvider(this, factory).get(AuthViewModel::class.java)
     }
 

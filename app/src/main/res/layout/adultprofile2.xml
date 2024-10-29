@@ -19,8 +19,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="30dp"
-        android:background="@drawable/vector" />
+        android:layout_marginTop="20dp"
+        android:background="@drawable/backbutton" />
 
     <TextView
         android:layout_width="230dp"

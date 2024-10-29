@@ -21,7 +21,7 @@ import com.google.android.gms.common.api.Status
 import kotlinx.coroutines.launch
 import org.mindrot.jbcrypt.BCrypt
 
-// AuthViewModel.kt
+
 class AuthViewModel(private val userRepository: UserRepository,
                     private val application: Application) : ViewModel() {
 
