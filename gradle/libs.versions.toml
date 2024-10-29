@@ -2,6 +2,7 @@
 agp = "8.6.1"
 androidMailVersion = "1.6.7"
 androidActivation = "1.6.7"
+coreTesting = "2.1.0"
 credentialsPlayServicesAuth = "1.5.0-alpha05"
 daggerCompiler = "2.51.1"
 firebaseBom = "32.0.0"
@@ -19,6 +20,7 @@ kotlinGradlePlugin = "2.0.21"
 kotlinxCoroutinesAndroid = "1.5.1"
 kotlinxCoroutinesCore = "1.7.3"
 kotlinxCoroutinesCoreVersion = "1.5.1"
+kotlinxCoroutinesTest = "1.5.0"
 ktorServerNetty = "2.0.0"
 lifecycleLivedataKtx = "2.8.6"
 lifecycleRuntimeKtx = "2.8.6"
@@ -26,6 +28,7 @@ lifecycleViewmodelKtx = "2.8.6"
 logbackClassic = "1.2.3"
 material = "1.12.0"
 constraintlayout = "2.1.4"
+mockitoCore = "3.11.2"
 navigationFragmentKtx = "2.8.2"
 navigationFragmentKtxVersion = "2.5.3"
 navigationUiKtx = "2.8.2"
@@ -38,6 +41,7 @@ activity = "1.9.2"
 [libraries]
 android-activation = { module = "com.sun.mail:android-activation", version.ref = "androidActivation" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-core-testing = { module = "androidx.arch.core:core-testing", version.ref = "coreTesting" }
 androidx-credentials = { module = "androidx.credentials:credentials", version.ref = "credentialsPlayServicesAuth" }
 androidx-credentials-play-services-auth = { module = "androidx.credentials:credentials-play-services-auth", version.ref = "credentialsPlayServicesAuth" }
 androidx-lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycleRuntimeKtx" }
@@ -67,6 +71,7 @@ kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutine
 kotlinx-coroutines-android-v151 = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesAndroid" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCore" }
 kotlinx-coroutines-core-v151 = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCoreVersion" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
 ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktorServerNetty" }
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktorServerNetty" }
 ktor-client-serialization = { module = "io.ktor:ktor-client-serialization", version.ref = "ktorServerNetty" }
@@ -82,6 +87,7 @@ material = { group = "com.google.android.material", name = "material", version.r
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 androidx-navigation-fragment-ktx = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigationFragmentKtx" }
 androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigationUiKtx" }
+mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockitoCore" }
 play-services-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "playServicesAuth" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
