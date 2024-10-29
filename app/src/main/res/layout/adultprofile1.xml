@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.fragment.profile">
+
+    <!-- TODO: Update blank fragment layout -->
+    <Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#00FF0000"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp" />
+
+
+
+
+    <ImageButton
+        android:background="@drawable/vector"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="30dp" />
+
+    <TextView
+        android:layout_width="260dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="50dp"
+        android:text="보호자 프로필 관리"
+        android:textColor="#00686E"
+        android:textSize="30sp" />
+
+
+    <TextView
+        android:layout_width="190dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="99dp"
+        android:layout_marginTop="278dp"
+        android:gravity="center"
+        android:text="프로필이 없습니다."
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:textStyle="bold"/>
+    <TextView
+        android:layout_width="360dp"
+        android:layout_height="90dp"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="354dp"
+        android:gravity="center"
+        android:textFontWeight="400"
+        android:text="최소 한 명의 보호자 프로필이 있어야 합니다. 최소 한 명의 보호자 프로필이 있어야 합니다."
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"/>
+
+    <ImageButton
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="171dp"
+        android:layout_marginTop="439dp"
+        android:background="@drawable/plus_icon" />
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

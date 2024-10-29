@@ -4,11 +4,11 @@ import com.example.myapplication.data.model.entity.CalendarEntity
 
 @Dao
     interface EventDao {
-        @Insert
+        @Insert(onConflict = OnConflictStrategy.REPLACE)
         suspend fun insertEvent(event: CalendarEntity.CalendarEvent)
 
-        @Query("SELECT * FROM events")
-        suspend fun getAllEvents(): List<CalendarEntity.CalendarEvent>
+        @Query("SELECT * FROM events WHERE date = :date")
+        suspend fun getAllEvents(date: String): List<CalendarEntity.CalendarEvent>
 
         @Update
         suspend fun updateEvent(event: CalendarEntity.CalendarEvent)
