@@ -16,12 +16,6 @@ class registerActivity : AppCompatActivity(){
 
 
 
-
-
-
-
-
-
     private suspend fun registerUser(){
         val email = binding.emailEditText.text.toString()
         val username = binding.emailEditText.text.toString()
