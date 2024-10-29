@@ -5,22 +5,22 @@ import com.example.myapplication.data.model.entity.CalendarEvent
 
 fun toEntity(dto: CalendarDTO): CalendarEvent {
     return CalendarEvent(
-        id = dto.id,
-        title = dto.title,
-        description = dto.description,
-        date = dto.date,
-        time = dto.time
+        Calendarid = dto.Calendarid,
+        Calendartitle = dto.Calendartitle,
+        Calendardescription = dto.Calendardescription,
+        Calendardate = dto.Calendardate,
+        Calendartime = dto.Calendartime
     )
 }
 
 // Entity -> DTO 변환
 fun toDTO(entity: CalendarEvent): CalendarDTO {
     return CalendarDTO(
-        id = entity.id,
-        title = entity.title,
-        description = entity.description,
-        date = entity.date,
-        time = entity.time
+        Calendarid = entity.Calendarid,
+        Calendartitle = entity.Calendartitle,
+        Calendardescription = entity.Calendardescription,
+        Calendardate = entity.Calendardate,
+        Calendartime = entity.Calendartime
     )
 }
 
