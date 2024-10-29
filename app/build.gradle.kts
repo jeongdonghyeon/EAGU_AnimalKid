@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.myapplication"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
@@ -94,10 +94,15 @@ dependencies {
     implementation(libs.androidx.navigation.ui.ktx.v253)
 
     //Java Mail
-    implementation (libs.mail.android.mail)
-    implementation (libs.android.activation)
+    implementation(libs.mail.android.mail)
+    implementation(libs.android.activation)
 
     //google
     implementation(libs.play.services.auth)
+
+    //firebase
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.firestore.ktx)
+    implementation(libs.firebase.analytics.ktx)
 
 }

@@ -49,7 +49,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun setupViewModel() {
         val userRepository = UserRepository(application)
-        val factory = AuthViewModelFactory(userRepository)
+        val factory = AuthViewModelFactory(userRepository,application)
         authViewModel = ViewModelProvider(this, factory).get(AuthViewModel::class.java)
     }
 

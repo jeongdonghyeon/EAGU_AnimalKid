@@ -10,5 +10,4 @@ data class GroupEntity(
     val groupId: Long = 0L,
     @ColumnInfo(name ="groupName")
     val groupName : String
-
 )
