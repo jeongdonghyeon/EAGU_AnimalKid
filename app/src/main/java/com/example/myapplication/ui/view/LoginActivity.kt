@@ -42,6 +42,7 @@ class LoginActivity : AppCompatActivity() {
         setupViewModel()
         setupGoogleSignInClient()
         setupUI()
+        setupListeners()
         observeAuthStatus()
     }
 
@@ -69,6 +70,8 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
+    }
+    private fun setupListeners() {
         // 버튼 클릭 이벤트 설정
         binding.findIdButton.setOnClickListener {
             startActivity(Intent(this, findIdActivity::class.java))
@@ -83,7 +86,6 @@ class LoginActivity : AppCompatActivity() {
             googleSignInLauncher.launch(googleSignInClient.signInIntent)
         }
     }
-
     private fun observeAuthStatus() {
         authViewModel.authStatus.observe(this) { authStatus ->
             when (authStatus) {
