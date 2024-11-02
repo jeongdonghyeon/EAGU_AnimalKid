@@ -2,15 +2,12 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.fragment.profile">
+    android:layout_height="match_parent">
 
     <Toolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#00FF0000"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp">
+        android:background="#00FF0000">
 
     </Toolbar>
 
@@ -36,25 +33,32 @@
         android:layout_width="133dp"
         android:layout_height="118dp"
         android:layout_marginStart="139dp"
-        android:layout_marginTop="141dp"
+        android:layout_marginTop="100dp"
         android:background="@drawable/profile_icon" />
 
     <Button
-        android:layout_width="200dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="120dp"
-        android:layout_marginTop="280dp"
+        android:layout_width="190dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="110dp"
+        android:layout_marginTop="235dp"
         android:background="#00FF0000"
         android:text="프로필 사진 추가하기"
         android:textColor="@color/black"
         android:textSize="15sp"
         android:textStyle="bold" />
+    <View
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="5">
+
+    </View>
 
     <LinearLayout
         android:layout_width="381dp"
-        android:layout_height="250dp"
+        android:layout_height="280dp"
+        android:layout_weight="90"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="314dp"
+        android:layout_marginTop="280dp"
         android:orientation="vertical">
 
         <TextView
@@ -81,7 +85,7 @@
                     android:layout_width="46dp"
                     android:layout_height="30dp"
                     android:layout_marginStart="35dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="15dp"
                     android:text="이름"
                     android:textColor="@color/black"
                     android:textFontWeight="700"
@@ -91,7 +95,7 @@
                     android:layout_width="61dp"
                     android:layout_height="27dp"
                     android:layout_marginStart="20dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="15dp"
                     android:text="신용범"
                     android:textSize="22sp" />
             </LinearLayout>
@@ -106,7 +110,7 @@
                     android:layout_width="46dp"
                     android:layout_height="30dp"
                     android:layout_marginStart="35dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="15dp"
                     android:text="호칭"
                     android:textColor="@color/black"
                     android:textFontWeight="700"
@@ -116,7 +120,7 @@
                     android:layout_width="120dp"
                     android:layout_height="27dp"
                     android:layout_marginStart="20dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="15dp"
                     android:text="형"
                     android:textSize="22sp" />
             </LinearLayout>
@@ -131,7 +135,7 @@
                     android:layout_width="46dp"
                     android:layout_height="30dp"
                     android:layout_marginStart="35dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="15dp"
                     android:text="성별"
                     android:textColor="@color/black"
                     android:textFontWeight="700"
@@ -141,7 +145,7 @@
                     android:layout_width="120dp"
                     android:layout_height="27dp"
                     android:layout_marginStart="20dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="15dp"
                     android:text="남자"
                     android:textSize="22sp" />
             </LinearLayout>
@@ -156,7 +160,7 @@
                     android:layout_width="100dp"
                     android:layout_height="30dp"
                     android:layout_marginStart="35dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="15dp"
                     android:text="생년월일"
                     android:textColor="@color/black"
                     android:textFontWeight="700"
@@ -166,12 +170,18 @@
                     android:layout_width="120dp"
                     android:layout_height="27dp"
                     android:layout_marginStart="20dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="15dp"
                     android:text="2001.07.08"
                     android:textSize="22sp" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="5">
+    </View>
 
     <Button
         android:id="@+id/button"
