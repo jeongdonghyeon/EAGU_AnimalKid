@@ -2,17 +2,16 @@ package com.example.myapplication.ui.view
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContract
+
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.viewModels
+
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
+
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.example.myapplication.data.model.DTO.UserDTO
+
 import com.example.myapplication.data.repository.UserRepository
 import com.example.myapplication.databinding.ActivityLoginBinding
 import com.example.myapplication.ui.viewmodel.AuthViewModel
@@ -21,7 +20,7 @@ import com.example.myapplication.ui.viewmodel.state.AuthStatus
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.api.ApiException
+
 import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
@@ -43,6 +42,7 @@ class LoginActivity : AppCompatActivity() {
         setupViewModel()
         setupGoogleSignInClient()
         setupUI()
+        setupListeners()
         observeAuthStatus()
     }
 
@@ -70,6 +70,8 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
+    }
+    private fun setupListeners() {
         // 버튼 클릭 이벤트 설정
         binding.findIdButton.setOnClickListener {
             startActivity(Intent(this, findIdActivity::class.java))
@@ -84,7 +86,6 @@ class LoginActivity : AppCompatActivity() {
             googleSignInLauncher.launch(googleSignInClient.signInIntent)
         }
     }
-
     private fun observeAuthStatus() {
         authViewModel.authStatus.observe(this) { authStatus ->
             when (authStatus) {
