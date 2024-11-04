@@ -6,11 +6,11 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.myapplication.data.model.DTO.GroupDTO
 import com.example.myapplication.data.model.DTO.UserDTO
-import com.example.myapplication.data.model.entity.CalendarEntity
+import com.example.myapplication.data.model.entity.CalendarEvent
 import com.example.myapplication.data.model.entity.GroupEntity
 import com.example.myapplication.data.model.entity.UserEntity
 
-@Database(entities = [UserEntity::class,GroupEntity::class,CalendarEntity.CalendarEvent::class], version = 1)
+@Database(entities = [UserEntity::class,GroupEntity::class,CalendarEvent::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
     abstract fun groupDao(): UserGroupDao

@@ -105,5 +105,6 @@ dependencies {
     testImplementation(libs.mockito.core)
     testImplementation(libs.androidx.core.testing) // LiveData 테스트를 위해 필요
     testImplementation(libs.kotlinx.coroutines.test)// Coroutine 테스트를 위해 필요
+    testImplementation ("org.mockito.kotlin:mockito-kotlin:4.0.0")
 
 }
