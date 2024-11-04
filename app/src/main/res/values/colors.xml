@@ -6,4 +6,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="group">#F2F2F2</color>
     <color name="green">#53DF86</color>
+    <color name="text">#00686E</color>
+    <color name="walk_report">#0098A1</color>
 </resources>
