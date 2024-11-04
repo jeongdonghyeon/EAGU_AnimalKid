@@ -23,20 +23,91 @@
                 android:layout_height="20dp"
                 android:layout_marginStart="25dp"
                 android:layout_marginTop="40dp"
-                android:src="@drawable/backbutton"/>
+                android:src="@drawable/backbutton" />
 
             <TextView
                 android:id="@+id/toolbarTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="산책 기록"
-                android:textColor="#00686E"
-                android:layout_gravity="left"
-                android:layout_marginTop="15dp"
+                android:layout_gravity="start"
                 android:layout_marginStart="20dp"
-                android:textAppearance="@style/CustomToolbarTitleText"/>
+                android:layout_marginTop="15dp"
+                android:text="산책 기록"
+                android:textAppearance="@style/CustomToolbarTitleText"
+                android:textColor="#00686E" />
 
         </androidx.appcompat.widget.Toolbar>
+
+        <LinearLayout
+            android:layout_width="355dp"
+            android:layout_height="150dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="30dp"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="130dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="13dp"
+                android:layout_marginTop="27dp"
+                android:textSize="24.2sp"
+                android:text="2023.12.31"
+                android:textColor="@color/text">
+            </TextView>
+            <View
+                android:layout_width="330dp"
+                android:layout_height="10dp"
+                android:layout_marginStart="13dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/walk_report">
+            </View>
+
+            <TextView
+                android:layout_width="242dp"
+                android:layout_height="22dp"
+                android:layout_marginStart="105dp"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/text"
+                android:textSize="18sp"
+                android:text="걸음 수:12,000/10,000걸음">
+            </TextView>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="355dp"
+            android:layout_height="150dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="50dp"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="130dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="13dp"
+                android:layout_marginTop="27dp"
+                android:textSize="24.2sp"
+                android:text="2024.11.04"
+                android:textColor="@color/text">
+            </TextView>
+            <View
+                android:layout_width="330dp"
+                android:layout_height="10dp"
+                android:layout_marginStart="13dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/walk_report">
+            </View>
+
+            <TextView
+                android:layout_width="242dp"
+                android:layout_height="22dp"
+                android:layout_marginStart="105dp"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/text"
+                android:textSize="18sp"
+                android:text="걸음 수:6,000/10,000걸음">
+            </TextView>
+        </LinearLayout>
 
     </LinearLayout>
 
