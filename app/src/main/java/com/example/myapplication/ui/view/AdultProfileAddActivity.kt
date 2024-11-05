@@ -7,7 +7,7 @@ class AdultProfileAddActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.adultprofile3)
+        setContentView(R.layout.add_detail_adult_profile)
 
 
     }
