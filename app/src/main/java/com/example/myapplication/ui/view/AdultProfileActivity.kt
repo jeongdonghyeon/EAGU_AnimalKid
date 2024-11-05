@@ -3,7 +3,6 @@ package com.example.myapplication.ui.view
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.myapplication.R
 import com.example.myapplication.databinding.CreateAdultProfileBinding
 
 class AdultProfileActivity : AppCompatActivity() {
