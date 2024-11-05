@@ -4,37 +4,37 @@
     android:layout_height="match_parent"
     android:background="#F8FCFF">
 
-    <Toolbar
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#00FF0000">
-
-    </Toolbar>
+        android:layout_height="100dp"
+        android:background="#F8FCFF">
 
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/backbutton" />
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/backbutton" />
 
-    <TextView
-        android:layout_width="250dp"
-        android:layout_height="36dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="20dp"
-        android:text="보호자 프로필 변경"
-        android:textColor="#00686E"
-        android:textFontWeight="400"
-        android:textSize="30sp" />
+        <TextView
+            android:layout_width="230dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="20dp"
+            android:text="아이 프로필 추가"
+            android:textColor="#00686E"
+            android:textFontWeight="400"
+            android:textSize="30sp" />
+    </androidx.appcompat.widget.Toolbar>
 
     <ImageView
         android:layout_width="133dp"
         android:layout_height="118dp"
         android:layout_marginStart="139dp"
         android:layout_marginTop="100dp"
-        android:background="@drawable/profile_icon" />
+        android:background="@drawable/pet_profile" />
 
     <Button
         android:layout_width="190dp"
@@ -42,10 +42,11 @@
         android:layout_marginStart="110dp"
         android:layout_marginTop="235dp"
         android:background="#00FF0000"
-        android:text="프로필 사진 변경하기"
+        android:text="프로필 사진 추가하기"
         android:textColor="@color/black"
         android:textSize="15sp"
         android:textStyle="bold" />
+
     <View
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -56,18 +57,18 @@
     <LinearLayout
         android:layout_width="381dp"
         android:layout_height="280dp"
-        android:layout_weight="90"
         android:layout_marginStart="15dp"
         android:layout_marginTop="280dp"
+        android:layout_weight="90"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
-            android:text="보호자 정보"
+            android:text="아이의 정보"
             android:textColor="#00686E"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
 
         <LinearLayout
             android:layout_width="380dp"
@@ -116,7 +117,7 @@
                     android:layout_height="30dp"
                     android:layout_marginStart="35dp"
                     android:layout_marginTop="15dp"
-                    android:text="호칭"
+                    android:text="견종"
                     android:textColor="@color/black"
                     android:textFontWeight="700"
                     android:textSize="23sp" />
@@ -161,8 +162,6 @@
                     android:entries="@array/gender_options" />
             </LinearLayout>
 
-
-
             <LinearLayout
                 android:layout_width="350dp"
                 android:layout_height="50dp"
@@ -206,18 +205,5 @@
         android:text="완료하기"
         android:textColor="@color/white"
         android:textSize="20sp" />
-
-    <Button
-        android:layout_width="150dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="130dp"
-        android:layout_marginTop="670dp"
-        android:background="#00FF0000"
-        android:gravity="center"
-        android:text="프로필 삭제하기"
-        android:textColor="@color/black"
-        android:textSize="14sp"
-        android:textStyle="bold" />
-
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

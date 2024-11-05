@@ -5,30 +5,30 @@
     android:layout_height="match_parent"
     android:background="#F8FCFF">
 
-    <Toolbar
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#00FF0000">
-
-    </Toolbar>
+        android:layout_height="100dp"
+        android:background="#F8FCFF">
 
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/backbutton" />
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/backbutton" />
 
-    <TextView
-        android:layout_width="230dp"
-        android:layout_height="36dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="20dp"
-        android:text="보호자 추가"
-        android:textColor="#00686E"
-        android:textFontWeight="400"
-        android:textSize="30sp" />
+        <TextView
+            android:layout_width="230dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="20dp"
+            android:text="보호자 추가"
+            android:textColor="#00686E"
+            android:textFontWeight="400"
+            android:textSize="30sp" />
+    </androidx.appcompat.widget.Toolbar>
 
     <ImageView
         android:layout_width="133dp"
@@ -47,6 +47,7 @@
         android:textColor="@color/black"
         android:textSize="15sp"
         android:textStyle="bold" />
+
     <View
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -57,9 +58,9 @@
     <LinearLayout
         android:layout_width="381dp"
         android:layout_height="280dp"
-        android:layout_weight="90"
         android:layout_marginStart="15dp"
         android:layout_marginTop="280dp"
+        android:layout_weight="90"
         android:orientation="vertical">
 
         <TextView
@@ -163,7 +164,6 @@
             </LinearLayout>
 
 
-
             <LinearLayout
                 android:layout_width="350dp"
                 android:layout_height="50dp"
@@ -193,8 +193,7 @@
     <View
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="5">
-    </View>
+        android:layout_weight="5"></View>
 
     <Button
         android:id="@+id/button"
