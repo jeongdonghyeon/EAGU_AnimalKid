@@ -1,9 +1,11 @@
 package com.example.myapplication.ui.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.example.myapplication.R
 import com.example.myapplication.data.model.DTO.UserDTO
 import com.example.myapplication.databinding.ActivityLoginBinding
 import com.example.myapplication.databinding.ActivityRegisterBinding
@@ -23,6 +25,17 @@ class registerActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setContentView(R.layout.activity_register)
+
+        //LoginButton버튼 클릭 후 보로자프로필 생성창으로 이동
+//        LoginButton.setOnClickListener{
+//            val intent = Intent(this, AdultProfileActivity::class.java)
+//            startActivity(intent)
+//        }
+        binding.LoginButton.setOnClickListener{
+            val intent = Intent(this, AdultProfileActivity::class.java)
+            startActivity(intent)
+        }
 
         setupToolbar()
         setupListeners()
