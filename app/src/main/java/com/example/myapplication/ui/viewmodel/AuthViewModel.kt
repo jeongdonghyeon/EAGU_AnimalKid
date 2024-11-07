@@ -3,6 +3,7 @@ package com.example.myapplication.ui.viewmodel
 import android.app.Application
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -17,9 +18,12 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.Status
+import kotlinx.coroutines.Dispatchers
 
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.mindrot.jbcrypt.BCrypt
+import java.security.MessageDigest
 
 
 class AuthViewModel(private val userRepository: UserRepository,
@@ -86,24 +90,55 @@ class AuthViewModel(private val userRepository: UserRepository,
         }
     }
 
-    suspend fun registerUser(userDTO: UserDTO) {
-        if (!isValidUser(userDTO)) {
-            _authStatus.value = AuthStatus.Failure(AuthAction.REGISTER, "유효하지 않은 이메일, 아이디 또는 비밀번호입니다.")
-            return
-        }
-        _authStatus.value = AuthStatus.Loading(AuthAction.REGISTER)
-
+    suspend fun registerUser(userDTO: UserDTO) = withContext(Dispatchers.IO) {
         try {
-            userRepository.registerUser(userDTO)
-            _authStatus.value = AuthStatus.Success(AuthAction.REGISTER)
+            val hashedPassword = hashPassword(userDTO.password)
+            val hashedUserDTO = userDTO.copy(password = hashedPassword)
+            val isValid = try {
+                isValidUser(hashedUserDTO)
+            } catch (e: Exception) {
+                Log.e("AuthViewModel", "isValidUser 호출 중 예외 발생: ${e.message}", e)
+                false
+            }
+            if (!isValid) {
+                Log.w("AuthViewModel", "유효하지 않은 사용자 정보: $hashedUserDTO")
+                _authStatus.postValue(
+                    AuthStatus.Failure(
+                        AuthAction.REGISTER,
+                        "유효하지 않은 이메일, 아이디 또는 비밀번호입니다."
+                    )
+                )
+                return@withContext
+            }
+            _authStatus.postValue(AuthStatus.Loading(AuthAction.REGISTER))
+            try {
+                withContext(Dispatchers.IO) {
+                    userRepository.registerUser(hashedUserDTO)
+                }
+                _authStatus.postValue(AuthStatus.Success(AuthAction.REGISTER))
+            } catch (e: Exception) {
+                Log.e("AuthViewModel", "userRepository.registerUser 호출 중 예외 발생: ${e.message}", e)
+                _authStatus.postValue(
+                    AuthStatus.Failure(
+                        AuthAction.REGISTER,
+                        "회원가입 중 에러가 발생했습니다."
+                    )
+                )
+            }
+
         } catch (e: Exception) {
-            _authStatus.value = AuthStatus.Failure(AuthAction.REGISTER, "회원가입 중 에러가 발생했습니다.")
+            Log.e("AuthViewModel", "registerUser에서 최상위 예외 발생: ${e.message}", e)
         }
     }
 
+
+
+
+
+
     suspend fun findUserName(email: String) {
         try {
-            val code = userRepository.senVerificationCode(email)
+            val code = userRepository.sendVerificationCode(email)
             generatedCode = code
             _authStatus.value = AuthStatus.Success(AuthAction.SendEmail)
         } catch (e: Exception) {
@@ -114,7 +149,7 @@ class AuthViewModel(private val userRepository: UserRepository,
     suspend fun changePassword(email: String, userName: String) {
         try {
             if (userRepository.isUserExist(userName, email)) {
-                generatedCode = userRepository.senVerificationCode(email)
+                generatedCode = userRepository.sendVerificationCode(email)
                 _authStatus.value = AuthStatus.Success(AuthAction.SendEmail)
             } else {
                 _authStatus.value = AuthStatus.Failure(AuthAction.SendEmail, "이메일 또는 아이디가 잘못되었습니다.")
@@ -145,12 +180,22 @@ class AuthViewModel(private val userRepository: UserRepository,
             _authStatus.value = AuthStatus.Failure(AuthAction.UNREGISTER, "회원탈퇴 처리 중 오류 발생")
         }
     }
+        private fun isValidUser(userDTO: UserDTO): Boolean {
+            return userDTO.userName?.isNotEmpty() == true &&
+                    userDTO.userName.matches("^[a-zA-Z0-9]{5,20}$".toRegex()) &&
+                    userDTO.email?.isNotEmpty() == true &&
+                    userDTO.email.matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$".toRegex()) &&
+                    !userDTO.password.isNullOrEmpty() && userDTO.password.length >= 8
+        }
+    private fun hashPassword(password: String?): String {
+        if (password.isNullOrEmpty()) {
+            return "NO_PASSWORD"  // 소셜 로그인 등 비밀번호가 없는 경우 기본값 설정
+        }
 
-    private fun isValidUser(userDTO: UserDTO): Boolean {
-        return userDTO.userName?.isNotEmpty() == true &&
-                userDTO.userName.matches("^[a-zA-Z0-9]{5,20}$".toRegex()) &&
-                userDTO.email?.isNotEmpty() == true &&
-                userDTO.email.matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$".toRegex()) &&
-                !userDTO.password.isNullOrEmpty() && userDTO.password.length >= 8
+        val bytes = password.toByteArray()
+        val md = MessageDigest.getInstance("SHA-256")
+        val digest = md.digest(bytes)
+        return digest.joinToString("") { "%02x".format(it) }
     }
+
 }

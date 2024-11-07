@@ -1,13 +1,18 @@
 package com.example.myapplication.ui.view
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.example.myapplication.data.repository.UserRepository
 
 import com.example.myapplication.databinding.FindIdBinding
 import com.example.myapplication.ui.viewmodel.AuthViewModel
+import com.example.myapplication.ui.viewmodel.Factory.AuthViewModelFactory
 import kotlinx.coroutines.launch
 
 
@@ -22,6 +27,9 @@ class findIdActivity : AppCompatActivity(){
         binding = FindIdBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val userRepository = UserRepository(application) // 실제 UserRepository 인스턴스를 제공
+        val factory = AuthViewModelFactory(userRepository, application)
+        authViewModel = ViewModelProvider(this, factory).get(AuthViewModel::class.java)
         setupToolbar()
         setupListeners()
     }
@@ -43,8 +51,13 @@ class findIdActivity : AppCompatActivity(){
     private fun setupListeners(){
         binding.requestNumber.setOnClickListener{
             lifecycleScope.launch {
-                sendEmail()
+                try {
+                    sendEmail()
+                } catch (e: Exception){
+                    Log.e("ButtonClick","Error occurred: ${e.message}")
+                }
             }
+
         }
         binding.authenticationButton.setOnClickListener{
             lifecycleScope.launch {

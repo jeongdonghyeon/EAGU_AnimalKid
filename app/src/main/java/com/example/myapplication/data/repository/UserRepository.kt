@@ -1,6 +1,7 @@
 package com.example.myapplication.data.repository
 
 import android.app.Application
+import android.util.Log
 import com.example.myapplication.data.local.AppDatabase
 import com.example.myapplication.data.local.UserDao
 import com.example.myapplication.data.model.DTO.UserDTO
@@ -27,14 +28,14 @@ class UserRepository(application : Application) {
         userDao.insertUser(userEntity);
     }
 
-    suspend fun senVerificationCode(email: String): String? {
+    suspend fun sendVerificationCode(email: String): String? {
         val exists = isEmailExists(email)
 
         return if (exists) {
             val verificationCode = generateVerificationCode()
             sendEmail(email, verificationCode)
             verificationCode
-        } else {
+        } else  {
             null
         }
     }
@@ -51,8 +52,8 @@ class UserRepository(application : Application) {
     private fun sendEmail(email: String,verificationCode : String){
         val smtpHost = "smtp.gmail.com"
         val smtpPort = "587"
-        val fromEmail = "" // 발신지 이메일 적어야함
-        val password = "" // 발신지 이메일의 비밀번호 적어야함
+        val fromEmail = "testdju2024@gmail.com" // 발신지 이메일 적어야함
+        val password = "qweasdzxc12!" // 발신지 이메일의 비밀번호 적어야함
 
         val properties = Properties().apply{
             put("mail.smtp.auth", "true")

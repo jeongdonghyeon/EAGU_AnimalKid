@@ -2,15 +2,19 @@ package com.example.myapplication.ui.view
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.myapplication.R
 import com.example.myapplication.data.model.DTO.UserDTO
+import com.example.myapplication.data.repository.UserRepository
 import com.example.myapplication.databinding.ActivityLoginBinding
 import com.example.myapplication.databinding.ActivityRegisterBinding
 import com.example.myapplication.databinding.FindIdBinding
 import com.example.myapplication.ui.viewmodel.AuthViewModel
+import com.example.myapplication.ui.viewmodel.Factory.AuthViewModelFactory
 import com.example.myapplication.ui.viewmodel.Session.UserSessionManager
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
@@ -25,18 +29,20 @@ class registerActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setContentView(R.layout.activity_register)
+
+        val userRepository = UserRepository(application) // 실제 UserRepository 인스턴스를 제공
+        val factory = AuthViewModelFactory(userRepository, application)
+        authViewModel = ViewModelProvider(this, factory).get(AuthViewModel::class.java)
 
         //LoginButton버튼 클릭 후 보로자프로필 생성창으로 이동
 //        LoginButton.setOnClickListener{
 //            val intent = Intent(this, AdultProfileActivity::class.java)
 //            startActivity(intent)
 //        }
-        binding.LoginButton.setOnClickListener{
-            val intent = Intent(this, AdultProfileActivity::class.java)
-            startActivity(intent)
-        }
-
+//       binding.LoginButton.setOnClickListener{
+//         val intent = Intent(this, AdultProfileActivity::class.java)
+//            startActivity(intent)
+//          }
         setupToolbar()
         setupListeners()
     }
@@ -55,32 +61,43 @@ class registerActivity : AppCompatActivity(){
         super.onBackPressed()
     }
 
-    private fun setupListeners(){
-        binding.LoginButton.setOnClickListener{
+    private fun setupListeners() {
+        binding.LoginButton.setOnClickListener {
             lifecycleScope.launch {
-                registerUser()
+                try {
+                    registerUser()
+                } catch (e: Exception) {
+                    Log.e("ButtonClick", "Error occurred: ${e.message}", e)
+                }
             }
         }
     }
 
-    private suspend fun registerUser(){
-        val email = binding.IDedittext.text.toString()
-        val username = binding.Emailedittext.text.toString()
-        val password1 = binding.PWedittext.text.toString()
-        val password2 = binding.PWcheckedittext.text.toString()
 
-        if(password1 == password2){
 
-            val userId = UUID.randomUUID().toString()
-            UserSessionManager.saveUserId(this@registerActivity, userId)
+    private suspend fun registerUser() {
+        try {
+            val username = binding.IDedittext.text.toString()
+            val email= binding.Emailedittext.text.toString()
+            val password1 = binding.PWedittext.text.toString()
+            val password2 = binding.PWcheckedittext.text.toString()
+            if (password1 == password2) {
+                val userId = UUID.randomUUID().toString()
+                UserSessionManager.saveUserId(this@registerActivity, userId)
 
-            val userDTO = UserDTO(userId = userId,
-                email = email,
-                userName = username,
-                password = password1)
-
-            authViewModel.registerUser(userDTO)
-        }else{
-            Snackbar.make(binding.root, "비밀번호가 서로 일치하지 않습니다.", Snackbar.LENGTH_SHORT).show()        }
+                val userDTO = UserDTO(
+                    userId = userId,
+                    email = email,
+                    userName = username,
+                    password = password1
+                )
+                authViewModel.registerUser(userDTO)
+            } else {
+                Log.e("registerActivity.kt", "비밀번호가 서로 일치하지 않음")
+                Snackbar.make(binding.root, "비밀번호가 서로 일치하지 않습니다.", Snackbar.LENGTH_SHORT).show()
+            }
+        }catch (e: Exception){
+            Log.e("registerActivity.kt", "registerUser 함수에서 예외 발생: ${e.message}", e)
+        }
     }
 }
