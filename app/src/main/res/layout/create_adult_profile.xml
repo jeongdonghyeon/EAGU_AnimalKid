@@ -5,84 +5,79 @@
     android:layout_height="match_parent"
     android:background="#F8FCFF">
 
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:background="#F8FCFF">
-
-
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/backbutton" />
-
-        <TextView
-            android:layout_width="260dp"
-            android:layout_height="36dp"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="20dp"
-            android:text="보호자 프로필 관리"
-            android:textColor="#00686E"
-            android:textSize="30sp" />
-    </androidx.appcompat.widget.Toolbar>
-
     <LinearLayout
-        android:layout_width="242dp"
-        android:layout_height="144dp"
-        android:layout_marginStart="84dp"
-        android:layout_marginTop="200dp"
-        android:layout_weight="90"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="#F8FCFF">
 
-        <TextView
-            android:layout_width="190dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="30dp"
-            android:gravity="center"
-            android:text="프로필이 없습니다."
-            android:textColor="@color/black"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            <ImageView
+                android:id="@+id/back"
+                android:layout_width="15dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="40dp"
+                android:src="@drawable/backbutton" />
+
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="15dp"
+                android:text="보호자 관리"
+                android:textAppearance="@style/CustomToolbarTitleText"
+                android:textColor="#00686E" />
+        </androidx.appcompat.widget.Toolbar>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="100dp"
+                    android:layout_marginTop="150dp"
+                    android:text="프로필이 없습니다"
+                    android:textColor="@color/black"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="70dp"
+                    android:layout_marginTop="30dp"
+                    android:text="최소 한 명의 보호자 프로필이 있어야 합니다"
+                    android:textColor="@color/black"
+                    android:textFontWeight="400"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <ImageButton
+                    android:id="@+id/add_button"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="170dp"
+                    android:layout_marginTop="100dp"
+                    android:background="@drawable/plus_icon" />
+            </LinearLayout>
+
+        </LinearLayout>
 
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="26dp"
-        android:layout_marginTop="354dp">
-
-
-        <TextView
-            android:layout_width="360dp"
-            android:layout_height="90dp"
-            android:gravity="center"
-            android:text="최소 한 명의 보호자 프로필이 있어야 합니다. 최소 한 명의 보호자 프로필이 있어야 합니다."
-            android:textColor="@color/black"
-            android:textFontWeight="400"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-    </LinearLayout>
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ImageButton
-            android:id="@+id/btnAddGuardian"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_marginStart="170dp"
-            android:layout_marginTop="470dp"
-            android:background="@drawable/plus_icon" />
-
-    </FrameLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
