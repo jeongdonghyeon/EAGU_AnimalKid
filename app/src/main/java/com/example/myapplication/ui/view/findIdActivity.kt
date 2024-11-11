@@ -59,6 +59,16 @@ class findIdActivity : AppCompatActivity(){
             }
 
         }
+        binding.rerequestNumber.setOnClickListener{
+            lifecycleScope.launch {
+                try {
+                    sendEmail()
+                } catch (e: Exception){
+                    Log.e("ButtonClick","Error occurred: ${e.message}")
+                }
+            }
+
+        }
         binding.authenticationButton.setOnClickListener{
             lifecycleScope.launch {
                 verifyCode()

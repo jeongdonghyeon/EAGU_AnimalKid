@@ -7,7 +7,9 @@ import com.example.myapplication.data.local.UserDao
 import com.example.myapplication.data.model.DTO.UserDTO
 import com.example.myapplication.data.model.entity.UserEntity
 import com.example.myapplication.data.model.mapper.toEntity
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.mail.Authenticator
 import java.util.Properties
@@ -49,35 +51,43 @@ class UserRepository(application : Application) {
     private fun generateVerificationCode(): String{
         return (100000..999999).random().toString()
     }
-    private fun sendEmail(email: String,verificationCode : String){
-        val smtpHost = "smtp.gmail.com"
-        val smtpPort = "587"
-        val fromEmail = "testdju2024@gmail.com" // 발신지 이메일 적어야함
-        val password = "qweasdzxc12!" // 발신지 이메일의 비밀번호 적어야함
+    private fun sendEmail(email: String, verificationCode: String) {
+        // 코루틴을 사용하여 IO 스레드에서 작업 수행
+        CoroutineScope(Dispatchers.IO).launch {
+            val smtpHost = "smtp.gmail.com"
+            val smtpPort = "587"
+            val fromEmail = "testdju2024@gmail.com" // 발신자 이메일
+            val password = "gmdmnszfzwxzxkke" // Gmail 앱 비밀번호를 입력
 
-        val properties = Properties().apply{
-            put("mail.smtp.auth", "true")
-            put("mail.smtp.starttls.enable", "true")
-            put("mail.smtp.host", smtpHost)
-            put("mail.smtp.port", smtpPort)
-        }
-       val session = Session.getInstance(properties, object : Authenticator() {
-           override fun getPasswordAuthentication(): PasswordAuthentication {
-                return PasswordAuthentication(fromEmail, password)
-            }
-        })
-        try {
-            val message = MimeMessage(session).apply {
-                setFrom(InternetAddress(fromEmail))
-                setRecipients(Message.RecipientType.TO, InternetAddress.parse(email))
-                subject = "animalKid: 인증번호"
-                setText("인증번호: $verificationCode")
+            val properties = Properties().apply {
+                put("mail.smtp.auth", "true")
+                put("mail.smtp.starttls.enable", "true")
+                put("mail.smtp.host", smtpHost)
+                put("mail.smtp.port", smtpPort)
             }
 
-            Transport.send(message)
+            val session = Session.getInstance(properties, object : Authenticator() {
+                override fun getPasswordAuthentication(): PasswordAuthentication {
+                    return PasswordAuthentication(fromEmail, password)
+                }
+            })
 
-        } catch (e: MessagingException) {
-            e.printStackTrace()
+            try {
+                val message = MimeMessage(session).apply {
+                    setFrom(InternetAddress(fromEmail))
+                    setRecipients(Message.RecipientType.TO, InternetAddress.parse(email))
+                    subject = "animalKid: 인증번호"
+                    setText("인증번호: $verificationCode")
+                }
+
+                Transport.send(message)
+                Log.d("SendEmail", "이메일 전송 성공")
+
+            } catch (e: MessagingException) {
+                Log.e("SendEmail", "이메일 전송 실패: ${e.message}", e)
+            } catch (e: Exception) {
+                Log.e("SendEmail", "예상치 못한 오류 발생: ${e.message}", e)
+            }
         }
     }
 

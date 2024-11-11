@@ -2,6 +2,7 @@ package com.example.myapplication.ui.view
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 
@@ -72,12 +73,27 @@ class LoginActivity : AppCompatActivity() {
 
     }
     private fun setupListeners() {
-        // 버튼 클릭 이벤트 설정
+
+        binding.LoginButton.setOnClickListener {
+            lifecycleScope.launch {
+                try {
+                    // 로그인 함수 호출
+                    loginUser()
+
+                    // 로그인 후 AdultProfileActivity로 이동
+                    val intent = Intent(this@LoginActivity, AdultProfileActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                } catch (e: Exception) {
+                    Log.e("LoginButton", "로그인 중 오류 발생: ${e.message}", e)
+                }
+            }
+        }
         binding.findIdButton.setOnClickListener {
             startActivity(Intent(this, findIdActivity::class.java))
         }
         binding.changePasswordButton.setOnClickListener {
-            startActivity(Intent(this, changePasswordActivity::class.java))
+            startActivity(Intent(this, ChangePasswordActivity::class.java))
         }
         binding.registerButton.setOnClickListener {
             startActivity(Intent(this, registerActivity::class.java))
@@ -104,7 +120,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private suspend fun loginUser() {
-        val username = binding.emailEditText.text.toString()
+        val username = binding.UserIdEditText.text.toString()
         val password = binding.passwordEditText.text.toString()
         authViewModel.login(username, password)
     }

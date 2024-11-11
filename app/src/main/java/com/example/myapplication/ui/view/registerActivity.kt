@@ -34,15 +34,7 @@ class registerActivity : AppCompatActivity(){
         val factory = AuthViewModelFactory(userRepository, application)
         authViewModel = ViewModelProvider(this, factory).get(AuthViewModel::class.java)
 
-        //LoginButton버튼 클릭 후 보로자프로필 생성창으로 이동
-//        LoginButton.setOnClickListener{
-//            val intent = Intent(this, AdultProfileActivity::class.java)
-//            startActivity(intent)
-//        }
-//       binding.LoginButton.setOnClickListener{
-//         val intent = Intent(this, AdultProfileActivity::class.java)
-//            startActivity(intent)
-//          }
+
         setupToolbar()
         setupListeners()
     }
@@ -66,6 +58,9 @@ class registerActivity : AppCompatActivity(){
             lifecycleScope.launch {
                 try {
                     registerUser()
+                    val intent = Intent(this@registerActivity, LoginActivity::class.java)
+                    startActivity(intent)
+                    finish()
                 } catch (e: Exception) {
                     Log.e("ButtonClick", "Error occurred: ${e.message}", e)
                 }

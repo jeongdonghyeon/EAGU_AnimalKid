@@ -148,22 +148,33 @@ class AuthViewModel(private val userRepository: UserRepository,
 
     suspend fun changePassword(email: String, userName: String) {
         try {
-            if (userRepository.isUserExist(userName, email)) {
+            Log.d("ChangePassword", "Checking existence for email: $email, username: $userName")
+            val exists = userRepository.isUserExist(userName, email)
+            Log.d("ChangePassword", "User existence result: $exists")
+
+            if (exists) {
+                Log.d("ChangePassword", "User exists. Sending verification code to $email.")
                 generatedCode = userRepository.sendVerificationCode(email)
                 _authStatus.value = AuthStatus.Success(AuthAction.SendEmail)
+                Log.d("ChangePassword", "Verification code sent successfully.")
             } else {
+                Log.d("ChangePassword", "User does not exist with provided email or username.")
                 _authStatus.value = AuthStatus.Failure(AuthAction.SendEmail, "이메일 또는 아이디가 잘못되었습니다.")
             }
         } catch (e: Exception) {
+            Log.e("ChangePassword", "Error occurred during password change request: ${e.message}", e)
             _authStatus.value = AuthStatus.Failure(AuthAction.SendEmail, "비밀번호 변경 요청 중 오류 발생")
         }
     }
 
+
     fun verifyCode(inputCode: String) {
-        _authStatus.value = if (generatedCode == inputCode) {
-            AuthStatus.Success(AuthAction.VerifyCode)
+        if (generatedCode == inputCode) {
+            Log.d("VerifyCode", "인증 코드가 일치합니다.")
+            _authStatus.value = AuthStatus.Success(AuthAction.VerifyCode)
         } else {
-            AuthStatus.Failure(AuthAction.VerifyCode, "인증 코드가 일치하지 않습니다.")
+            Log.d("VerifyCode", "인증 코드가 일치하지 않습니다.")
+            _authStatus.value = AuthStatus.Failure(AuthAction.VerifyCode, "인증 코드가 일치하지 않습니다.")
         }
     }
 

@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.myapplication">
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:allowBackup="true"
@@ -20,7 +20,7 @@
         <activity android:name=".ui.view.AdultProfileAddActivity"
             android:exported="false" />
         <activity android:name=".ui.view.findIdActivity" />
-        <activity android:name=".ui.view.changePasswordActivity" />
+        <activity android:name=".ui.view.ChangePasswordActivity" />
         <activity android:name=".ui.view.registerActivity" />
         <activity
             android:name=".ui.view.LoginActivity"
