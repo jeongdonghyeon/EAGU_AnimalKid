@@ -29,6 +29,10 @@ fun UserDTO.toEntity(): UserEntity{
         level = this.level,
         exp = this.exp,
         petName = this.petName,
-        groupId = this.groupId
+        groupId = this.groupId,
+        name=this.name,
+        gender=this.gender,
+        birthdate=this.birthdate
     )
 }
+

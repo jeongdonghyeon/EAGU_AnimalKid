@@ -11,5 +11,9 @@ data class  UserDTO(
     val level: Int = 0,
     val exp: Double = 0.0,
     val petName: String? = null,
-    val groupId: Long? = null
+    val groupId: Long? = null,
+    val name: String?=null,
+    val gender:String? =null,
+    val birthdate: String?=null
+
 )

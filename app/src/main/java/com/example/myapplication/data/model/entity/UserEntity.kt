@@ -29,7 +29,10 @@ data class UserEntity(
     @ColumnInfo(name = "groupId")
     val groupId: Long? = null,
 
+    @ColumnInfo(name = "name")
     val name:String?,   //이름
+    @ColumnInfo(name = "gender")
     val gender: String?,    //성별
+    @ColumnInfo(name = "birthdate")
     val birthdate: String?  //생년월일
 )
