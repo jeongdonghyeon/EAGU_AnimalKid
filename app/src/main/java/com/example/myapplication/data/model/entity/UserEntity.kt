@@ -27,5 +27,9 @@ data class UserEntity(
     @ColumnInfo(name = "petName")
     val petName : String? = null,
     @ColumnInfo(name = "groupId")
-    val groupId: Long? = null
+    val groupId: Long? = null,
+
+    val name:String?,   //이름
+    val gender: String?,    //성별
+    val birthdate: String?  //생년월일
 )

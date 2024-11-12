@@ -93,10 +93,19 @@ class UserRepository(application : Application) {
 
 
     suspend fun getUserByUsername(userName: String): UserEntity? {
-        return userDao.getUserByUsername(userName)
+        return withContext(Dispatchers.IO) {
+            userDao.getUserByUsername(userName)
+        }
     }
     suspend fun  getUserByUserId(userId : String?): UserEntity? {
         return userDao.getUserByUserId(userId)
     }
+
+    suspend fun updateProfile(userId: String, name: String, nickname: String, gender: String, birthdate: String) {
+        withContext(Dispatchers.IO) {
+            userDao.updateProfile(userId, name, nickname, gender, birthdate)
+        }
+    }
+
 
 }

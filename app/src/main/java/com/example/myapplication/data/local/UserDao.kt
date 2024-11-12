@@ -62,6 +62,8 @@ interface UserDao {
     @Query("SELECT * FROM users WHERE userName = :userName AND email = :email LIMIT 1")
     suspend fun getUserByIdAndEmail(userName: String, email: String): UserEntity?
 
+    @Query("UPDATE users SET name = :name, nickname = :nickname, gender = :gender, birthdate = :birthdate WHERE userId = :userId")
+    suspend fun updateProfile(userId: String, name: String, nickname: String, gender: String, birthdate: String)
 
 
 

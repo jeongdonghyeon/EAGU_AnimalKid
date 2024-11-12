@@ -1,6 +1,11 @@
 package com.example.myapplication.ui.view
 
+import KEY_IS_FIRST_LOGIN
+import KEY_IS_LOGGED_IN
+import KEY_PROFILE_SETUP_COMPLETE
+import PREFS_NAME
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.inputmethod.EditorInfo
@@ -39,6 +44,35 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.LoginButton.setOnClickListener{
+            // 로그인 성공 로직 처리
+
+            val sharedPreferences: SharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
+            val editor = sharedPreferences.edit()
+            editor.putBoolean(KEY_IS_LOGGED_IN, true)
+
+            // 최초 로그인 여부 확인 및 프로필 설정 화면으로 이동
+            val isFirstLogin = sharedPreferences.getBoolean(KEY_IS_FIRST_LOGIN, true)
+            if (isFirstLogin) {
+                editor.putBoolean(KEY_IS_FIRST_LOGIN, false)
+                editor.apply()
+
+                // 프로필 설정 화면으로 이동
+                startActivity(Intent(this, CreateAdultProfileActivity::class.java))
+            } else {
+                editor.apply()
+
+                // 이전에 로그인했고 프로필 설정 완료 상태에 따라 화면 결정
+                val isProfileSetupComplete = sharedPreferences.getBoolean(KEY_PROFILE_SETUP_COMPLETE, false)
+                if (isProfileSetupComplete) {
+                    startActivity(Intent(this, fragmentHomeActivity::class.java))
+                } else {
+                    startActivity(Intent(this, CreateAdultProfileActivity::class.java))
+                }
+            }
+            finish()    //로그인 맥티비티 종료
+        }
 
         setupViewModel()
         setupGoogleSignInClient()

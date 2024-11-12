@@ -5,24 +5,21 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.databinding.CreateAdultProfileBinding
 
-class AdultProfileActivity : AppCompatActivity() {
+class CreateAdultProfileActivity : AppCompatActivity() {
 
     private lateinit var binding: CreateAdultProfileBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = CreateAdultProfileBinding.inflate(layoutInflater)  //binding 초기화
+        binding = CreateAdultProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //보호자 추가 버튼 클릭 후 보호자 추가 화면 이동
-//        btnAddGuardian.setOnClickListener{
-//            val intent=Intent(this, AdultProfileActivity::class.java)
-//            startActivity(intent)
-//        }
+        // 버튼 클릭 시 AddDetailAdultProfileActivity로 이동
         binding.addButton.setOnClickListener {
-            val intent = Intent(this,AdultProfileActivity::class.java)
+            // AddDetailAdultProfileActivity로 이동
+            val intent = Intent(this, AddDetailAdultProfileActivity::class.java)
             startActivity(intent)
+            finish() // 현재 Activity 종료
         }
-
     }
 }
