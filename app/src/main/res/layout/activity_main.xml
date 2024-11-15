@@ -19,6 +19,21 @@
             app:defaultNavHost="true"
             app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
             app:navGraph="@navigation/nav_graph" />
+
+        <!-- activity_main.xml -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/startTimeText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="시간 선택하기" />
+        </LinearLayout>
+
+
     </FrameLayout>
 
     <LinearLayout
