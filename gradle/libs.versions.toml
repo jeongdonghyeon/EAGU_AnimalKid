@@ -28,7 +28,10 @@ lifecycleViewmodelKtx = "2.8.6"
 logbackClassic = "1.2.3"
 material = "1.12.0"
 constraintlayout = "2.1.4"
+materialCalendarview = "1.4.3"
+materialCalendarviewVersion = "2.0.1"
 mockitoCore = "3.11.2"
+mockitoKotlin = "4.0.0"
 navigationFragmentKtx = "2.8.2"
 navigationFragmentKtxVersion = "2.5.3"
 navigationUiKtx = "2.8.2"
@@ -37,6 +40,8 @@ playServicesAuth = "21.2.0"
 retrofit = "2.9.0"
 roomKtx = "2.6.1"
 activity = "1.9.2"
+threetenabp = "1.1.1"
+threetenabpVersion = "1.2.1"
 
 [libraries]
 android-activation = { module = "com.sun.mail:android-activation", version.ref = "androidActivation" }
@@ -87,11 +92,16 @@ material = { group = "com.google.android.material", name = "material", version.r
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 androidx-navigation-fragment-ktx = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigationFragmentKtx" }
 androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigationUiKtx" }
+material-calendarview = { module = "com.prolificinteractive:material-calendarview", version.ref = "materialCalendarview" }
 mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockitoCore" }
+mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockitoKotlin" }
 play-services-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "playServicesAuth" }
+prolificinteractive-material-calendarview = { module = "com.github.prolificinteractive:material-calendarview", version.ref = "materialCalendarviewVersion" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 squareup-converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
+threetenabp = { module = "com.jakewharton.threetenabp:threetenabp", version.ref = "threetenabp" }
+threetenabp-v121 = { module = "com.jakewharton.threetenabp:threetenabp", version.ref = "threetenabpVersion" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -180,14 +180,23 @@
 
                 </LinearLayout>
 
-                <CalendarView
-                    android:id="@+id/calendarView2"
+                <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+                    android:id="@+id/calendar_view"
                     android:layout_width="300dp"
-                    android:layout_height="600dp"
+                    android:layout_height="300dp"
                     android:layout_gravity="center"
                     android:layout_marginTop="15dp"
-                    android:background="#FFFFFF" />
+                    app:mcv_firstDayOfWeek="sunday"
+                    app:mcv_leftArrow="@drawable/ic_arrow_back"
+                    app:mcv_rightArrow="@drawable/ic_arrow_forward"
+                    app:mcv_selectionMode="single"
+                    app:mcv_showOtherDates="all"
+                    tools:ignore="MissingConstraints"
+                    tools:layout_editor_absoluteX="58dp"
+                    tools:layout_editor_absoluteY="93dp" />
+
             </LinearLayout>
+
         </ScrollView>
     </LinearLayout>
 

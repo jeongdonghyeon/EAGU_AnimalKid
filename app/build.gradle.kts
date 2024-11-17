@@ -103,8 +103,9 @@ dependencies {
     // test
     testImplementation(libs.junit)
     testImplementation(libs.mockito.core)
-    testImplementation(libs.androidx.core.testing) // LiveData 테스트를 위해 필요
+    testImplementation(libs.androidx.core.testing) // LiveData 테스트를 위해 필요3
     testImplementation(libs.kotlinx.coroutines.test)// Coroutine 테스트를 위해 필요
-    testImplementation ("org.mockito.kotlin:mockito-kotlin:4.0.0")
-
+    testImplementation (libs.mockito.kotlin)
+    implementation("com.prolificinteractive:material-calendarview:1.4.3")
+    implementation("com.jakewharton.threetenabp:threetenabp:1.2.1")
 }

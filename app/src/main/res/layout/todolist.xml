@@ -7,60 +7,61 @@
     android:background="#F8FCFF">
 
 
-
     <Toolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#00FF0000"
+        tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp" >
+        tools:layout_editor_absoluteY="0dp">
     </Toolbar>
 
 
     <ImageButton
-            android:background="@drawable/lessthansign"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="30dp"
-            />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/lessthansign"
+        android:contentDescription="TODO"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:layout_width="161dp"
-            android:layout_height="36dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="50dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:text="To-Do-List"
-            android:textColorHint="#00686E"
-            android:textSize="30sp"
-            android:textColor="@color/black"
-        />
+    <TextView
+        android:layout_width="161dp"
+        android:layout_height="36dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="20dp"
+        android:text="To-Do-List"
+        android:textColor="@color/black"
+        android:textColorHint="#00686E"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
-    <CalendarView
-        android:id="@+id/calendarView"
+    <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+        android:id="@+id/calendar_view"
         android:layout_width="294dp"
         android:layout_height="300dp"
         android:layout_margin="47dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.142" />
+        app:mcv_firstDayOfWeek="sunday"
+        app:mcv_leftArrow="@drawable/ic_arrow_back"
+        app:mcv_rightArrow="@drawable/ic_arrow_forward"
+        app:mcv_selectionMode="single"
+        app:mcv_showOtherDates="all"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="58dp"
+        tools:layout_editor_absoluteY="93dp" />
 
     <LinearLayout
         android:layout_width="224dp"
         android:layout_height="192dp"
-        android:layout_marginLeft="81dp"
-        android:layout_marginTop="450dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="92dp"
+        android:layout_marginTop="444dp"
         android:orientation="vertical"
-        >
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:layout_width="161dp"
@@ -79,8 +80,7 @@
             android:text="18:00 산책"
             android:textColor="@color/black"
             android:textFontWeight="700"
-            android:textSize="20sp"
-            />
+            android:textSize="20sp" />
 
         <TextView
             android:layout_width="93dp"
