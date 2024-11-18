@@ -18,24 +18,25 @@
             android:background="#F8FCFF">
 
             <ImageView
-                android:id="@+id/backBtn"
+                android:id="@+id/back"
                 android:layout_width="15dp"
                 android:layout_height="20dp"
                 android:layout_marginStart="25dp"
                 android:layout_marginTop="40dp"
-                android:src="@drawable/backbutton"/>
+                android:src="@drawable/backbutton" />
 
             <TextView
-                android:id="@+id/toolbarTitle"
+                android:id="@+id/toolbar_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="그룹 관리"
+                android:text="사용자 관리"
                 android:textColor="#00686E"
                 android:layout_gravity="left"
                 android:layout_marginTop="15dp"
                 android:layout_marginStart="20dp"
-                android:textAppearance="@style/CustomToolbarTitleText"/>
-
+                android:textAppearance="@style/CustomToolbarTitleText"
+                android:textSize="20dp"
+                android:textStyle="bold"/>
         </androidx.appcompat.widget.Toolbar>
 
         <ScrollView
@@ -48,18 +49,15 @@
                 android:orientation="vertical" >
 
                 <ImageButton
-                    android:id="@+id/Profile1"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
+                    android:id="@+id/profile1"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:layout_gravity="center"
                     android:layout_marginTop="50dp"
-                    android:background="@drawable/accountbutton"
-                    android:padding="30dp"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/account" />
+                    android:background="@drawable/user_icon" />
 
                 <TextView
-                    android:id="@+id/ProfileText1"
+                    android:id="@+id/profile_text1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -70,18 +68,15 @@
                     android:textSize="15dp" />
 
                 <ImageButton
-                    android:id="@+id/Profile2"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
+                    android:id="@+id/profile2"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:layout_gravity="center"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/accountbutton"
-                    android:padding="30dp"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/account" />
+                    android:layout_marginTop="50dp"
+                    android:background="@drawable/user_icon" />
 
                 <TextView
-                    android:id="@+id/ProfileText2"
+                    android:id="@+id/profile_text2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -92,27 +87,23 @@
                     android:textSize="15dp" />
 
                 <ImageButton
-                    android:id="@+id/AddButton"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
+                    android:id="@+id/add_button"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="70dp"
                     android:layout_gravity="center"
-                    android:layout_marginTop="50dp"
-                    android:background="@drawable/circlebutton"
-                    android:padding="15dp"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/dots_horizontal" />
+                    android:background="@drawable/plus_icon" />
 
                 <ImageButton
-                    android:id="@+id/DeleteButton"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_gravity="center"
+                    android:id="@+id/delete_button"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_marginTop="20dp"
-                    android:background="@drawable/circlebutton"
-                    android:padding="15dp"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/delete" />
+                    android:layout_gravity="center"
+                    android:background="@drawable/delete_icon" />
+
             </LinearLayout>
+
         </ScrollView>
 
     </LinearLayout>
