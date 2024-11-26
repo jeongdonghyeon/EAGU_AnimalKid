@@ -1,4 +1,3 @@
-
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -16,7 +15,11 @@ android {
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField("String", "GOOGLE_CLIENT_ID", "\"${project.properties["GOOGLE_CLIENT_ID"]}\"")
+        buildConfigField(
+            "String",
+            "GOOGLE_CLIENT_ID",
+            "\"${project.properties["GOOGLE_CLIENT_ID"]}\""
+        )
     }
 
     buildTypes {
@@ -54,9 +57,10 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.constraintlayout)
-    implementation(libs.androidx.navigation.fragment.ktx)
-    implementation(libs.androidx.navigation.ui.ktx)
-    implementation(libs.androidx.activity)
+    implementation("androidx.activity:activity:1.7.2") // 안정 버전
+    implementation("androidx.transition:transition:1.4.1") // 안정 버전
+    implementation(libs.androidx.navigation.fragment.ktx.v253)
+    implementation(libs.androidx.navigation.ui.ktx.v253)
 
     // Room
     implementation(libs.androidx.room.runtime)
@@ -85,8 +89,6 @@ dependencies {
     // AndroidX Credentials API
     implementation(libs.androidx.credentials)
     implementation(libs.androidx.credentials.play.services.auth)
-    implementation(libs.androidx.navigation.fragment.ktx.v253)
-    implementation(libs.androidx.navigation.ui.ktx.v253)
 
     //Java Mail
     implementation(libs.mail.android.mail)
@@ -105,6 +107,9 @@ dependencies {
     testImplementation(libs.mockito.core)
     testImplementation(libs.androidx.core.testing) // LiveData 테스트를 위해 필요
     testImplementation(libs.kotlinx.coroutines.test)// Coroutine 테스트를 위해 필요
-    testImplementation ("org.mockito.kotlin:mockito-kotlin:4.0.0")
+    testImplementation(libs.mockito.kotlin)
 
+    //others
+    implementation("com.prolificinteractive:material-calendarview:1.4.3")
+    implementation("com.jakewharton.threetenabp:threetenabp:1.2.1")
 }

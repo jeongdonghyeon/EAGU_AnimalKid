@@ -35,7 +35,7 @@
                 android:layout_marginStart="150dp"
                 android:layout_marginTop="45dp"
                 android:background="@drawable/exitaddgroup"
-                android:onClick=""/>
+                />
         </LinearLayout>
         <Button
             android:layout_width="277dp"

@@ -13,7 +13,8 @@
         android:layout_height="wrap_content"
         android:background="#00FF0000"
         tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp" >
+        tools:layout_editor_absoluteY="0dp"
+        tools:ignore="MissingConstraints">
     </Toolbar>
 
 

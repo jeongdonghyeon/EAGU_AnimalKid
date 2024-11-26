@@ -11,6 +11,8 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+-keep class com.prolificinteractive.materialcalendarview.** { *; }
+-keep interface com.prolificinteractive.materialcalendarview.** { *; }
 
 # Uncomment this to preserve the line number information for
 # debugging stack traces.

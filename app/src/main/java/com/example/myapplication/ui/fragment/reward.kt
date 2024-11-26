@@ -41,7 +41,7 @@ class reward : Fragment() {
         val view = inflater.inflate(R.layout.fragment_reward, container, false)
 
         // 뒤로 가기 버튼 클릭 리스너 설정
-        val backBtn: ImageView = view.findViewById(R.id.backBtn)
+        val backBtn: ImageView = view.findViewById(R.id.back)
         backBtn.setOnClickListener {
             // HomeFragment로 전환
             val homeFragment = home()
