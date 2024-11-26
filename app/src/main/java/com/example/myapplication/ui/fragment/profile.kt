@@ -1,16 +1,13 @@
-package com.example.eagu_animalkid_test
+package com.example.myapplication.ui.fragment
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import androidx.fragment.app.FragmentTransaction
 import com.example.myapplication.R
-import com.example.myapplication.ui.fragment.home
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 // TODO: Rename parameter arguments, choose names that match

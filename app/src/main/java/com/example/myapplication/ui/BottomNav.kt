@@ -2,9 +2,9 @@ package com.example.myapplication
 
 import android.app.Activity
 import androidx.fragment.app.FragmentManager
-import com.example.eagu_animalkid_test.profile
-import com.example.eagu_animalkid_test.reward
-import com.example.eagu_animalkid_test.walk
+import com.example.myapplication.ui.fragment.profile
+import com.example.myapplication.ui.fragment.reward
+import com.example.myapplication.ui.fragment.walk
 import com.example.myapplication.databinding.ActivityMainBinding
 import com.example.myapplication.ui.fragment.home
 
