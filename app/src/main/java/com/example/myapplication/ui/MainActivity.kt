@@ -1,13 +1,13 @@
-package com.example.myapplication
+package com.example.myapplication.ui
 
 import android.app.Dialog
 import android.os.Bundle
 import android.widget.ImageButton
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.myapplication.R
 import com.example.myapplication.databinding.ActivityMainBinding
 import com.example.myapplication.ui.fragment.home
 import com.example.myapplication.ui.view.TodoAdapter
