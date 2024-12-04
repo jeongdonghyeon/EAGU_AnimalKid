@@ -96,7 +96,8 @@ dependencies {
 
     //google
     implementation(libs.play.services.auth)
-
+    implementation (libs.androidx.credentials.v130)
+    implementation (libs.androidx.appcompat)
     //firebase
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.firestore.ktx)

@@ -1,33 +1,25 @@
 package com.example.myapplication.ui.view
 
-import KEY_IS_FIRST_LOGIN
-import KEY_IS_LOGGED_IN
-import KEY_PROFILE_SETUP_COMPLETE
-import PREFS_NAME
+
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
-
 import androidx.activity.result.contract.ActivityResultContracts
-
 import androidx.appcompat.app.AppCompatActivity
-
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-
 import com.example.myapplication.data.repository.UserRepository
 import com.example.myapplication.databinding.ActivityLoginBinding
 import com.example.myapplication.ui.viewmodel.AuthViewModel
 import com.example.myapplication.ui.viewmodel.Factory.AuthViewModelFactory
 import com.example.myapplication.ui.viewmodel.state.AuthStatus
+import com.example.myapplication.utils.PreferencesHelper
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-
 import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
@@ -36,10 +28,12 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var authViewModel: AuthViewModel
     private lateinit var googleSignInClient: GoogleSignInClient
 
-    private val googleSignInLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            authViewModel.handleGoogleSignInResult(result.data)
-        }
+    private val googleSignInLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        val data: Intent? = result.data
+        authViewModel.handleGoogleSignInResult(data)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -119,6 +113,7 @@ class LoginActivity : AppCompatActivity() {
         }
         binding.googleRegisterButton.setOnClickListener {
             googleSignInLauncher.launch(googleSignInClient.signInIntent)
+            startActivity(Intent(this,AdultProfileActivity::class.java))
         }
     }
     private fun observeAuthStatus() {
@@ -128,14 +123,11 @@ class LoginActivity : AppCompatActivity() {
                     Toast.makeText(this, "로그인 중...", Toast.LENGTH_SHORT).show()
                 }
                 is AuthStatus.Success -> {
-                    Toast.makeText(this, "로그인 성공", Toast.LENGTH_SHORT).show()
-                    // 상태만 저장하고 LauncherActivity로 이동
-                    val sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
-                    val editor = sharedPreferences.edit()
-                    editor.putBoolean(KEY_IS_LOGGED_IN, true)
-                    editor.putBoolean(KEY_PROFILE_SETUP_COMPLETE, false) // 기본값으로 설정
-                    editor.apply()
+                    // 상태 저장
+                    PreferencesHelper.setLoggedIn(this, true)
+                    PreferencesHelper.setProfileSetupComplete(this, false)
 
+                    Toast.makeText(this, "로그인 성공", Toast.LENGTH_SHORT).show()
                     // LauncherActivity로 이동
                     startActivity(Intent(this, LauncherActivity::class.java))
                     finish()
@@ -147,12 +139,16 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private suspend fun loginUser(context: Context): Boolean {
-        val username = binding.UserIdEditText.text.toString()
-        val password = binding.passwordEditText.text.toString()
-        val isLoginSuccessful = authViewModel.login(username, password, context)
 
-        return isLoginSuccessful
+    private suspend fun loginUser(context: Context): Boolean {
+        return try {
+            val username = binding.UserIdEditText.text.toString()
+            val password = binding.passwordEditText.text.toString()
+            authViewModel.login(username, password, context)
+        } catch (e: Exception) {
+            Log.e("LoginActivity", "로그인 실패: ${e.message}")
+            false
+        }
     }
 
 
