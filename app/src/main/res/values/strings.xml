@@ -8,6 +8,7 @@
     <string name="previous">Previous</string>
     <string name="login_text">로그인 해주세요</string>
     <string name="google_login_text">다음 계정으로 로그인</string>
+    <string name="google_client_id">297296621560-dm7mt1ol207cmf4llgaoraouee7h1uon.apps.googleusercontent.com</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
@@ -19,5 +20,6 @@
         <item>2010.09.26</item>
         <item>다른 날짜 선택</item>
     </string-array>
+
 
 </resources>

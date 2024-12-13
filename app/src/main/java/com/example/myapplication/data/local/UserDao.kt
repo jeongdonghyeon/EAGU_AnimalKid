@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.myapplication.data.model.entity.GroupEntity
+import com.example.myapplication.data.model.entity.ProfileEntity
 import com.example.myapplication.data.model.entity.UserEntity
 
 @Dao
@@ -19,9 +20,7 @@ interface UserDao {
     @Delete
     suspend fun deleteUser(user: UserEntity)
 
-    //UserRepository 에서 받아온 이메일, 닉네임, 펫네임을 가지고 이메일을 기반으로 닉네임, 펫네임을 업데이트함
-    @Query("UPDATE users SET nickname = :nickname, petName = :petName WHERE email = :email")
-    suspend fun updateUserProfile(email: String, nickname: String?, petName: String?): Int
+
 /*
     // UserRepository 에서 받아온 email 을 기반으로 userName 을 받아옴
     @Query("SELECT userName FROM users where email = :email")
@@ -62,10 +61,11 @@ interface UserDao {
     @Query("SELECT * FROM users WHERE userName = :userName AND email = :email LIMIT 1")
     suspend fun getUserByIdAndEmail(userName: String, email: String): UserEntity?
 
-    @Query("UPDATE users SET name = :name, nickname = :nickname, gender = :gender, birthdate = :birthdate WHERE userId = :userId")
-    suspend fun updateProfile(userId: String, name: String, nickname: String, gender: String, birthdate: String)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertProfile(profile: ProfileEntity)
 
-
+    @Query("SELECT * FROM profiles WHERE userId = :userId")
+    suspend fun getProfileByUserId(userId: String): ProfileEntity?
 
 
 

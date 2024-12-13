@@ -1,8 +1,7 @@
-package com.example.myapplication.ui
+package com.example.myapplication
 
 import android.app.Activity
 import androidx.fragment.app.FragmentManager
-import com.example.myapplication.R
 import com.example.myapplication.ui.fragment.profile
 import com.example.myapplication.ui.fragment.reward
 import com.example.myapplication.ui.fragment.walk

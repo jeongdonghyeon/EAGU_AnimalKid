@@ -16,6 +16,7 @@ import com.example.myapplication.databinding.FindIdBinding
 import com.example.myapplication.ui.viewmodel.AuthViewModel
 import com.example.myapplication.ui.viewmodel.Factory.AuthViewModelFactory
 import com.example.myapplication.ui.viewmodel.Session.UserSessionManager
+import com.example.myapplication.ui.viewmodel.state.AuthStatus
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import java.util.UUID
@@ -57,11 +58,39 @@ class registerActivity : AppCompatActivity(){
         binding.LoginButton.setOnClickListener {
             lifecycleScope.launch {
                 try {
-                    registerUser()
-                    val intent = Intent(this@registerActivity, LoginActivity::class.java)
-                    startActivity(intent)
-                    finish()
+                    val username = binding.IDedittext.text.toString()
+                    val email = binding.Emailedittext.text.toString()
+                    val password1 = binding.PWedittext.text.toString()
+                    val password2 = binding.PWcheckedittext.text.toString()
+
+                    if (password1 != password2) {
+                        Snackbar.make(binding.root, "비밀번호가 일치하지 않습니다.", Snackbar.LENGTH_SHORT).show()
+                        return@launch
+                    }
+
+                    val userId = UUID.randomUUID().toString()
+                    val userDTO = UserDTO(userId = userId, email = email, userName = username, password = password1)
+
+                    authViewModel.registerUser(userDTO)
+
+                    authViewModel.authStatus.observe(this@registerActivity) { status ->
+                        when (status) {
+                            is AuthStatus.Success -> {
+                                Toast.makeText(this@registerActivity, "회원가입 성공!", Toast.LENGTH_SHORT).show()
+                                val intent = Intent(this@registerActivity, LoginActivity::class.java)
+                                startActivity(intent)
+                                finish()
+                            }
+                            is AuthStatus.Failure -> {
+                                Toast.makeText(this@registerActivity, "회원가입 실패: ${status.message}", Toast.LENGTH_SHORT).show()
+                            }
+                            else -> {
+
+                            }
+                        }
+                    }
                 } catch (e: Exception) {
+                    Toast.makeText(this@registerActivity, "회원가입 중 오류가 발생했습니다.", Toast.LENGTH_SHORT).show()
                     Log.e("ButtonClick", "Error occurred: ${e.message}", e)
                 }
             }
@@ -70,12 +99,14 @@ class registerActivity : AppCompatActivity(){
 
 
 
+
     private suspend fun registerUser() {
         try {
             val username = binding.IDedittext.text.toString()
-            val email= binding.Emailedittext.text.toString()
+            val email = binding.Emailedittext.text.toString()
             val password1 = binding.PWedittext.text.toString()
             val password2 = binding.PWcheckedittext.text.toString()
+
             if (password1 == password2) {
                 val userId = UUID.randomUUID().toString()
                 UserSessionManager.saveUserId(this@registerActivity, userId)
@@ -86,13 +117,30 @@ class registerActivity : AppCompatActivity(){
                     userName = username,
                     password = password1
                 )
+
                 authViewModel.registerUser(userDTO)
+
+                // ViewModel의 상태를 관찰하여 성공/실패 처리
+                authViewModel.authStatus.observe(this@registerActivity) { status ->
+                    when (status) {
+                        is AuthStatus.Success -> {
+                            Toast.makeText(this, "회원가입 성공!", Toast.LENGTH_SHORT).show()
+                            startActivity(Intent(this, LoginActivity::class.java))
+                            finish()
+                        }
+                        is AuthStatus.Failure -> {
+                            Toast.makeText(this, status.message, Toast.LENGTH_SHORT).show()
+                        }
+                        else -> { /* No-op */ }
+                    }
+                }
             } else {
-                Log.e("registerActivity.kt", "비밀번호가 서로 일치하지 않음")
                 Snackbar.make(binding.root, "비밀번호가 서로 일치하지 않습니다.", Snackbar.LENGTH_SHORT).show()
             }
-        }catch (e: Exception){
-            Log.e("registerActivity.kt", "registerUser 함수에서 예외 발생: ${e.message}", e)
+        } catch (e: Exception) {
+            Log.e("registerActivity", "Error in registerUser: ${e.message}", e)
+            Toast.makeText(this, "회원가입 중 오류가 발생했습니다.", Toast.LENGTH_SHORT).show()
         }
     }
+
 }

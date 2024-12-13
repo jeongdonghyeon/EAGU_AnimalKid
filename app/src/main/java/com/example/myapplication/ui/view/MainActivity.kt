@@ -1,4 +1,4 @@
-package com.example.myapplication.ui
+package com.example.myapplication.ui.view
 
 import android.app.Dialog
 import android.os.Bundle
@@ -7,10 +7,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.myapplication.ui.BottomNav
 import com.example.myapplication.R
 import com.example.myapplication.databinding.ActivityMainBinding
 import com.example.myapplication.ui.fragment.home
-import com.example.myapplication.ui.view.TodoAdapter
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView
 
@@ -33,9 +33,10 @@ class MainActivity : AppCompatActivity() {
         window.navigationBarColor = ContextCompat.getColor(this, R.color.SoftkeyColor)
 
         val bottomNav = BottomNav()
+
         bottomNav.setupBottomNav(this, binding, supportFragmentManager)
 
-        val addButton: ImageButton = findViewById(R.id.AddButton)
+        val addButton: ImageButton = findViewById(R.id.add_button)
         addButton.setOnClickListener {
             showAddGroupDialog()
         }
@@ -75,7 +76,7 @@ class MainActivity : AppCompatActivity() {
         val dialog = Dialog(this)
         dialog.setContentView(R.layout.addgroup)
         dialog.setCancelable(true)
-        dialog.findViewById<ImageButton>(R.id.exitAddGroup).setOnClickListener {
+        dialog.findViewById<ImageButton>(R.id.add_button).setOnClickListener {
             dialog.dismiss()
         }
         dialog.show()

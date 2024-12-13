@@ -16,8 +16,8 @@ private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
 /**
- * A simple (Fragment) subclass.
- * Use the (ProfileFragment.newInstance) factory method to
+ * A simple [Fragment] subclass.
+ * Use the [ProfileFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
 class profile : Fragment() {

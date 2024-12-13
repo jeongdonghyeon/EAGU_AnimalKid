@@ -4,7 +4,9 @@ import android.app.Application
 import android.util.Log
 import com.example.myapplication.data.local.AppDatabase
 import com.example.myapplication.data.local.UserDao
+import com.example.myapplication.data.model.DTO.ProfileDTO
 import com.example.myapplication.data.model.DTO.UserDTO
+import com.example.myapplication.data.model.entity.ProfileEntity
 import com.example.myapplication.data.model.entity.UserEntity
 import com.example.myapplication.data.model.mapper.toEntity
 import kotlinx.coroutines.CoroutineScope
@@ -26,9 +28,17 @@ class UserRepository(application : Application) {
 
     // viewModel 에 받아온 유저 DTO를 유저 엔티티로 변환하고 UserDao 에 전달
     suspend fun registerUser(userDTO: UserDTO) {
-        val userEntity = userDTO.toEntity();
-        userDao.insertUser(userEntity);
+        try {
+            val userEntity = userDTO.toEntity() // 변환
+            Log.d("UserRepository", "Inserting user: $userEntity")
+            userDao.insertUser(userEntity) // 삽입
+            Log.d("UserRepository", "User inserted successfully")
+        } catch (e: Exception) {
+            Log.e("UserRepository", "Error inserting user: ${e.message}", e)
+            throw e
+        }
     }
+
 
     suspend fun sendVerificationCode(email: String): String? {
         val exists = isEmailExists(email)
@@ -101,11 +111,29 @@ class UserRepository(application : Application) {
         return userDao.getUserByUserId(userId)
     }
 
-    suspend fun updateProfile(userId: String, name: String, nickname: String, gender: String, birthdate: String) {
+    suspend fun updateProfile(profileDTO: ProfileDTO) {
+        val profileEntity = profileDTO.toEntity()
+
         withContext(Dispatchers.IO) {
-            userDao.updateProfile(userId, name, nickname, gender, birthdate)
+            try {
+                // userId 유효성 검사: 해당 userId가 users 테이블에 존재하는지 확인
+                val userExists = userDao.getUserByUserId(profileDTO.userId) != null
+                if (!userExists) {
+                    Log.e("UserRepository", "Invalid userId: ${profileDTO.userId}. User does not exist.")
+                    throw IllegalStateException("Invalid userId: ${profileDTO.userId}. User does not exist.")
+                }
+                // 프로필 삽입 (존재하면 업데이트, 없으면 삽입)
+                userDao.insertProfile(profileEntity)
+                Log.d("UserRepository", "Profile updated successfully in database for userId: ${profileDTO.userId}")
+            } catch (e: IllegalStateException) {
+                Log.e("UserRepository", "Error updating com.example.myapplication.ui.fragment.profile: ${e.message}")
+                throw e // 또는 사용자에게 적절한 피드백 제공
+            } catch (e: Exception) {
+                Log.e("UserRepository", "Unexpected error updating com.example.myapplication.ui.fragment.profile in database: ${e.message}", e)
+            }
         }
     }
+
 
 
 }

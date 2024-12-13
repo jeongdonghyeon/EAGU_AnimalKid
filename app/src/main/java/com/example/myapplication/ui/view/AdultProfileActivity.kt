@@ -14,14 +14,10 @@ class AdultProfileActivity : AppCompatActivity() {
         binding = CreateAdultProfileBinding.inflate(layoutInflater)  //binding 초기화
         setContentView(binding.root)
 
-        //보호자 추가 버튼 클릭 후 보호자 추가 화면 이동
-//        btnAddGuardian.setOnClickListener{
-//            val intent=Intent(this, AdultProfileActivity::class.java)
-//            startActivity(intent)
-//        }
         binding.addButton.setOnClickListener {
-            val intent = Intent(this,AdultProfileActivity::class.java)
+            val intent = Intent(this,AddDetailAdultProfileActivity::class.java)
             startActivity(intent)
+            finish()
         }
 
     }

@@ -59,25 +59,35 @@ class AuthViewModel(private val userRepository: UserRepository,
             _authStatus.value = AuthStatus.Failure(AuthAction.LOGIN,"Google 로그인 실패: ${e.message}")
         }
     }
-    suspend fun login(userName: String, password: String) {
+    suspend fun login(username: String, password: String, context: Context): Boolean {
         _authStatus.value = AuthStatus.Loading(AuthAction.LOGIN)
 
-        if (userName.isEmpty() || password.isEmpty()) {
+        if (username.isEmpty() || password.isEmpty()) {
             _authStatus.value = AuthStatus.Failure(AuthAction.LOGIN, "아이디와 비밀번호를 다시 입력해주세요")
-            return
+            Log.w("Login", "아이디 또는 비밀번호가 비어 있습니다.")
+            return false
         }
 
-        try {
-            val user = userRepository.getUserByUsername(userName)
+        return try {
+            val user = userRepository.getUserByUsername(username)
             if (user != null && BCrypt.checkpw(password, user.password)) {
+                UserSessionManager.saveUserId(context, user.userId)
                 _authStatus.value = AuthStatus.Success(AuthAction.LOGIN)
+                Log.i("Login", "로그인 성공: 사용자 ID = ${user.userId}")
+                true
             } else {
                 _authStatus.value = AuthStatus.Failure(AuthAction.LOGIN, "아이디 또는 비밀번호가 잘못되었습니다.")
+                Log.w("Login", "로그인 실패: 사용자 정보가 없거나 비밀번호가 잘못되었습니다.")
+                false
             }
         } catch (e: Exception) {
             _authStatus.value = AuthStatus.Failure(AuthAction.LOGIN, "오류가 발생했습니다.")
+            Log.e("Login", "로그인 중 예외 발생: ${e.message}", e)
+            false
         }
     }
+
+
 
 
     fun logout(context: Context) {
@@ -89,50 +99,38 @@ class AuthViewModel(private val userRepository: UserRepository,
             _authStatus.value = AuthStatus.Failure(AuthAction.LOGOUT, "로그아웃 실패")
         }
     }
-
     suspend fun registerUser(userDTO: UserDTO) = withContext(Dispatchers.IO) {
         try {
+            // 비밀번호 해싱
             val hashedPassword = hashPassword(userDTO.password)
             val hashedUserDTO = userDTO.copy(password = hashedPassword)
-            val isValid = try {
-                isValidUser(hashedUserDTO)
-            } catch (e: Exception) {
-                Log.e("AuthViewModel", "isValidUser 호출 중 예외 발생: ${e.message}", e)
-                false
-            }
-            if (!isValid) {
-                Log.w("AuthViewModel", "유효하지 않은 사용자 정보: $hashedUserDTO")
+
+            // 유효성 검사
+            if (!isValidUser(hashedUserDTO)) {
+                Log.w("AuthViewModel", "Invalid user data: $hashedUserDTO")
                 _authStatus.postValue(
-                    AuthStatus.Failure(
-                        AuthAction.REGISTER,
-                        "유효하지 않은 이메일, 아이디 또는 비밀번호입니다."
-                    )
+                    AuthStatus.Failure(AuthAction.REGISTER, "유효하지 않은 사용자 정보입니다.")
                 )
-                return@withContext
-            }
-            _authStatus.postValue(AuthStatus.Loading(AuthAction.REGISTER))
-            try {
-                withContext(Dispatchers.IO) {
-                    userRepository.registerUser(hashedUserDTO)
-                }
-                _authStatus.postValue(AuthStatus.Success(AuthAction.REGISTER))
-            } catch (e: Exception) {
-                Log.e("AuthViewModel", "userRepository.registerUser 호출 중 예외 발생: ${e.message}", e)
-                _authStatus.postValue(
-                    AuthStatus.Failure(
-                        AuthAction.REGISTER,
-                        "회원가입 중 에러가 발생했습니다."
-                    )
-                )
+                return@withContext // 유효성 검사 실패 시 함수 중단
             }
 
+            // 회원가입 처리 시작
+            _authStatus.postValue(AuthStatus.Loading(AuthAction.REGISTER))
+
+            try {
+                userRepository.registerUser(hashedUserDTO) // 사용자 등록
+                Log.d("AuthViewModel", "User registration successful")
+                _authStatus.postValue(AuthStatus.Success(AuthAction.REGISTER)) // 성공 상태 설정
+            } catch (e: Exception) {
+                Log.e("AuthViewModel", "Error during user registration: ${e.message}", e)
+                _authStatus.postValue(
+                    AuthStatus.Failure(AuthAction.REGISTER, "회원가입 중 오류가 발생했습니다.")
+                )
+            }
         } catch (e: Exception) {
-            Log.e("AuthViewModel", "registerUser에서 최상위 예외 발생: ${e.message}", e)
+            Log.e("AuthViewModel", "Unhandled exception in registerUser: ${e.message}", e)
         }
     }
-
-
-
 
 
 
@@ -191,22 +189,38 @@ class AuthViewModel(private val userRepository: UserRepository,
             _authStatus.value = AuthStatus.Failure(AuthAction.UNREGISTER, "회원탈퇴 처리 중 오류 발생")
         }
     }
-        private fun isValidUser(userDTO: UserDTO): Boolean {
-            return userDTO.userName?.isNotEmpty() == true &&
-                    userDTO.userName.matches("^[a-zA-Z0-9]{5,20}$".toRegex()) &&
-                    userDTO.email?.isNotEmpty() == true &&
-                    userDTO.email.matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$".toRegex()) &&
-                    !userDTO.password.isNullOrEmpty() && userDTO.password.length >= 8
-        }
-    private fun hashPassword(password: String?): String {
-        if (password.isNullOrEmpty()) {
-            return "NO_PASSWORD"  // 소셜 로그인 등 비밀번호가 없는 경우 기본값 설정
+    private fun isValidUser(userDTO: UserDTO): Boolean {
+        if (userDTO.userName.isNullOrEmpty() || userDTO.userName.length < 5) {
+            Log.w("AuthViewModel", "Invalid userName: ${userDTO.userName}")
+            return false
         }
 
-        val bytes = password.toByteArray()
-        val md = MessageDigest.getInstance("SHA-256")
-        val digest = md.digest(bytes)
-        return digest.joinToString("") { "%02x".format(it) }
+        // 이메일 형식 검사
+        val emailPattern = "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$".toRegex()
+        if (userDTO.email.isNullOrEmpty() || !userDTO.email.matches(emailPattern)) {
+            Log.w("AuthViewModel", "Invalid email: ${userDTO.email}")
+            return false
+        }
+
+        // 비밀번호 검사
+        if (userDTO.password.isNullOrEmpty() || userDTO.password.length < 8) {
+            Log.w("AuthViewModel", "Invalid password: ${userDTO.password}")
+            return false
+        }
+        return true
     }
+    private fun hashPassword(password: String?): String {
+        if (password.isNullOrEmpty()) {
+            return "NO_PASSWORD" // 소셜 로그인 등 비밀번호가 없는 경우 기본값 설정
+        }
+
+        return try {
+            BCrypt.hashpw(password, BCrypt.gensalt())
+        } catch (e: Exception) {
+            Log.e("HashPassword", "비밀번호 해싱 중 오류 발생: ${e.message}", e)
+            throw RuntimeException("비밀번호 해싱에 실패했습니다.", e)
+        }
+    }
+
 
 }

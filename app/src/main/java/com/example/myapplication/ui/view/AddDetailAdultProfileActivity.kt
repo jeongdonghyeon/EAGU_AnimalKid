@@ -1,76 +1,134 @@
 package com.example.myapplication.ui.view
 
-import KEY_PROFILE_SETUP_COMPLETE
-import PREFS_NAME
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.myapplication.R
+import com.example.myapplication.data.model.DTO.ProfileDTO
 import com.example.myapplication.data.repository.UserRepository
 import com.example.myapplication.databinding.AddDetailAdultProfileBinding
+import com.example.myapplication.ui.viewmodel.Session.UserSessionManager
+import com.example.myapplication.utils.PreferencesHelper
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class AddDetailAdultProfileActivity : AppCompatActivity() {
 
     private lateinit var binding: AddDetailAdultProfileBinding
     private lateinit var userRepository: UserRepository
-    private lateinit var userId: String // 로그인 후 전달받은 userId
+    private lateinit var userId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // binding 초기화 후 setContentView 호출
         binding = AddDetailAdultProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        Log.d("AddDetailProfile", "Activity created")
+
+        // UserRepository 초기화
         userRepository = UserRepository(application)
 
-        // 성별 선택을 위한 스피너 설정
+        // UserId 가져오기
+        userId = UserSessionManager.getUserId(this)
+            ?: throw IllegalStateException("User ID not found in session")
+
+        setupSpinners()
+        setupListeners()
+    }
+
+    private fun setupSpinners() {
+        // 성별 스피너 설정
         val genderOptions = resources.getStringArray(R.array.gender_options)
-        val adapter = ArrayAdapter(this@AddDetailAdultProfileActivity, android.R.layout.simple_spinner_item, genderOptions)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        val genderAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, genderOptions)
+        genderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.gender.adapter = genderAdapter
 
-// EditText가 아닌 Spinner의 ID를 사용하여 어댑터를 설정합니다.
-        binding.gender.adapter = adapter
+        // 생년월일 스피너 설정
+        val years = (1950..2024).toList().map { it.toString() }
+        val birthdateAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, years)
+        birthdateAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.birthdate.adapter = birthdateAdapter
+    }
 
+    private fun setupListeners() {
+        binding.authenticationButton.setOnClickListener { view ->
+            Log.d("AddDetailProfile", "Authentication button clicked")
 
-        // 프로필 저장 버튼 클릭 시
-        binding.authenticationButton.setOnClickListener {
-            saveProfile()
+            // 입력 유효성 검사
+            if (validateInputs()) {
+                view.isEnabled = false // 중복 클릭 방지
+                saveProfile()
+            }
+        }
+    }
+
+    private fun validateInputs(): Boolean {
+        val name = binding.editTextText1.text.toString()
+        val nickname = binding.editTextText2.text.toString()
+
+        if (name.isEmpty()) {
+            binding.editTextText1.error = "이름을 입력해주세요"
+            return false
         }
 
-        // 프로필 설정 완료 버튼 클릭 시
-        binding.authenticationButton.setOnClickListener {
-            // 프로필 설정 완료 로직 처리
-
-            // 프로필 설정 완료 상태 저장
-            val sharedPreferences: SharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
-            val editor = sharedPreferences.edit()
-            editor.putBoolean(KEY_PROFILE_SETUP_COMPLETE, true)
-            editor.apply()
-
-            // 메인 홈 화면으로 이동
-            startActivity(Intent(this, fragmentHomeActivity::class.java))
-            finish() // 프로필 액티비티 종료
+        if (nickname.isEmpty()) {
+            binding.editTextText2.error = "호칭을 입력해주세요"
+            return false
         }
+
+        return true
     }
 
     private fun saveProfile() {
-        // 입력된 프로필 정보 가져오기
-        val name = binding.editTextText1.text.toString()
-        val nickname = binding.editTextText2.text.toString()
-        val gender = binding.gender.selectedItem.toString()
-        val birthdate = binding.birthdate.selectedItem.toString()
+        val name = binding.editTextText1.text.toString().trim()
+        val nickname = binding.editTextText2.text.toString().trim()
+        val gender = binding.gender.selectedItem?.toString() ?: ""
+        val birthdate = binding.birthdate.selectedItem?.toString() ?: ""
 
-        // 비동기적으로 데이터베이스에 프로필 정보 저장
+        Log.d(
+            "SaveProfile",
+            "Attempting to save - Name: $name, Nickname: $nickname, Gender: $gender, Birthdate: $birthdate"
+        )
+
         lifecycleScope.launch {
-            userRepository.updateProfile(userId, name, nickname, gender, birthdate)
+            try {
+                val profileDTO = ProfileDTO(userId, name, nickname, gender, birthdate) // userId 포함
+                userRepository.updateProfile(profileDTO)
+                Log.d("SaveProfile", "Profile saved successfully")
 
-            // 프로필 저장 후 메인 화면으로 이동
-            val intent = Intent(this@AddDetailAdultProfileActivity, fragmentHomeActivity::class.java)
-            startActivity(intent)
-            finish() // 현재 Activity 종료
+                // 상태 업데이트 및 화면 전환
+                updateProfileSetupStatus()
+                navigateToMainScreen()
+            } catch (e: Exception) {
+                Log.e("SaveProfile", "Error saving profile", e)
+
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(
+                        this@AddDetailAdultProfileActivity,
+                        "프로필 저장 중 오류가 발생했습니다",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    binding.authenticationButton.isEnabled = true // 버튼 다시 활성화
+                }
+            }
         }
     }
+
+    private fun updateProfileSetupStatus() {
+        // SharedPreferences 업데이트를 PreferencesHelper로 처리
+        PreferencesHelper.setProfileSetupComplete(this, true)
+    }
+
+    private fun navigateToMainScreen() {
+        startActivity(Intent(this@AddDetailAdultProfileActivity, MainActivity::class.java))
+        finish()
+    }
 }
+

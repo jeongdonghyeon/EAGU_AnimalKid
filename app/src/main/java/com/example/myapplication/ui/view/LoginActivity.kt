@@ -1,32 +1,25 @@
 package com.example.myapplication.ui.view
 
-import KEY_IS_FIRST_LOGIN
-import KEY_IS_LOGGED_IN
-import KEY_PROFILE_SETUP_COMPLETE
-import PREFS_NAME
+
+import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
-
 import androidx.activity.result.contract.ActivityResultContracts
-
 import androidx.appcompat.app.AppCompatActivity
-
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-
 import com.example.myapplication.data.repository.UserRepository
 import com.example.myapplication.databinding.ActivityLoginBinding
 import com.example.myapplication.ui.viewmodel.AuthViewModel
 import com.example.myapplication.ui.viewmodel.Factory.AuthViewModelFactory
 import com.example.myapplication.ui.viewmodel.state.AuthStatus
+import com.example.myapplication.utils.PreferencesHelper
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-
 import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
@@ -35,45 +28,17 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var authViewModel: AuthViewModel
     private lateinit var googleSignInClient: GoogleSignInClient
 
-    private val googleSignInLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            authViewModel.handleGoogleSignInResult(result.data)
-        }
+    private val googleSignInLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        val data: Intent? = result.data
+        authViewModel.handleGoogleSignInResult(data)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        binding.LoginButton.setOnClickListener{
-            // 로그인 성공 로직 처리
-
-            val sharedPreferences: SharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
-            val editor = sharedPreferences.edit()
-            editor.putBoolean(KEY_IS_LOGGED_IN, true)
-
-            // 최초 로그인 여부 확인 및 프로필 설정 화면으로 이동
-            val isFirstLogin = sharedPreferences.getBoolean(KEY_IS_FIRST_LOGIN, true)
-            if (isFirstLogin) {
-                editor.putBoolean(KEY_IS_FIRST_LOGIN, false)
-                editor.apply()
-
-                // 프로필 설정 화면으로 이동
-                startActivity(Intent(this, CreateAdultProfileActivity::class.java))
-            } else {
-                editor.apply()
-
-                // 이전에 로그인했고 프로필 설정 완료 상태에 따라 화면 결정
-                val isProfileSetupComplete = sharedPreferences.getBoolean(KEY_PROFILE_SETUP_COMPLETE, false)
-                if (isProfileSetupComplete) {
-                    startActivity(Intent(this, fragmentHomeActivity::class.java))
-                } else {
-                    startActivity(Intent(this, CreateAdultProfileActivity::class.java))
-                }
-            }
-            finish()    //로그인 맥티비티 종료
-        }
-
         setupViewModel()
         setupGoogleSignInClient()
         setupUI()
@@ -98,7 +63,7 @@ class LoginActivity : AppCompatActivity() {
     private fun setupUI() {
         binding.passwordEditText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                lifecycleScope.launch { loginUser() }
+                lifecycleScope.launch { loginUser(this@LoginActivity) }
                 true
             } else {
                 false
@@ -111,18 +76,32 @@ class LoginActivity : AppCompatActivity() {
         binding.LoginButton.setOnClickListener {
             lifecycleScope.launch {
                 try {
-                    // 로그인 함수 호출
-                    loginUser()
+                    val isLoginSuccessful = loginUser(this@LoginActivity)
 
-                    // 로그인 후 AdultProfileActivity로 이동
-                    val intent = Intent(this@LoginActivity, AdultProfileActivity::class.java)
-                    startActivity(intent)
-                    finish()
+                    if (isLoginSuccessful) {
+                        // 로그인 성공 시 화면 전환
+                        val intent = Intent(this@LoginActivity, AdultProfileActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    } else {
+                        // 실패 메시지 표시
+                        when (val status = authViewModel.authStatus.value) {
+                            is AuthStatus.Failure -> {
+                                Toast.makeText(this@LoginActivity, status.message, Toast.LENGTH_SHORT).show()
+                            }
+                            else -> {
+                                Toast.makeText(this@LoginActivity, "알 수 없는 오류가 발생했습니다.", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    }
                 } catch (e: Exception) {
+                    // 예외 처리
                     Log.e("LoginButton", "로그인 중 오류 발생: ${e.message}", e)
+                    Toast.makeText(this@LoginActivity, "오류가 발생했습니다. 다시 시도하세요.", Toast.LENGTH_SHORT).show()
                 }
             }
         }
+
         binding.findIdButton.setOnClickListener {
             startActivity(Intent(this, findIdActivity::class.java))
         }
@@ -134,6 +113,7 @@ class LoginActivity : AppCompatActivity() {
         }
         binding.googleRegisterButton.setOnClickListener {
             googleSignInLauncher.launch(googleSignInClient.signInIntent)
+            startActivity(Intent(this,AdultProfileActivity::class.java))
         }
     }
     private fun observeAuthStatus() {
@@ -143,8 +123,14 @@ class LoginActivity : AppCompatActivity() {
                     Toast.makeText(this, "로그인 중...", Toast.LENGTH_SHORT).show()
                 }
                 is AuthStatus.Success -> {
+                    // 상태 저장
+                    PreferencesHelper.setLoggedIn(this, true)
+                    PreferencesHelper.setProfileSetupComplete(this, false)
+
                     Toast.makeText(this, "로그인 성공", Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(this, UserProfileSetupActivity::class.java))
+                    // LauncherActivity로 이동
+                    startActivity(Intent(this, LauncherActivity::class.java))
+                    finish()
                 }
                 is AuthStatus.Failure -> {
                     Toast.makeText(this, authStatus.message, Toast.LENGTH_SHORT).show()
@@ -153,11 +139,18 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private suspend fun loginUser() {
-        val username = binding.UserIdEditText.text.toString()
-        val password = binding.passwordEditText.text.toString()
-        authViewModel.login(username, password)
+
+    private suspend fun loginUser(context: Context): Boolean {
+        return try {
+            val username = binding.UserIdEditText.text.toString()
+            val password = binding.passwordEditText.text.toString()
+            authViewModel.login(username, password, context)
+        } catch (e: Exception) {
+            Log.e("LoginActivity", "로그인 실패: ${e.message}")
+            false
+        }
     }
+
 
 
 }

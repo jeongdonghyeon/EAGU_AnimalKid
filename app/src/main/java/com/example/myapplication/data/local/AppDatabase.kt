@@ -10,9 +10,10 @@ import com.example.myapplication.data.model.DTO.GroupDTO
 import com.example.myapplication.data.model.DTO.UserDTO
 import com.example.myapplication.data.model.entity.CalendarEvent
 import com.example.myapplication.data.model.entity.GroupEntity
+import com.example.myapplication.data.model.entity.ProfileEntity
 import com.example.myapplication.data.model.entity.UserEntity
 
-@Database(entities = [UserEntity::class, GroupEntity::class, CalendarEvent::class], version = 2)
+@Database(entities = [UserEntity::class, GroupEntity::class, CalendarEvent::class, ProfileEntity::class], version = 6)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
     abstract fun groupDao(): UserGroupDao

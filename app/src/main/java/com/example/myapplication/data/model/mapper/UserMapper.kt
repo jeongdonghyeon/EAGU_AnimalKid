@@ -10,7 +10,6 @@ fun UserEntity.toDTO(): UserDTO {
         userName = this.userName,
         password = this.password,
         email = this.email,
-        nickname = this.nickname,
         level = this.level,
         exp = this.exp,
         petName = this.petName,
@@ -25,14 +24,11 @@ fun UserDTO.toEntity(): UserEntity{
         userName = this.userName,
         password = this.password,
         email = this.email,
-        nickname = this.nickname,
         level = this.level,
         exp = this.exp,
         petName = this.petName,
         groupId = this.groupId,
-        name=this.name,
-        gender=this.gender,
-        birthdate=this.birthdate
+
     )
 }
 

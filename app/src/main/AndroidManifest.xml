@@ -23,7 +23,11 @@
             android:exported="false" />
         <activity android:name=".ui.view.findIdActivity" />
         <activity android:name=".ui.view.ChangePasswordActivity" />
+        <activity android:name=".ui.view.AddDetailAdultProfileActivity"/>
+        <activity android:name=".ui.view.CreateAdultProfileActivity"/>
         <activity android:name=".ui.view.registerActivity" />
+        <activity android:name=".ui.view.LauncherActivity"/>
+        <activity android:name=".ui.view.MainActivity"/>
         <activity
             android:name=".ui.view.LoginActivity"
             android:exported="true"
@@ -36,6 +40,9 @@
         <activity
             android:name=".ui.view.UserProfileSetupActivity"
             tools:ignore="Instantiatable" />
+        <meta-data
+            android:name="com.google.android.gms.wallet.api.enabled"
+            android:value="true" />
     </application>
 
 </manifest>
