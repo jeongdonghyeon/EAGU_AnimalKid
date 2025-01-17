@@ -159,7 +159,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="50dp"
                                 android:background="@drawable/edittext_select"
-                                android:inputType="text"
+                                android:inputType="textPassword"
                                 android:paddingStart="10dp"
                                 android:textColorHint="#525252"
                                 android:textStyle="bold" />
@@ -188,7 +188,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="50dp"
                                 android:background="@drawable/edittext_select"
-                                android:inputType="text"
+                                android:inputType="textPassword"
                                 android:paddingStart="10dp"
                                 android:textColorHint="#525252"
                                 android:textStyle="bold" />
