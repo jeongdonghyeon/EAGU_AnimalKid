@@ -11,6 +11,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.example.myapplication.BuildConfig
 import com.example.myapplication.data.repository.UserRepository
 import com.example.myapplication.databinding.ActivityLoginBinding
 import com.example.myapplication.ui.viewmodel.AuthViewModel
@@ -32,7 +33,7 @@ class LoginActivity : AppCompatActivity() {
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         val data: Intent? = result.data
-        authViewModel.handleGoogleSignInResult(data)
+        authViewModel.handleGoogleSignInResult(data,this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,7 +55,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun setupGoogleSignInClient() {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken("GOOGLE_CLIENT_ID")
+            .requestIdToken(BuildConfig.GOOGLE_CLIENT_ID)
             .requestEmail()
             .build()
          googleSignInClient = GoogleSignIn.getClient(this, gso)
@@ -80,7 +81,7 @@ class LoginActivity : AppCompatActivity() {
 
                     if (isLoginSuccessful) {
                         // 로그인 성공 시 화면 전환
-                        val intent = Intent(this@LoginActivity, AdultProfileActivity::class.java)
+                        val intent = Intent(this@LoginActivity, AddDetailAdultProfileActivity::class.java)
                         startActivity(intent)
                         finish()
                     } else {
@@ -113,7 +114,6 @@ class LoginActivity : AppCompatActivity() {
         }
         binding.googleRegisterButton.setOnClickListener {
             googleSignInLauncher.launch(googleSignInClient.signInIntent)
-            startActivity(Intent(this,AdultProfileActivity::class.java))
         }
     }
     private fun observeAuthStatus() {
@@ -150,6 +150,7 @@ class LoginActivity : AppCompatActivity() {
             false
         }
     }
+
 
 
 

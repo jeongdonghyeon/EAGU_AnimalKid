@@ -1,7 +1,11 @@
+import java.util.Properties
+
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.jetbrains.kotlin.android)
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android") version "2.0.20"
     id("com.google.devtools.ksp") version "2.0.20-1.0.24"
+
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -14,12 +18,21 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField(
-            "String",
-            "GOOGLE_CLIENT_ID",
-            "\"${project.properties["GOOGLE_CLIENT_ID"]}\""
-        )
+
+        val dotenvFile = file(".env")
+        val dotenvProps = Properties()
+        if (dotenvFile.exists()) {
+            dotenvFile.inputStream().use {
+                dotenvProps.load(it)
+            }
+        }
+        buildConfigField("String", "GOOGLE_CLIENT_ID", "\"${dotenvProps["GOOGLE_CLIENT_ID"]}\"")
+        buildConfigField("String", "SMTP_HOST", "\"${dotenvProps["SMTP_HOST"]}\"")
+        buildConfigField("String", "SMTP_PORT", "\"${dotenvProps["SMTP_PORT"]}\"")
+        buildConfigField("String", "FROM_EMAIL", "\"${dotenvProps["FROM_EMAIL"]}\"")
+        buildConfigField("String", "PASSWORD", "\"${dotenvProps["PASSWORD"]}\"")
     }
 
     buildTypes {
@@ -31,16 +44,15 @@ android {
             )
         }
     }
+
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "11"
     }
-    viewBinding {
-        enable = true
-    }
+
     buildFeatures {
         viewBinding = true
         buildConfig = true
@@ -48,17 +60,19 @@ android {
     packaging {
         resources.excludes.add("META-INF/*")
     }
-
 }
 
 dependencies {
+
     // AndroidX Libraries
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.constraintlayout)
-    implementation("androidx.activity:activity:1.7.2") // 안정 버전
-    implementation("androidx.transition:transition:1.4.1") // 안정 버전
+
+    implementation("androidx.activity:activity:1.7.2")
+    implementation("androidx.transition:transition:1.4.1")
+
     implementation(libs.androidx.navigation.fragment.ktx.v253)
     implementation(libs.androidx.navigation.ui.ktx.v253)
 
@@ -70,7 +84,7 @@ dependencies {
     // Dagger
     ksp(libs.dagger.compiler)
 
-    // Lifecycle Libraries
+    // Lifecycle
     implementation(libs.androidx.lifecycle.viewmodel.ktx.v261)
     implementation(libs.androidx.lifecycle.livedata.ktx.v261)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -86,31 +100,32 @@ dependencies {
     // BCrypt
     implementation(libs.jbcrypt)
 
-    // AndroidX Credentials API
+    // Credentials API
     implementation(libs.androidx.credentials)
     implementation(libs.androidx.credentials.play.services.auth)
 
-    //Java Mail
+    // Java Mail
     implementation(libs.mail.android.mail)
     implementation(libs.android.activation)
 
-    //google
+    // Google / Firebase
     implementation(libs.play.services.auth)
-    implementation (libs.androidx.credentials.v130)
-    implementation (libs.androidx.appcompat)
-    //firebase
-    implementation(platform(libs.firebase.bom))
-    implementation(libs.firebase.firestore.ktx)
-    implementation(libs.firebase.analytics.ktx)
+    implementation(libs.androidx.credentials.v130)
+    implementation(libs.androidx.appcompat)
 
-    // test
+    // Firebase BOM
+    implementation(platform("com.google.firebase:firebase-bom:32.0.0"))
+    implementation("com.google.firebase:firebase-analytics-ktx")
+    implementation("com.google.firebase:firebase-firestore-ktx")
+
+    // Test
     testImplementation(libs.junit)
     testImplementation(libs.mockito.core)
-    testImplementation(libs.androidx.core.testing) // LiveData 테스트를 위해 필요
-    testImplementation(libs.kotlinx.coroutines.test)// Coroutine 테스트를 위해 필요
+    testImplementation(libs.androidx.core.testing)
+    testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.mockito.kotlin)
 
-    //others
+    // Others
     implementation("com.prolificinteractive:material-calendarview:1.4.3")
     implementation("com.jakewharton.threetenabp:threetenabp:1.2.1")
 }

@@ -2,6 +2,7 @@ package com.example.myapplication.data.repository
 
 import android.app.Application
 import android.util.Log
+import com.example.myapplication.BuildConfig
 import com.example.myapplication.data.local.AppDatabase
 import com.example.myapplication.data.local.UserDao
 import com.example.myapplication.data.model.DTO.ProfileDTO
@@ -62,12 +63,11 @@ class UserRepository(application : Application) {
         return (100000..999999).random().toString()
     }
     private fun sendEmail(email: String, verificationCode: String) {
-        // 코루틴을 사용하여 IO 스레드에서 작업 수행
         CoroutineScope(Dispatchers.IO).launch {
-            val smtpHost = "smtp.gmail.com"
-            val smtpPort = "587"
-            val fromEmail = "testdju2024@gmail.com" // 발신자 이메일
-            val password = "gmdmnszfzwxzxkke" // Gmail 앱 비밀번호를 입력
+            val smtpHost = BuildConfig.SMTP_HOST
+            val smtpPort = BuildConfig.SMTP_PORT
+            val fromEmail = BuildConfig.FROM_EMAIL // 발신자 이메일
+            val password = BuildConfig.PASSWORD // Gmail 앱 비밀번호를 입력
 
             val properties = Properties().apply {
                 put("mail.smtp.auth", "true")

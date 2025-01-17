@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.myapplication.BuildConfig
 import com.example.myapplication.data.model.DTO.UserDTO
 import com.example.myapplication.data.repository.UserRepository
 import com.example.myapplication.ui.viewmodel.Session.UserSessionManager
@@ -35,20 +36,24 @@ class AuthViewModel(private val userRepository: UserRepository,
 
     private val googleSignInClient: GoogleSignInClient by lazy {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken("GOOGLE_CLIENT_ID")
+            .requestIdToken(BuildConfig.GOOGLE_CLIENT_ID)
             .requestEmail()
             .build()
         GoogleSignIn.getClient(application, gso)
     }
+
     fun getGoogleSignInIntent(): Intent {
         return googleSignInClient.signInIntent
     }
-    fun handleGoogleSignInResult(data: Intent?) {
+
+    fun handleGoogleSignInResult(data: Intent?, context: Context) {
         val task = GoogleSignIn.getSignedInAccountFromIntent(data)
         try {
             val account = task.getResult(ApiException::class.java)
             val idToken = account?.idToken ?: throw ApiException(Status.RESULT_INTERNAL_ERROR)
             val email = account.email ?: throw ApiException(Status.RESULT_INTERNAL_ERROR)
+
+            UserSessionManager.saveUserId(context,idToken)
             val userDTO = UserDTO(userId = idToken, email = email)
 
             viewModelScope.launch {
@@ -56,6 +61,7 @@ class AuthViewModel(private val userRepository: UserRepository,
                 _authStatus.value = AuthStatus.Success(AuthAction.LOGIN)
             }
         } catch (e: ApiException) {
+            Log.e("GoogleSignIn", "Google 로그인 실패: ${e.message}, StatusCode: ${e.statusCode}", e)
             _authStatus.value = AuthStatus.Failure(AuthAction.LOGIN,"Google 로그인 실패: ${e.message}")
         }
     }

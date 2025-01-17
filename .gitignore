@@ -14,3 +14,4 @@
 .cxx
 local.properties
 shared_prefs/
+app/.env
