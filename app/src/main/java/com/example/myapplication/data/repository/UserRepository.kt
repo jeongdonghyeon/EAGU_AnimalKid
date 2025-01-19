@@ -7,7 +7,6 @@ import com.example.myapplication.data.local.AppDatabase
 import com.example.myapplication.data.local.UserDao
 import com.example.myapplication.data.model.DTO.ProfileDTO
 import com.example.myapplication.data.model.DTO.UserDTO
-import com.example.myapplication.data.model.entity.ProfileEntity
 import com.example.myapplication.data.model.entity.UserEntity
 import com.example.myapplication.data.model.mapper.toEntity
 import kotlinx.coroutines.CoroutineScope
@@ -27,7 +26,7 @@ import javax.mail.internet.MimeMessage
 class UserRepository(application : Application) {
     private val userDao: UserDao = AppDatabase.getDatabase(application).userDao()
 
-    // viewModel 에 받아온 유저 DTO를 유저 엔티티로 변환하고 UserDao 에 전달
+    // 유저가 입력한 정보 데이터베이스에 삽입하는 함수
     suspend fun registerUser(userDTO: UserDTO) {
         try {
             val userEntity = userDTO.toEntity() // 변환
@@ -40,7 +39,7 @@ class UserRepository(application : Application) {
         }
     }
 
-
+    // 이메일이 존재하면 인증 코드를 전송 하는 함수
     suspend fun sendVerificationCode(email: String): String? {
         val exists = isEmailExists(email)
 
@@ -53,15 +52,29 @@ class UserRepository(application : Application) {
         }
     }
 
+    // 이메일이 존재하는지 판별하는 함수
     suspend fun isEmailExists(email: String): Boolean {
         return userDao.isEmailExists(email)
     }
+
+    // 유저가 존재하는지 판별하는 함수
     suspend fun isUserExist(userName : String, email: String) : Boolean {
         return userDao.getUserByIdAndEmail(userName,email) != null
     }
+
+    // 6자리 수의 인증코드를 만드는 함수
     private fun generateVerificationCode(): String{
         return (100000..999999).random().toString()
     }
+
+    /*
+    유저 이메일에  인증코드를 전송하는 함수
+    ex)
+    제목: animalKid: 인증번호
+    내용: 인증번호: 123456
+
+    으로 전송됨
+     */
     private fun sendEmail(email: String, verificationCode: String) {
         CoroutineScope(Dispatchers.IO).launch {
             val smtpHost = BuildConfig.SMTP_HOST
@@ -101,16 +114,19 @@ class UserRepository(application : Application) {
         }
     }
 
-
+    // 유저 아이디로 유저가 있는지 판별하고 있다면 유저를 반환하는 함수
     suspend fun getUserByUsername(userName: String): UserEntity? {
         return withContext(Dispatchers.IO) {
             userDao.getUserByUsername(userName)
         }
     }
+
+    // 유저 식별자로 유저가 있는지 판별하고 있다면 유저를 반환하는 함수
     suspend fun  getUserByUserId(userId : String?): UserEntity? {
         return userDao.getUserByUserId(userId)
     }
 
+    // 프로필 수정하는 함수
     suspend fun updateProfile(profileDTO: ProfileDTO) {
         val profileEntity = profileDTO.toEntity()
 
