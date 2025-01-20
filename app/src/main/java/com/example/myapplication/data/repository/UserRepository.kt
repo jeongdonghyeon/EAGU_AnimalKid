@@ -138,8 +138,10 @@ class UserRepository(application : Application) {
                     Log.e("UserRepository", "Invalid userId: ${profileDTO.userId}. User does not exist.")
                     throw IllegalStateException("Invalid userId: ${profileDTO.userId}. User does not exist.")
                 }
+                Log.d("SaveProfile", "ProfileDTO values: userId=${profileDTO.userId}, name=${profileDTO.name}, nickname=$${profileDTO.nickname}, gender=${profileDTO.gender}, birthdate=${profileDTO.birthdate}")
                 // 프로필 삽입 (존재하면 업데이트, 없으면 삽입)
                 userDao.insertProfile(profileEntity)
+
                 Log.d("UserRepository", "Profile updated successfully in database for userId: ${profileDTO.userId}")
             } catch (e: IllegalStateException) {
                 Log.e("UserRepository", "Error updating com.example.myapplication.ui.fragment.profile: ${e.message}")

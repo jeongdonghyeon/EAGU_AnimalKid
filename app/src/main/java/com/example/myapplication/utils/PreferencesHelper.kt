@@ -28,4 +28,5 @@ object PreferencesHelper {
     fun setProfileSetupComplete(context: Context, value: Boolean) {
         getPreferences(context).edit().putBoolean(KEY_PROFILE_SETUP_COMPLETE, value).apply()
     }
+
 }

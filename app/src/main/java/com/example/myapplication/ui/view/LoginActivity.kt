@@ -81,7 +81,7 @@ class LoginActivity : AppCompatActivity() {
 
                     if (isLoginSuccessful) {
                         // 로그인 성공 시 화면 전환
-                        val intent = Intent(this@LoginActivity, AddDetailAdultProfileActivity::class.java)
+                        val intent = Intent(this@LoginActivity, LauncherActivity::class.java)
                         startActivity(intent)
                         finish()
                     } else {
@@ -116,6 +116,7 @@ class LoginActivity : AppCompatActivity() {
             googleSignInLauncher.launch(googleSignInClient.signInIntent)
         }
     }
+
     private fun observeAuthStatus() {
         authViewModel.authStatus.observe(this) { authStatus ->
             when (authStatus) {
@@ -125,7 +126,6 @@ class LoginActivity : AppCompatActivity() {
                 is AuthStatus.Success -> {
                     // 상태 저장
                     PreferencesHelper.setLoggedIn(this, true)
-                    PreferencesHelper.setProfileSetupComplete(this, false)
 
                     Toast.makeText(this, "로그인 성공", Toast.LENGTH_SHORT).show()
                     // LauncherActivity로 이동

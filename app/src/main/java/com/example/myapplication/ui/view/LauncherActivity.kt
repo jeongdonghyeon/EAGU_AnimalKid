@@ -2,6 +2,7 @@ package com.example.myapplication.ui.view
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.utils.PreferencesHelper
 
@@ -11,11 +12,10 @@ class LauncherActivity : AppCompatActivity() {
 
         val isLoggedIn = PreferencesHelper.isLoggedIn(this)
         val isProfileSetupComplete = PreferencesHelper.isProfileSetupComplete(this)
-
         when {
             isLoggedIn && isProfileSetupComplete -> {
                 // 메인 홈 화면으로 이동
-                startActivity(Intent(this, fragmentHomeActivity::class.java))
+                startActivity(Intent(this, HomeActivity::class.java))
             }
             isLoggedIn -> {
                 // 프로필 설정 화면으로 이동

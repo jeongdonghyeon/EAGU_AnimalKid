@@ -3,11 +3,11 @@ package com.example.myapplication.ui
 import android.app.Activity
 import androidx.fragment.app.FragmentManager
 import com.example.myapplication.R
-import com.example.myapplication.ui.fragment.profile
-import com.example.myapplication.ui.fragment.reward
-import com.example.myapplication.ui.fragment.walk
+import com.example.myapplication.ui.view.fragment.profile
+import com.example.myapplication.ui.view.fragment.reward
+import com.example.myapplication.ui.view.fragment.walk
 import com.example.myapplication.databinding.ActivityMainBinding
-import com.example.myapplication.ui.fragment.home
+import com.example.myapplication.ui.view.fragment.home
 
 class BottomNav {
 

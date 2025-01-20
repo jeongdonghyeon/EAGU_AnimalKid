@@ -28,6 +28,7 @@
         <activity android:name=".ui.view.registerActivity" />
         <activity android:name=".ui.view.LauncherActivity"/>
         <activity android:name=".ui.view.MainActivity"/>
+        <activity android:name=".ui.view.HomeActivity" />
         <activity
             android:name=".ui.view.LoginActivity"
             android:exported="true"

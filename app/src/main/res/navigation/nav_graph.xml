@@ -6,18 +6,18 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.myapplication.ui.fragment.home"
+        android:name="com.example.myapplication.ui.view.fragment.home"
         android:label="HomeFragment" />
     <fragment
         android:id="@+id/walkFragment"
-        android:name="com.example.myapplication.ui.fragment.walk"
+        android:name="com.example.myapplication.ui.view.fragment.walk"
         android:label="WalkFragment" />
     <fragment
         android:id="@+id/rewardFragment"
-        android:name="com.example.myapplication.ui.fragment.reward"
+        android:name="com.example.myapplication.ui.view.fragment.reward"
         android:label="RewardFragment" />
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.example.myapplication.ui.fragment.profile"
+        android:name="com.example.myapplication.ui.view.fragment.profile"
         android:label="ProfileFragment" />
 </navigation>

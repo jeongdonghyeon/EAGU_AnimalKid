@@ -92,10 +92,6 @@ class AddDetailAdultProfileActivity : AppCompatActivity() {
         val gender = binding.gender.selectedItem?.toString() ?: ""
         val birthdate = binding.birthdate.selectedItem?.toString() ?: ""
 
-        Log.d(
-            "SaveProfile",
-            "Attempting to save - Name: $name, Nickname: $nickname, Gender: $gender, Birthdate: $birthdate"
-        )
 
         lifecycleScope.launch {
             try {
@@ -127,7 +123,7 @@ class AddDetailAdultProfileActivity : AppCompatActivity() {
     }
 
     private fun navigateToMainScreen() {
-        startActivity(Intent(this@AddDetailAdultProfileActivity, MainActivity::class.java))
+        startActivity(Intent(this@AddDetailAdultProfileActivity, HomeActivity::class.java))
         finish()
     }
 }
